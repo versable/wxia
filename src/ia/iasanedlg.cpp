@@ -94,9 +94,6 @@ wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow* parent)
     wxScrolledWindow *panel = new wxScrolledWindow(parent, -1, wxDefaultPosition,
                                                  wxDefaultSize, wxTAB_TRAVERSAL);
 
-    wxButton* but;
-    size_t i;
-
     panel->SetExtraStyle(wxWS_EX_VALIDATE_RECURSIVELY);
     panel->SetScrollbars(1, 1, 1, 1);
 
@@ -107,7 +104,7 @@ wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow* parent)
     wxFlexGridSizer *gsizer = 0;
     wxString label;
 
-    for(i = 1; i < m_descriptors.GetCount(); i++)
+    for(unsigned int i = 1; i < m_descriptors.GetCount(); i++)
     {
         if(m_descriptors[i]->type == SANE_TYPE_GROUP)
         {
@@ -126,8 +123,7 @@ wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow* parent)
             }
             gsizer->Add(new wxStaticText(panel, -1, wxString(m_descriptors[i]->title) + _T(":"),
                                          wxDefaultPosition, wxDefaultSize,
-                                         wxALIGN_RIGHT),
-                        0, wxEXPAND | wxALL, 5);
+                                         wxALIGN_RIGHT), 0, wxEXPAND | wxALL, 5);
             gsizer->Add(1, 1, wxEXPAND | wxALL, 5);
             gsizer->Add(new wxStaticText(panel, -1, GetUnitString(m_descriptors[i]->unit)),
                         0, wxEXPAND | wxALL, 5);
@@ -147,9 +143,6 @@ wxIASaneAcquireDialog::MakePreviewPanel(wxWindow* parent)
     wxScrolledWindow
         *panel = new wxScrolledWindow(parent, -1, wxDefaultPosition, wxDefaultSize,
                                       wxTAB_TRAVERSAL);
-
-    wxButton
-        *but;
 
     panel->SetExtraStyle(wxWS_EX_VALIDATE_RECURSIVELY);
     panel->SetScrollbars(1, 1, 1, 1);
