@@ -31,6 +31,7 @@
 #endif
 
 #include "wx/image.h"
+#include <wx/numdlg.h>
 #include "wx/ia/ia.h"
 
 // Define to use IA events :)
