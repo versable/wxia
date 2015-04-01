@@ -58,7 +58,7 @@ public:
     virtual bool UpdateStatus(const wxString& text, size_t quantum, size_t span) = 0;
 };
 
-class wxTwainBase : wxObject
+class wxTwainBase : public wxObject
 {
 public:
     wxTwainBase(wxTwainClient* client,
@@ -170,7 +170,7 @@ public:
     //
     static void SetStringValue(char *str, const wxString& value, int maxLen);
     static wxString GetStringValue(const char *str);
-    
+
 protected:
     virtual bool DoMessageLoop(bool showUI = TRUE);
     virtual bool EnableSource(bool showUI = TRUE);
