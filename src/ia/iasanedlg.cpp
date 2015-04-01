@@ -42,10 +42,10 @@ BEGIN_EVENT_TABLE(wxIASaneAcquireDialog, wxDialog)
     EVT_UPDATE_UI(-1, wxIASaneAcquireDialog::OnUpdateUI)
 END_EVENT_TABLE()
 
-wxIASaneAcquireDialog::wxIASaneAcquireDialog(wxWindow* parent, wxWindowID id, 
-                                             const wxString& title, 
+wxIASaneAcquireDialog::wxIASaneAcquireDialog(wxWindow* parent, wxWindowID id,
+                                             const wxString& title,
                                              wxSane* sane,
-                                             const wxPoint& pos, 
+                                             const wxPoint& pos,
                                              const wxSize& size,
                                              const long style) :
     wxDialog(parent, id, title, pos, size, style)
@@ -54,7 +54,7 @@ wxIASaneAcquireDialog::wxIASaneAcquireDialog(wxWindow* parent, wxWindowID id,
     m_optionValues = NULL;
     m_optionControls = NULL;
     GetOptionDescriptors();
-  
+
     m_splitter = new wxSplitterWindow(this, -1);
     m_settingsPanel = MakeSettingsPanel(m_splitter);
     m_previewPanel = MakePreviewPanel(m_splitter);
@@ -78,10 +78,10 @@ wxIASaneAcquireDialog::wxIASaneAcquireDialog(wxWindow* parent, wxWindowID id,
     Centre(wxBOTH);
 
     m_splitter->SplitVertically(m_settingsPanel, m_previewPanel, 0);
-  
+
     SetExtraStyle(wxWS_EX_VALIDATE_RECURSIVELY);
 }
-                                             
+
 wxIASaneAcquireDialog::~wxIASaneAcquireDialog()
 {
     delete[] m_optionValues;
@@ -91,7 +91,7 @@ wxIASaneAcquireDialog::~wxIASaneAcquireDialog()
 wxWindow*
 wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow* parent)
 {
-    wxScrolledWindow *panel = new wxScrolledWindow(parent, -1, wxDefaultPosition, 
+    wxScrolledWindow *panel = new wxScrolledWindow(parent, -1, wxDefaultPosition,
                                                  wxDefaultSize, wxTAB_TRAVERSAL);
 
     wxButton* but;
@@ -101,12 +101,12 @@ wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow* parent)
     panel->SetScrollbars(1, 1, 1, 1);
 
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
-  
+
     wxStaticBoxSizer *sbsizer = 0;
     wxStaticBox *sbox;
     wxFlexGridSizer *gsizer = 0;
     wxString label;
-  
+
     for(i = 1; i < m_descriptors.GetCount(); i++)
     {
         if(m_descriptors[i]->type == SANE_TYPE_GROUP)
@@ -124,20 +124,19 @@ wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow* parent)
                 sbsizer->Add(gsizer, 0, wxEXPAND | wxALL, 5);
                 sizer->Add(sbsizer, 0, wxEXPAND | wxALL, 5);
             }
-            gsizer->Add(new wxStaticText(panel, -1, wxString(m_descriptors[i]->title) + _T(":"), 
-                                         wxDefaultPosition, wxDefaultSize, 
-                                         wxALIGN_RIGHT), 
+            gsizer->Add(new wxStaticText(panel, -1, wxString(m_descriptors[i]->title) + _T(":"),
+                                         wxDefaultPosition, wxDefaultSize,
+                                         wxALIGN_RIGHT),
                         0, wxEXPAND | wxALL, 5);
             gsizer->Add(1, 1, wxEXPAND | wxALL, 5);
             gsizer->Add(new wxStaticText(panel, -1, GetUnitString(m_descriptors[i]->unit)),
                         0, wxEXPAND | wxALL, 5);
         }
     }
-            
+
     panel->SetAutoLayout(TRUE);
     panel->SetSizer(sizer);
     sizer->FitInside(panel);
-    sizer->SetVirtualSizeHints(panel);
 
     return panel;
 }
@@ -156,11 +155,10 @@ wxIASaneAcquireDialog::MakePreviewPanel(wxWindow* parent)
     panel->SetScrollbars(1, 1, 1, 1);
 
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
-  
+
     panel->SetAutoLayout(TRUE);
     panel->SetSizer(sizer);
     sizer->FitInside(panel);
-    sizer->SetVirtualSizeHints(panel);
 
     return panel;
 }
@@ -189,12 +187,12 @@ wxIASaneAcquireDialog::OnUpdateUI(wxUpdateUIEvent& event)
     }
 }
 
-void 
+void
 wxIASaneAcquireDialog::GetOptionDescriptors()
 {
     const SANE_Option_Descriptor *d;
     int i;
-    
+
     //
     //  Get the option descriptors from the source
     //
@@ -204,8 +202,8 @@ wxIASaneAcquireDialog::GetOptionDescriptors()
         wxLogError("Descriptor %d: %s, type = %d, size = %d, constraint type = %d", i, d->title,
                    d->type, d->size, d->constraint_type);
     }
-    
-#if 0    
+
+#if 0
     //
     //  Create the option values array
     //
@@ -214,10 +212,10 @@ wxIASaneAcquireDialog::GetOptionDescriptors()
     {
         if(m_descriptors[i]->type == SANE_TYPE_STRING)
             m_optionValues[i].s = new SANE_Char[m_descriptors[i]->size];
-#endif            
+#endif
 }
 
-wxString 
+wxString
 wxIASaneAcquireDialog::GetUnitString(SANE_Unit unit)
 {
     switch(unit)
@@ -225,32 +223,32 @@ wxIASaneAcquireDialog::GetUnitString(SANE_Unit unit)
         default:
         case SANE_UNIT_NONE :
         return wxString(_T(""));
-        
+
         case SANE_UNIT_PIXEL :
         return wxString(_("pixels"));
-        
+
         case SANE_UNIT_BIT :
         return wxString(_("bits"));
-        
+
         case SANE_UNIT_MM :
         return wxString(_("mm"));
-        
+
         case SANE_UNIT_DPI :
         return wxString(_("dpi"));
-        
+
         case SANE_UNIT_PERCENT :
         return wxString(_("%"));
-        
+
         case SANE_UNIT_MICROSECOND :
         return wxString(_("microseconds"));
     }
 }
 
-void 
+void
 wxIASaneAcquireDialog::GetOptionValues()
 {
     size_t i;
-    
+
     for(i = 0; i < m_descriptors.GetCount(); i++)
     {
         if(m_descriptors[i]->type != SANE_TYPE_GROUP)
@@ -259,11 +257,11 @@ wxIASaneAcquireDialog::GetOptionValues()
     }
 }
 
-void 
+void
 wxIASaneAcquireDialog::SetOptionValues()
 {
     size_t i;
-    
+
     for(i = 0; i < m_descriptors.GetCount(); i++)
     {
         if(m_descriptors[i]->type != SANE_TYPE_GROUP)
