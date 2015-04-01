@@ -285,11 +285,6 @@ wxTwainMSW::DoMessageLoop(bool showUI)
                 break;
             }
         }
-        else
-        {
-//wxLogError("passing msg on");
-            wxTheApp->DoMessage((WXMSG*)&msg);
-        }
     }
 //wxLogError("leaving wxTwainMSW message loop");
 
