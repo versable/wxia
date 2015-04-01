@@ -102,7 +102,7 @@ wxIASaneProvider::GetSourceCount()
     return m_numDevices;
 }
 
-typedef struct typemap
+struct typemap
 {
     const char* typeName;
     wxIASourceType type;
