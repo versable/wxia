@@ -64,41 +64,41 @@ wxIASaneProvider::~wxIASaneProvider()
         }
         m_sane->Shutdown();
     }
-        
+
     delete m_sane;
 }
-    
-bool 
+
+bool
 wxIASaneProvider::Ok()
 {
     return m_sane && m_saneInit;
 }
 
-wxString 
+wxString
 wxIASaneProvider::GetName()
 {
     return _T("SANE");
 }
 
-int 
+int
 wxIASaneProvider::GetSourceCount()
 {
     wxCHECK_MSG(Ok(), 0, _T("wxIASane not valid!"));
 
     if(!m_numDevices)
-    {    
+    {
         wxBusyCursor busy;
-        
+
         wxYield();
-          
+
         int i;
-    
-        if(m_sane->SaneGetDevices(&m_deviceList, FALSE) == SANE_STATUS_GOOD && 
+
+        if(m_sane->SaneGetDevices(&m_deviceList, FALSE) == SANE_STATUS_GOOD &&
            m_deviceList)
         for(i = 0; m_deviceList[i]; i++)
             m_numDevices++;
     }
-    
+
     return m_numDevices;
 }
 
@@ -108,33 +108,33 @@ typedef struct typemap
     wxIASourceType type;
 };
 
-wxIASourceInfo 
+wxIASourceInfo
 wxIASaneProvider::GetSourceInfo(int i)
 {
     static struct typemap
-        typeMaps[] = 
+        typeMaps[] =
         {
-            { _T("file scanner"), wxIA_SOURCE_FILMSCANNER },
-            { _T("flatbed scanner"), wxIA_SOURCE_FLATBEDSCANNER },
-            { _T("frame grabber"), wxIA_SOURCE_FRAMEGRABBER },
-            { _T("handheld scanner"), wxIA_SOURCE_HANDHELDSCANNER },
-            { _T("multi-function peripheral"), wxIA_SOURCE_MULTIFUNCTION },
-            { _T("sheetfed scanner"), wxIA_SOURCE_SHEETFEDSCANNER },
-            { _T("still camera"), wxIA_SOURCE_STILLCAMERA },
-            { _T("video camera"), wxIA_SOURCE_VIDEOCAMERA },
-            { _T("virtual device"), wxIA_SOURCE_UNKNOWN },
+            { "file scanner", wxIA_SOURCE_FILMSCANNER },
+            { "flatbed scanner", wxIA_SOURCE_FLATBEDSCANNER },
+            { "frame grabber", wxIA_SOURCE_FRAMEGRABBER },
+            { "handheld scanner", wxIA_SOURCE_HANDHELDSCANNER },
+            { "multi-function peripheral", wxIA_SOURCE_MULTIFUNCTION },
+            { "sheetfed scanner", wxIA_SOURCE_SHEETFEDSCANNER },
+            { "still camera", wxIA_SOURCE_STILLCAMERA },
+            { "video camera", wxIA_SOURCE_VIDEOCAMERA },
+            { "virtual device", wxIA_SOURCE_UNKNOWN },
             { NULL, wxIA_SOURCE_UNKNOWN }
         };
-        
+
     wxCHECK_MSG(Ok(), wxNullIASourceInfo, _T("wxIASane not valid!"));
-    
+
     if(!m_deviceList)
         GetSourceCount();
-    
+
     if(i < m_numDevices)
     {
         wxIASourceInfo sourceInfo;
-        
+
         sourceInfo.SetName(m_deviceList[i]->name);
         sourceInfo.SetModel(m_deviceList[i]->model);
         sourceInfo.SetVendor(m_deviceList[i]->vendor);
@@ -147,30 +147,30 @@ wxIASaneProvider::GetSourceInfo(int i)
                 sourceInfo.SetType(typeMaps[j].type);
                 break;
             }
-            
+
        return sourceInfo;
     }
-    
-    return wxNullIASourceInfo;                         
+
+    return wxNullIASourceInfo;
 }
 
-wxIAReturnCode 
+wxIAReturnCode
 wxIASaneProvider::SelectSource(const wxString& name,
                                wxIAUIMode uiMode,
                                wxWindow *parent)
 {
     wxCHECK_MSG(Ok(), wxIA_RC_NOTINITIALIZED, _T("wxIASane not valid!"));
-    
+
     wxString selName = name;
 
     m_selDevice = -1;
-        
+
     if(!m_deviceList)
         GetSourceCount();
-            
+
     wxString
         *sources = new wxString[m_numDevices];
-        
+
     int i, sel = 0;
     for(i = 0; i < m_numDevices; i++)
     {
@@ -178,7 +178,7 @@ wxIASaneProvider::SelectSource(const wxString& name,
         if(name == wxString(m_deviceList[i]->name).Strip())
             sel = i;
     }
-    
+
     if(uiMode == wxIA_UIMODE_NORMAL)
     {
         if(m_numDevices)
@@ -186,9 +186,9 @@ wxIASaneProvider::SelectSource(const wxString& name,
             wxSingleChoiceDialog d(parent, _("Available Devices:"),
                                    _T("Select Source"), m_numDevices,
                                    sources);
-                                   
+
             d.SetSelection(sel);
-            
+
             if(d.ShowModal() == wxID_OK)
             {
                 sel = d.GetSelection();
@@ -204,22 +204,22 @@ wxIASaneProvider::SelectSource(const wxString& name,
         }
         else
         {
-            wxMessageBox(_("No devices available"), wxTheApp->GetAppName(), 
+            wxMessageBox(_("No devices available"), wxTheApp->GetAppName(),
                          wxOK | wxICON_EXCLAMATION | wxCENTRE);
             return wxIA_RC_NOSOURCE;
         }
     }
     else if(!(sel <= m_numDevices))
         return wxIA_RC_NOSOURCE;
-    
+
     SANE_Status rc = m_sane->SaneOpen(selName);
-    
+
     if(rc == SANE_STATUS_GOOD)
         m_selDevice = sel;
-        
+
     return MapStatus(rc);
 }
-                               
+
 wxIAReturnCode
 wxIASaneProvider::SelectDefaultSource()
 {
@@ -227,14 +227,14 @@ wxIASaneProvider::SelectDefaultSource()
     return wxIA_RC_NOTSUPPORTED;
 }
 
-bool 
+bool
 wxIASaneProvider::IsSourceSelected()
 {
     wxCHECK_MSG(Ok(), FALSE, _T("wxIASane not valid!"));
     return m_sane->IsOpen();
 }
 
-wxIASourceInfo 
+wxIASourceInfo
 wxIASaneProvider::GetSelSourceInfo()
 {
     wxCHECK_MSG(Ok(), wxNullIASourceInfo, _T("wxIASane not valid!"));
@@ -248,7 +248,7 @@ wxIASaneProvider::SetSelSourceConfig(const wxString& configString)
     return wxIA_RC_NOTSUPPORTED;
 }
 
-wxString 
+wxString
 wxIASaneProvider::GetSelSourceConfig()
 {
     wxCHECK_MSG(Ok(), wxEmptyString, _T("wxIASane not valid!"));
@@ -262,10 +262,10 @@ wxIASaneProvider::AcquireImages(int numImages, wxIAUIMode uiMode,
     wxCHECK_MSG(Ok(), wxIA_RC_NOTINITIALIZED, _T("wxIASane not valid!"));
 
     if(uiMode == wxIA_UIMODE_NORMAL)
-    {    
+    {
         wxIASaneAcquireDialog
             d(parent, -1, _("Acquire"), m_sane);
-      
+
         if(d.ShowModal() == wxID_OK)
         {
         }
@@ -273,62 +273,62 @@ wxIASaneProvider::AcquireImages(int numImages, wxIAUIMode uiMode,
     else
     {
     }
-    
+
     return wxIA_RC_NOTSUPPORTED;
 }
 
-wxImage 
+wxImage
 wxIASaneProvider::GetImage()
 {
     wxCHECK_MSG(Ok(), wxNullImage, _T("wxIASane not valid!"));
     return wxNullImage;
 }
 
-wxBitmap 
+wxBitmap
 wxIASaneProvider::GetBitmap()
 {
     wxCHECK_MSG(Ok(), wxNullBitmap, _T("wxIASane not valid!"));
     return wxNullBitmap;
 }
 
-wxIAReturnCode 
+wxIAReturnCode
 wxIASaneProvider::MapStatus(SANE_Status status)
 {
     switch(status)
     {
         case SANE_STATUS_GOOD :
         return wxIA_RC_SUCCESS;
-        
+
         case SANE_STATUS_UNSUPPORTED :
         return wxIA_RC_NOTSUPPORTED;
-        
+
         case SANE_STATUS_CANCELLED :
         return wxIA_RC_CANCELLED;
-        
+
         case SANE_STATUS_DEVICE_BUSY :
         return wxIA_RC_DEVICEBUSY;
-        
+
         case SANE_STATUS_INVAL :
         return wxIA_RC_INVAL;
-        
+
         case SANE_STATUS_JAMMED :
         return wxIA_RC_JAMMED;
-        
+
         case SANE_STATUS_NO_DOCS :
         return wxIA_RC_NODOCS;
-        
+
         case SANE_STATUS_COVER_OPEN :
         return wxIA_RC_COVEROPEN;
-        
+
         case SANE_STATUS_IO_ERROR :
         return wxIA_RC_IOERROR;
-        
+
         case SANE_STATUS_NO_MEM :
         return wxIA_RC_NOMEM;
-        
+
         case SANE_STATUS_ACCESS_DENIED :
         return wxIA_RC_ACCESSDENIED;
-        
+
         default :
         return wxIA_RC_UNKNOWNERROR;
     }
