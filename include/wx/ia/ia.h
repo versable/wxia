@@ -95,9 +95,9 @@ enum wxIASourceType
 enum wxIAUIMode
 {
   //! No user interface if possible
-  wxIA_UIMODE_NONE = 0,	
+  wxIA_UIMODE_NONE = 0,
   //! Normal user interface.  Provides a dialog or whatever is appropriate.
-  wxIA_UIMODE_NORMAL,	
+  wxIA_UIMODE_NORMAL,
 };
 
 //! Source Image Transfer Mode
@@ -204,7 +204,7 @@ extern wxIASourceInfo wxNullIASourceInfo;
 /*! Class to monitor the progress of an image aquistion.
     Generally used to provide feedback to the user and allow the
     user to possibly abort the operation.
-    
+
     \note Using this to provide a wxProgressDialog or similar interface
           is really only suggested when not using the user interface
           provided by the provider/source (i.e by specifying a wxUIMode
@@ -261,7 +261,7 @@ public:
     /*! Default constructor
     */
     wxIAProvider();
-    
+
     //! Destructor
     virtual ~wxIAProvider();
 
@@ -284,7 +284,7 @@ public:
                  with the default args.
     */
     virtual int GetSourceCount();
-    
+
     /*! Get the source info for the specified source.
 
         \param i Index of the source to retrieve info for.  Must be >= 0
@@ -313,19 +313,19 @@ public:
     virtual wxIAReturnCode SelectSource(const wxString& name = _T(""),
                                          wxIAUIMode uiMode = wxIA_UIMODE_NORMAL,
                                          wxWindow* parent = NULL);
-                                         
+
     /*! Select the default source.
 
         \return wxIA_RC_SUCCESS if a source was selected or another return
         code on failure.
     */
     virtual wxIAReturnCode SelectDefaultSource();
-    
+
     /*! Is a source selected?
         \return wxIA_RC_SUCCESS on success another return code on failure.
     */
     virtual bool IsSourceSelected();
-    
+
     /*! Get source info for the currently selected source.
         \return the source info for the currently selected source.  If no
         source is currently selected, wxIAEmptySourceInfo will be returned.
@@ -342,7 +342,7 @@ public:
         \return True on success or false on failure.
     */
     virtual wxIAReturnCode SetSelSourceConfig(const wxString& configString);
-    
+
     //! Get the current configuration of the selected source.
     /*! \return The configuration of the currently selected source encoded as a
                 wxString.  The format of the configuration string is defined by
@@ -367,7 +367,7 @@ public:
     virtual wxIAReturnCode AcquireImage(wxIAUIMode uiMode = wxIA_UIMODE_NORMAL,
                                         wxWindow* parent = NULL,
                                         wxIAMonitor *mon = NULL);
-                                        
+
     //! Acquire one or more images.
     /*! Aquire images from the currently selected source.  Returns true on
         success or false on failure or if the user aborted.
@@ -391,8 +391,8 @@ public:
 
     //! Set event handler.
     /*! Set the event handler to be notified when wxIAEvent's occur.
-        Currently there are two events generated: wxEVT_IA_GETIMAGE event 
-        that is sent when an image has been acquired and 
+        Currently there are two events generated: wxEVT_IA_GETIMAGE event
+        that is sent when an image has been acquired and
         wxEVT_IA_UPDATESTATUS that is sent to allow the application
         to update the status of the acquisition.  The method handling the
         wxEVT_IA_GETIMAGE event should call GetImage() or GetBitmap() to
@@ -401,53 +401,53 @@ public:
         \param evtHandler Pointer to the event handler.
     */
     virtual void SetEvtHandler(wxEvtHandler* evtHandler);
-    
-    
+
+
     //! Set transfer mode
     /*! Set the image data transfer mode.  The default transfer mode
         is wxIA_TRANSFERMODE_NATIVE.
-       
+
         \param mode desired mode
     */
     virtual wxIAReturnCode SetTransferMode(wxIATransferMode mode);
-    
+
     //! Get the current transfer mode
     /*! \returns the current transfer mode for the selected source.
     */
     virtual wxIATransferMode GetTransferMode();
-    
+
     //! Set the transfer file name
     /*! \param filename name of file in which to store image data
-    
-        \param type transfer file type 
-    
+
+        \param type transfer file type
+
         \return wxIA_RC_SUCCESS on success or another return code on failure
     */
-    virtual wxIAReturnCode SetTransferFilename(const wxString& filename, 
+    virtual wxIAReturnCode SetTransferFilename(const wxString& filename,
                                                wxIATransferFileType type);
-                                               
+
     //! Get the transfer file name
     virtual wxString GetTransferFilename();
-    
+
     //! Get the transfer file type
     virtual wxIATransferFileType GetTransferFileType();
-    
+
     //! Set the transfer buffer
     /*! \param buffer pointer to buffer in which to store image data
-       
+
         \param size size in bytes of buffer
-        
+
         \note buffer must be valid during the entire transfer
-        
+
         \return wxIA_RC_SUCCESS on success or another return code on failure
     */
     virtual wxIAReturnCode SetTransferBuffer(void* buffer, size_t size);
-    
+
     //! Get the transfer buffer
     /*! \return a pointer to the transfer buffer
     */
     virtual void* GetTransferBuffer();
-    
+
     //! Get the transfer buffer size
     virtual size_t GetTransferBufferSize();
 
@@ -461,25 +461,25 @@ public:
                 after calling this method.
     */
     virtual wxImage GetImage();
-    
+
     //! Get the last image acquired as a wxBitmap
     /*! \return The last image acquired as a wxBitmap.  Image data is destroyed
         after calling this method.
     */
     virtual wxBitmap GetBitmap();
-    
+
     //! Save the current settings
     /*! Save the current settings for this provider to the specified config
         object.
-        
+
         \return True on success or false on failure.
     */
     virtual bool SaveSettings(wxConfigBase* config);
-    
+
     //! Load settings
     /*! Load saved settings for this provider from the specified config
         object.
-        
+
         \return True on success or false on failure.
     */
     virtual bool LoadSettings(wxConfigBase* config);
@@ -503,7 +503,7 @@ WX_DEFINE_ARRAY(wxIAProvider*, wxIAProviderPtrArray);
 /*! Maintains the list of available wxIAProvider's.  There is only one instance
     of this class and it is created the first time Get() is called.  The
     application may add it's own providers after calling Get() if desired.
-    
+
     \note You should set your app name and vendor strings before calling
     wxIAManager::Get() because this information is used by at least the
     TWAIN source.
@@ -522,7 +522,7 @@ public:
 
     //! Add a provider
     /*! The provider becomes the property of the wxIAManager.
-    
+
         \param provider provider to add
     */
     void AddProvider(wxIAProvider* provider);
@@ -532,10 +532,10 @@ public:
     wxIAProviderPtrArray& GetProviders();
 
     //! Gets the default provider
-    /*! \return the default provider for the platform or NULL if there 
-        is no default.  
-    
-        On Windows and MAC this will probably return a TWAIN provider.  
+    /*! \return the default provider for the platform or NULL if there
+        is no default.
+
+        On Windows and MAC this will probably return a TWAIN provider.
         On Unix this will probably return a SANE provider.
     */
     wxIAProvider* GetDefaultProvider();
@@ -590,7 +590,7 @@ public:
     /*! Set update status text
     */
     virtual void SetText(const wxString& text) { m_text = text; }
-    /*! Get quantum - the value indicating the current status relative to 
+    /*! Get quantum - the value indicating the current status relative to
        span (GetSpan())
     */
     virtual size_t GetQuantum() { return m_quantum; }
@@ -607,7 +607,7 @@ public:
     */
     virtual bool ShouldAbort() { return m_abort; }
     /*! Set val to TRUE to tell the provider it should abort the operation.
-    
+
         \param val
     */
     virtual void Abort(bool val = TRUE) { m_abort = val; }
@@ -621,8 +621,6 @@ private:
     size_t m_quantum;
     size_t m_span;
     bool m_abort;
-
-    DECLARE_DYNAMIC_CLASS(wxIAProvider)
 };
 
 typedef void (wxEvtHandler::*wxIAEventFunction)(wxIAEvent&);
