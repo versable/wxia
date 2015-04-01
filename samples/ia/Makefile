@@ -13,7 +13,7 @@
 # PARTICULAR PURPOSE.
 
 
-SHELL = /bin/sh
+SHELL = /bin/bash
 
 srcdir = .
 top_srcdir = ../..
@@ -38,10 +38,10 @@ pkglibdir = $(libdir)/wxia
 pkgincludedir = $(includedir)/wxia
 top_builddir = ../..
 
-ACLOCAL = ${SHELL} /usr/src/tasrc/wxia/missing --run aclocal-1.6
-AUTOCONF = ${SHELL} /usr/src/tasrc/wxia/missing --run autoconf
-AUTOMAKE = ${SHELL} /usr/src/tasrc/wxia/missing --run automake-1.6
-AUTOHEADER = ${SHELL} /usr/src/tasrc/wxia/missing --run autoheader
+ACLOCAL = ${SHELL} /home/versable/Documents/wxia.git/missing --run aclocal-1.6
+AUTOCONF = ${SHELL} /home/versable/Documents/wxia.git/missing --run autoconf
+AUTOMAKE = ${SHELL} /home/versable/Documents/wxia.git/missing --run automake-1.6
+AUTOHEADER = ${SHELL} /home/versable/Documents/wxia.git/missing --run autoheader
 
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 INSTALL = /usr/bin/install -c
@@ -59,14 +59,14 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 host_alias = 
-host_triplet = i686-pc-linux-gnu
+host_triplet = x86_64-unknown-linux-gnu
 
 EXEEXT = 
 OBJEXT = o
 PATH_SEPARATOR = :
 
 INSTALL_PROGRAM = /usr/bin/install -c
-AMTAR = ${SHELL} /usr/src/tasrc/wxia/missing --run tar
+AMTAR = ${SHELL} /home/versable/Documents/wxia.git/missing --run tar
 AS = @AS@
 AWK = gawk
 CC = gcc
@@ -85,8 +85,8 @@ STRIP = strip
 VERSION = 0.0.1
 am__include = include
 am__quote = 
-install_sh = /usr/src/tasrc/wxia/install-sh
-wxlibname = /usr/lib/libwx_gtkd.so
+install_sh = /home/versable/Documents/wxia.git/install-sh
+wxlibname = /usr/lib/libwx_gtk.so
 INCLUDES = -I$(top_srcdir) $(all_includes) -I$(top_srcdir)/include
 LIBS = `wx-config --libs`
 LDADD = -L$(top_srcdir)/src/ia/ -lwxia
@@ -112,7 +112,7 @@ iatest_LDFLAGS =
 
 DEFS = -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE=\"wxia\" -DVERSION=\"0.0.1\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_DLFCN_H=1 -DSTDC_HEADERS=1 -DHAVE_DIRENT_H=1 -DHAVE_VPRINTF=1 -DHAVE_VSNPRINTF=1 
 DEFAULT_INCLUDES =  -I. -I$(srcdir)
-CPPFLAGS = -I/usr/lib/wx/include/gtk2d-2.5 -D__WXDEBUG__ -D__WXGTK__ -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES
+CPPFLAGS = -I/usr/lib/x86_64-linux-gnu/wx/include/gtk2-unicode-3.0 -I/usr/include/wx-3.0 -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__
 LDFLAGS = 
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -125,7 +125,7 @@ LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
 CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-CXXFLAGS = -I/usr/lib/wx/include/gtk2d-2.5 -D__WXDEBUG__ -D__WXGTK__ -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES
+CXXFLAGS = -I/usr/lib/x86_64-linux-gnu/wx/include/gtk2-unicode-3.0 -I/usr/include/wx-3.0 -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread
 DIST_SOURCES = $(iatest_SOURCES)
 HEADERS = $(noinst_HEADERS)
 
