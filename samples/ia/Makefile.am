@@ -1,4 +1,4 @@
-AM_CPPFLAGSS= -I$(top_srcdir) $(all_includes) -I$(top_srcdir)/include
+AM_CPPFLAGS = -I$(top_srcdir) $(all_includes) -I$(top_srcdir)/include
 LIBS = `wx-config --libs`
 LDADD = -L$(top_srcdir)/src/ia/ -lwxia
 

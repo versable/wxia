@@ -11,12 +11,10 @@ AC_PROG_CPP
 AC_PROG_CXX
 AC_PROG_INSTALL
 AC_PROG_LN_S
-AC_PROG_RANLIB
 AC_PROG_MAKE_SET
 
 dnl Checks for programs.
-AC_PROG_LIBTOOL
-AM_PROG_LIBTOOL
+LT_INIT
 
 dnl figure out wx library name
 changequote(<<, >>)
