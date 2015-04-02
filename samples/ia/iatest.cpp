@@ -453,7 +453,7 @@ void ImageWindow::OnEraseBackground(wxEraseEvent& event)
 void ImageWindow::OnPaint(wxPaintEvent& event)
 {
     wxPaintDC pdc(this);
-    int bx, by, x, y, w, h, zw, zh, bw, bh;
+    int x, y, w, h;
 
     GetClientSize(&w, &h);
     if (!m_dbBitmap.Ok() || m_dbBitmap.GetWidth() != w || m_dbBitmap.GetHeight() != h)
@@ -479,6 +479,7 @@ void ImageWindow::OnPaint(wxPaintEvent& event)
     if (m_bitmap.Ok())
     {
         wxMemoryDC memdc;
+        int bx, by, zw, zh, bw, bh;
 
         x = (int)(x / m_zoomFactor + 0.5);
         y = (int)(y / m_zoomFactor + 0.5);
