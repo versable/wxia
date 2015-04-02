@@ -67,41 +67,40 @@ bool wxSane::Startup()
     bool retval = FALSE;
 
     m_saneLib = dlopen(m_saneLibName.c_str(), RTLD_LAZY);
-    if (m_saneLib)
-    {
-        if(!(m_sane_init = (sane_init)dlsym(m_saneLib, "sane_init")))
-            goto Outtahere;
-        if(!(m_sane_exit = (sane_exit)dlsym(m_saneLib, "sane_exit")))
-            goto Outtahere;
-        if(!(m_sane_get_devices = (sane_get_devices)dlsym(m_saneLib, "sane_get_devices")))
-            goto Outtahere;
-        if(!(m_sane_open = (sane_open)dlsym(m_saneLib, "sane_open")))
-            goto Outtahere;
-        if(!(m_sane_close = (sane_close)dlsym(m_saneLib, "sane_close")))
-            goto Outtahere;
-        if(!(m_sane_get_option_descriptor = (sane_get_option_descriptor)dlsym(m_saneLib, "sane_get_option_descriptor")))
-            goto Outtahere;
-        if(!(m_sane_control_option = (sane_control_option)dlsym(m_saneLib, "sane_control_option")))
-            goto Outtahere;
-        if(!(m_sane_get_parameters = (sane_get_parameters)dlsym(m_saneLib, "sane_get_parameters")))
-            goto Outtahere;
-        if(!(m_sane_start = (sane_start)dlsym(m_saneLib, "sane_start")))
-            goto Outtahere;
-        if(!(m_sane_read = (sane_read)dlsym(m_saneLib, "sane_read")))
-            goto Outtahere;
-        if(!(m_sane_cancel = (sane_cancel)dlsym(m_saneLib, "sane_cancel")))
-            goto Outtahere;
-        if(!(m_sane_set_io_mode = (sane_set_io_mode)dlsym(m_saneLib, "sane_set_io_mode")))
-            goto Outtahere;
-        if(!(m_sane_get_select_fd = (sane_get_select_fd)dlsym(m_saneLib, "sane_get_select_fd")))
-            goto Outtahere;
-        if(!(m_sane_strstatus = (sane_strstatus)dlsym(m_saneLib, "sane_strstatus")))
-            goto Outtahere;
+    if (!m_saneLib)
+        goto out;
+    if(!(m_sane_init = (sane_init)dlsym(m_saneLib, "sane_init")))
+        goto out;
+    if(!(m_sane_exit = (sane_exit)dlsym(m_saneLib, "sane_exit")))
+        goto out;
+    if(!(m_sane_get_devices = (sane_get_devices)dlsym(m_saneLib, "sane_get_devices")))
+        goto out;
+    if(!(m_sane_open = (sane_open)dlsym(m_saneLib, "sane_open")))
+        goto out;
+    if(!(m_sane_close = (sane_close)dlsym(m_saneLib, "sane_close")))
+        goto out;
+    if(!(m_sane_get_option_descriptor = (sane_get_option_descriptor)dlsym(m_saneLib, "sane_get_option_descriptor")))
+        goto out;
+    if(!(m_sane_control_option = (sane_control_option)dlsym(m_saneLib, "sane_control_option")))
+        goto out;
+    if(!(m_sane_get_parameters = (sane_get_parameters)dlsym(m_saneLib, "sane_get_parameters")))
+        goto out;
+    if(!(m_sane_start = (sane_start)dlsym(m_saneLib, "sane_start")))
+        goto out;
+    if(!(m_sane_read = (sane_read)dlsym(m_saneLib, "sane_read")))
+        goto out;
+    if(!(m_sane_cancel = (sane_cancel)dlsym(m_saneLib, "sane_cancel")))
+        goto out;
+    if(!(m_sane_set_io_mode = (sane_set_io_mode)dlsym(m_saneLib, "sane_set_io_mode")))
+        goto out;
+    if(!(m_sane_get_select_fd = (sane_get_select_fd)dlsym(m_saneLib, "sane_get_select_fd")))
+        goto out;
+    if(!(m_sane_strstatus = (sane_strstatus)dlsym(m_saneLib, "sane_strstatus")))
+        goto out;
 
-        retval = TRUE;
-    }
+    retval = TRUE;
 
-Outtahere:
+ out:
     if(!retval && m_saneLib)
     {
         dlclose(m_saneLib);
