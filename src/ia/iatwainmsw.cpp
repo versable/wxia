@@ -497,5 +497,3 @@ wxIAReturnCode wxIATwainMSWProvider::MapStatus(TW_STATUS status)
         return wxIA_RC_UNKNOWNERROR;
     }
 }
-
-

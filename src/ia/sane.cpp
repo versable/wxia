@@ -242,5 +242,3 @@ wxString wxSane::SaneStrStatus(SANE_Status status)
     wxCHECK_MSG(Ok(), wxEmptyString, _T("wxSane not started!"));
     return wxString((*m_sane_strstatus)(status));
 }
-
-

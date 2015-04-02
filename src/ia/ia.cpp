@@ -366,4 +366,3 @@ wxIAEvent::wxIAEvent(const wxIAEvent &event) :
     m_span = event.m_span;
     m_abort = event.m_abort;
 }
-

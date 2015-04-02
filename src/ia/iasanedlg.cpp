@@ -247,5 +247,3 @@ void wxIASaneAcquireDialog::SetOptionValues()
                                       &m_optionValues[i], NULL);
     }
 }
-
-

@@ -316,4 +316,3 @@ wxIAReturnCode wxIASaneProvider::MapStatus(SANE_Status status)
         return wxIA_RC_UNKNOWNERROR;
     }
 }
-
