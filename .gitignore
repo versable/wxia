@@ -1,11 +1,13 @@
-.deps
-.libs
+.deps/
+.libs/
 Makefile
 Makefile.in
 *.la
 *.lo
 *.o
 
-/libtool
+/aclocal.m4
+/autom4te.cache/
 /config.*
+/libtool
 samples/ia/iatest
