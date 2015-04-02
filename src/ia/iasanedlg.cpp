@@ -17,6 +17,7 @@
 #endif
 
 #include "wx/wxprec.h"
+#include <wx/log.h>
 
 #ifdef __BORLANDC__
   #pragma hdrstop
@@ -192,7 +193,7 @@ wxIASaneAcquireDialog::GetOptionDescriptors()
     for(i = 0; (d = m_sane->SaneGetOptionDescriptor(i)) != NULL; i++)
     {
         m_descriptors.Add(d);
-        wxLogError("Descriptor %d: %s, type = %d, size = %d, constraint type = %d", i, d->title,
+        wxLogDebug("Descriptor %d: %s, type = %d, size = %d, constraint type = %d", i, d->title,
                    d->type, d->size, d->constraint_type);
     }
 

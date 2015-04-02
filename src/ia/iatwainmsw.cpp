@@ -23,6 +23,7 @@
 
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
+#include <wx/log.h>
 
 #if defined(__BORLANDC__)
     #pragma hdrstop
@@ -436,14 +437,14 @@ wxIATwainMSWProvider::DibNumColors (void *pv)
 bool
 wxIATwainMSWProvider::HandleImage(TW_IMAGEINFO& info)
 {
-//wxLogError("width = %d, height = %d, depth = %d", info.ImageWidth, info.ImageLength, info.BitsPerPixel);
+    wxLogDebug("width = %d, height = %d, depth = %d", info.ImageWidth, info.ImageLength, info.BitsPerPixel);
 #if 0
     m_bitmap = wxBitmap(info.ImageWidth, info.ImageLength);
     if(m_bitmap.GetHBITMAP())
         ::DeleteObject((HBITMAP)m_bitmap.GetHBITMAP());
     m_bitmap.SetHBITMAP((WXHANDLE)CreateDIB((HBITMAP)GetTwain()->GetHBitmap()));
 #else
-//wxLogError("info.BitsPerPixel = %d", info.BitsPerPixel);
+    wxLogDebug("info.BitsPerPixel = %d", info.BitsPerPixel);
     m_bitmap = wxBitmap(info.ImageWidth, info.ImageLength, info.BitsPerPixel > 1 ? 24 : 1);
     wxMemoryDC memdc;
     memdc.SelectObject(m_bitmap);

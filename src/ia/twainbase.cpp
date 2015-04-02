@@ -23,6 +23,7 @@
 
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
+#include <wx/log.h>
 
 #if defined(__BORLANDC__)
     #pragma hdrstop
@@ -48,7 +49,7 @@ wxTwainBase::wxTwainBase(wxTwainClient* client,
 
 wxTwainBase::~wxTwainBase()
 {
-//wxLogError("wxTwainBase::~wxTwainBase()");
+    wxLogDebug("wxTwainBase::~wxTwainBase()");
     //  Can't call ShutDown() here as we would like because it is virtual.
     //  NOTE: ShutDown must be called for this destructor!
     wxASSERT_MSG(!m_sourceIsOpen, _("TWAIN source is still open, Shutdown() not called!"));
@@ -129,10 +130,10 @@ wxTwainBase::GetReturnCode()
 bool
 wxTwainBase::OpenSourceManager()
 {
-//wxLogError("wxTwainBase::OpenSourceManager()");
+    wxLogDebug("wxTwainBase::OpenSourceManager()");
     if(Ok() && !IsSourceManagerOpen())
     {
-//wxLogError("calling DSMEntryProc to open source manager, m_hParent = %08lx", m_hParentPtr);
+        wxLogDebug("calling DSMEntryProc to open source manager, m_hParent = %08lx", m_hParentPtr);
         m_sourceManagerIsOpen = CallDSMEntryProc(&m_appId, NULL, DG_CONTROL,
                                                  DAT_PARENT, MSG_OPENDSM,
                                                  (TW_MEMREF)m_hParentPtr);
@@ -140,7 +141,7 @@ wxTwainBase::OpenSourceManager()
         if(m_sourceManagerIsOpen)
             GetAvailableSources();
     }
-//wxLogError("m_sourceManagerIsOpen = %d", m_sourceManagerIsOpen);
+    wxLogDebug("m_sourceManagerIsOpen = %d", m_sourceManagerIsOpen);
     return m_sourceManagerIsOpen;
 }
 
@@ -307,7 +308,7 @@ wxTwainBase::UserSelectSource(const wxString& defSource)
                      MSG_GETDEFAULT, &m_sourceId);
   m_sourceSelected = CallDSMEntryProc(&m_appId, NULL, DG_CONTROL, DAT_IDENTITY,
                                       MSG_USERSELECT, &m_sourceId);
-//wxLogError("m_sourceSelected = %d", m_sourceSelected);
+  wxLogDebug("m_sourceSelected = %d", m_sourceSelected);
   return m_sourceSelected;
 }
 
@@ -356,7 +357,7 @@ wxTwainBase::CallDSMEntryProc(pTW_IDENTITY origin, pTW_IDENTITY dest,
 
     if(Ok())
     {
-//wxLogError("calling DSMEntryProc = %08lx", m_DSMEntryProc);
+        wxLogDebug("calling DSMEntryProc = %08lx", m_DSMEntryProc);
         m_returnCode = (*m_DSMEntryProc)(origin, dest, dg, dat, msg, data);
         if(m_returnCode != TWRC_SUCCESS)
             (*m_DSMEntryProc)(origin, dest, DG_CONTROL, DAT_STATUS, MSG_GET,
@@ -377,10 +378,10 @@ wxTwainBase::DoMessageLoop(bool showUI)
 bool
 wxTwainBase::EnableSource(bool showUI)
 {
-//wxLogError("wxTwainBase::EnableSource");
+    wxLogDebug("wxTwainBase::EnableSource");
     if(Ok() && IsSourceManagerOpen() && IsSourceOpen() && !IsSourceEnabled())
     {
-//wxLogError("wxTwainBase::EnableSource 2");
+        wxLogDebug("wxTwainBase::EnableSource 2");
         TW_USERINTERFACE twUI;
         twUI.ShowUI = showUI;
         twUI.ModalUI = showUI;
@@ -399,17 +400,15 @@ wxTwainBase::EnableSource(bool showUI)
             m_sourceEnabled = FALSE;
             m_modalUI = TRUE;
         }
-#if 0
         if(m_sourceEnabled)
-          wxLogError("Source enabled!");
+          wxLogDebug("Source enabled!");
         else
-          wxLogError("Source not enabled, rc = %d, status = %d",
+          wxLogDebug("Source not enabled, rc = %d, status = %d",
                  GetReturnCode(), GetStatus());
-#endif
         return m_sourceEnabled;
     }
     else
-      wxLogError("Source or source manager not open!");
+      wxLogDebug("Source or source manager not open!");
     return FALSE;
 }
 
@@ -501,14 +500,14 @@ wxTwainBase::SetImageCount(int count)
             }
         }
     }
-//wxLogError("wxTwainBase::SetImageCount failed!");
+    wxLogDebug("wxTwainBase::SetImageCount failed!");
     return FALSE;
 }
 
 void
 wxTwainBase::TransferImage()
 {
-//wxLogError("TransferImage");
+    wxLogDebug("TransferImage");
     TW_IMAGEINFO info;
     bool done = FALSE;
 
@@ -532,26 +531,25 @@ wxTwainBase::TransferImage()
 bool
 wxTwainBase::EndTransfer()
 {
-//wxLogError("EndTransfer");
+    wxLogDebug("EndTransfer");
     TW_PENDINGXFERS twPend;
     if(CallDSMEntryProc(&m_appId, &m_sourceId, DG_CONTROL, DAT_PENDINGXFERS,
                         MSG_ENDXFER, (TW_MEMREF)&twPend))
-{
-//wxLogError("twPend.Count = %d", twPend.Count);
-#if 0
-        if(!twPend.Count)
-            CloseSource();
-#endif
-        return twPend.Count != 0;
-}
-
+    {
+    wxLogDebug("twPend.Count = %d", twPend.Count);
+    #if 0
+            if(!twPend.Count)
+                CloseSource();
+    #endif
+            return twPend.Count != 0;
+    }
     return FALSE;
 }
 
 void
 wxTwainBase::CancelTransfer()
 {
-//wxLogError("CancelTransfer");
+  wxLogDebug("CancelTransfer");
   TW_PENDINGXFERS twPend;
 
   CallDSMEntryProc(&m_appId, &m_sourceId, DG_CONTROL, DAT_PENDINGXFERS,
@@ -571,29 +569,29 @@ wxTwainBase::GetImageInfo(TW_IMAGEINFO& info)
 bool
 wxTwainBase::AcquireImage(bool showUI)
 {
-//wxLogError("wxTwainBase::AcquireImage");
+    wxLogDebug("wxTwainBase::AcquireImage");
     return AcquireImages(1, showUI);
 }
 
 bool
 wxTwainBase::AcquireImages(int numImages, bool showUI)
 {
-//wxLogError("wxTwainBase::AcquireImages(%d, %d)", numImages, showUI);
+    wxLogDebug("wxTwainBase::AcquireImages(%d, %d)", numImages, showUI);
     if(IsSourceOpen() || OpenSource())
     {
-    	if(SetImageCount(numImages))
-    	{
+        if(SetImageCount(numImages))
+        {
             m_imagesAcquired = 0;
-            if(m_client &&
-               !m_client->UpdateStatus(_("Acquiring image(s)"), m_imagesAcquired, m_imageCount))
+            if(m_client && !m_client->UpdateStatus(_("Acquiring image(s)"),
+                m_imagesAcquired, m_imageCount))
                 return FALSE;
 
             if(EnableSource())
-	    {
-//wxLogError("Acquiring Image");
+            {
+                wxLogDebug("Acquiring Image");
                 return DoMessageLoop(showUI);
-	    }
-	}
+            }
+        }
     }
     return FALSE;
 }

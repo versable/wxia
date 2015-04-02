@@ -23,6 +23,7 @@
 
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
+#include <wx/log.h>
 
 #if defined(__BORLANDC__)
     #pragma hdrstop
@@ -82,19 +83,19 @@ wxTwainMSW::wxTwainMSW(wxTwainMSWClient* client, const wxString& appName,
 
 wxTwainMSW::~wxTwainMSW()
 {
-//  wxLogError("wxTwainMSW::~wxTwainMSW()");
+    wxLogDebug("wxTwainMSW::~wxTwainMSW()");
 }
 
 bool
 wxTwainMSW::Startup()
 {
-//wxLogError("wxTwainMSW::Startup");
+    wxLogDebug("wxTwainMSW::Startup");
     if(!Ok())
     {
         m_hTwainDLL = ::LoadLibrary(TWAIN_DLL_NAME);
         if(m_hTwainDLL)
         {
-//wxLogError("twain lib loaded");
+            wxLogDebug("twain lib loaded");
             m_DSMEntryProc = (DSMENTRYPROC)::GetProcAddress(m_hTwainDLL, MAKEINTRESOURCE(1));
             if(!m_DSMEntryProc)
             {
@@ -104,8 +105,8 @@ wxTwainMSW::Startup()
             else
                 m_ok = TRUE;
         }
-//        else
-//            wxLogError("Unable to load twain lib '%s'", TWAIN_DLL_NAME);
+        else
+            wxLogDebug("Unable to load twain lib '%s'", TWAIN_DLL_NAME);
         if(Ok())
             return OpenSourceManager();
     }
@@ -116,10 +117,10 @@ wxTwainMSW::Startup()
 void
 wxTwainMSW::Shutdown()
 {
-//wxLogError("wxTwainMSW::Shutdown()");
+    wxLogDebug("wxTwainMSW::Shutdown()");
     if(Ok())
     {
-//wxLogError("shutting down wxTwainMSW");
+        wxLogDebug("shutting down wxTwainMSW");
         CloseSource();
         CloseSourceManager();
         ::FreeLibrary(m_hTwainDLL);
@@ -210,7 +211,7 @@ wxTwainMSW::GetHBitmap()
 bool
 wxTwainMSW::GetImage(TW_IMAGEINFO& info)
 {
-//wxLogError("GetImage");
+    wxLogDebug("GetImage");
     CallDSMEntryProc(&m_appId, &m_sourceId, DG_IMAGE, DAT_IMAGENATIVEXFER,
                      MSG_GET, &m_hBitmap);
     switch(GetReturnCode())
@@ -218,7 +219,7 @@ wxTwainMSW::GetImage(TW_IMAGEINFO& info)
         case TWRC_XFERDONE:
             if(m_client)
             {
-//wxLogError("m_hBitmap = %08lx", m_hBitmap);
+                wxLogDebug("m_hBitmap = %08lx", m_hBitmap);
                 if(!m_client->HandleImage(info) ||
                    !m_client->UpdateStatus(_("Acquiring image(s)"), m_imagesAcquired, m_imageCount))
                 {
@@ -251,7 +252,7 @@ wxTwainMSW::DoMessageLoop(bool showUI)
 
     while(IsSourceEnabled() && ::GetMessage((LPMSG)&msg, NULL, 0, 0))
     {
-//wxLogError("processing msg");
+        wxLogDebug("processing msg");
         TW_EVENT twEvent;
 
         twEvent.pEvent = (TW_MEMREF)&msg;
@@ -263,30 +264,30 @@ wxTwainMSW::DoMessageLoop(bool showUI)
             switch(twEvent.TWMessage)
             {
                 case MSG_XFERREADY :
-//wxLogError("transfering image");
+                  wxLogDebug("transfering image");
                   TransferImage();
                 break;
 
                 case MSG_CLOSEDSREQ :
-//wxLogError("close ds req");
+                  wxLogDebug("close ds req");
                   CloseSource();
                 break;
 
                 case MSG_CLOSEDSOK :
-//wxLogError("close ds ok");
+                  wxLogDebug("close ds ok");
                 break;
 
                 case MSG_NULL :
-//wxLogError("msg null");
+                  wxLogDebug("msg null");
                 break;
 
                 default :
-//wxLogError("unknown msg %d", twEvent.TWMessage);
+                  wxLogDebug("unknown msg %d", twEvent.TWMessage);
                 break;
             }
         }
     }
-//wxLogError("leaving wxTwainMSW message loop");
+    wxLogDebug("leaving wxTwainMSW message loop");
 
     delete m_windowDisabler;
     m_windowDisabler = NULL;

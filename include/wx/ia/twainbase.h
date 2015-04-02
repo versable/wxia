@@ -101,7 +101,7 @@ public:
     //  NOTE:  YOU MUST CALL SHUTDOWN BEFORE THE DESTRUCTOR IS CALLED
     //  TO PROPERLY SHUT TWAIN DOWN
     //
-    virtual void Shutdown() { wxLogError("wxTwainBase::Shutdown()"); }
+    virtual void Shutdown() { wxLogDebug("wxTwainBase::Shutdown()"); }
 
     //
     //  Returns TRUE if TWAIN is loaded and ready to go or FALSE if not.
