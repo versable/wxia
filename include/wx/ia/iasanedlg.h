@@ -32,39 +32,39 @@ WX_DEFINE_ARRAY(const SANE_Option_Descriptor*, SaneDescriptorArray);
 class wxIASaneAcquireDialog : public wxDialog
 {
 public:
-    wxIASaneAcquireDialog(wxWindow* parent, wxWindowID id, 
-                          const wxString& title, wxSane* sane,
-                          const wxPoint& pos = wxDefaultPosition, 
-                          const wxSize& size = wxSize(500, 400),
-                          const long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
-    ~wxIASaneAcquireDialog();                          
-    
+    wxIASaneAcquireDialog(wxWindow *parent, wxWindowID id,
+        const wxString &title, wxSane *sane,
+        const wxPoint &pos = wxDefaultPosition,
+        const wxSize &size = wxSize(500, 400),
+        const long style = wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER);
+    ~wxIASaneAcquireDialog();
+
 protected:
     //
     //  Event handlers
     //
     void OnOk(wxCommandEvent& event);
     void OnUpdateUI(wxUpdateUIEvent& event);
-    
+
     //
     //  Misc helper methods
     //
     void GetOptionDescriptors();
-    wxWindow* MakeSettingsPanel(wxWindow* parent);
-    wxWindow* MakePreviewPanel(wxWindow* parent);
+    wxWindow *MakeSettingsPanel(wxWindow *parent);
+    wxWindow *MakePreviewPanel(wxWindow *parent);
     wxString GetUnitString(SANE_Unit unit);
     void GetOptionValues();
     void SetOptionValues();
-    
-    wxSane* m_sane;
+
+    wxSane *m_sane;
     SaneDescriptorArray m_descriptors;
-    SaneOptionValue** m_optionValues;
-    wxWindow** m_optionControls;
+    SaneOptionValue **m_optionValues;
+    wxWindow *m_optionControls;
     wxSplitterWindow *m_splitter;
-    wxWindow* m_settingsPanel;
-    wxWindow* m_previewPanel;
-    
-private:    
+    wxWindow *m_settingsPanel;
+    wxWindow *m_previewPanel;
+
+private:
     DECLARE_EVENT_TABLE()
 };
 
