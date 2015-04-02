@@ -159,7 +159,7 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
     EVT_MENU(ID_SELECTSOURCE, MyFrame::OnSelectSource)
     EVT_MENU(ID_ZOOMIN, MyFrame::OnZoomIn)
     EVT_MENU(ID_ZOOMOUT, MyFrame::OnZoomOut)
-    EVT_UPDATE_UI(-1, MyFrame::OnUpdateUI)
+    EVT_UPDATE_UI(wxID_ANY, MyFrame::OnUpdateUI)
 #ifdef USE_IA_EVENTS
     EVT_IA_GETIMAGE(MyFrame::OnGetImage)
     EVT_IA_UPDATE(MyFrame::OnUpdateStatus)
@@ -205,7 +205,7 @@ bool MyApp::OnInit()
 // frame constructor
 MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size,
     long style) :
-    wxFrame(NULL, -1, title, pos, size, style)
+    wxFrame(NULL, wxID_ANY, title, pos, size, style)
 {
     // create a menu bar
     wxMenu *menuFile = new wxMenu;
@@ -246,7 +246,7 @@ MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size,
     CreateStatusBar(1);
 
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
-    sizer->Add(m_imageWin = new ImageWindow(this, -1), 1, wxEXPAND);
+    sizer->Add(m_imageWin = new ImageWindow(this, wxID_ANY), 1, wxEXPAND);
     SetSizer(sizer);
 
 #ifdef USE_IA_EVENTS

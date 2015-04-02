@@ -40,7 +40,7 @@ enum
 
 BEGIN_EVENT_TABLE(wxIASaneAcquireDialog, wxDialog)
     EVT_BUTTON(wxID_OK, wxIASaneAcquireDialog::OnOk)
-    EVT_UPDATE_UI(-1, wxIASaneAcquireDialog::OnUpdateUI)
+    EVT_UPDATE_UI(wxID_ANY, wxIASaneAcquireDialog::OnUpdateUI)
 END_EVENT_TABLE()
 
 wxIASaneAcquireDialog::wxIASaneAcquireDialog(wxWindow *parent, wxWindowID id,
@@ -53,7 +53,7 @@ wxIASaneAcquireDialog::wxIASaneAcquireDialog(wxWindow *parent, wxWindowID id,
     m_optionControls = NULL;
     GetOptionDescriptors();
 
-    m_splitter = new wxSplitterWindow(this, -1);
+    m_splitter = new wxSplitterWindow(this, wxID_ANY);
     m_settingsPanel = MakeSettingsPanel(m_splitter);
     m_previewPanel = MakePreviewPanel(m_splitter);
 
@@ -88,7 +88,7 @@ wxIASaneAcquireDialog::~wxIASaneAcquireDialog()
 
 wxWindow *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
 {
-    wxScrolledWindow *panel = new wxScrolledWindow(parent, -1,
+    wxScrolledWindow *panel = new wxScrolledWindow(parent, wxID_ANY,
         wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 
     panel->SetExtraStyle(wxWS_EX_VALIDATE_RECURSIVELY);
@@ -112,16 +112,16 @@ wxWindow *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
         {
             if (!sbsizer)
             {
-                sbox = new wxStaticBox(panel, -1, label);
+                sbox = new wxStaticBox(panel, wxID_ANY, label);
                 sbsizer = new wxStaticBoxSizer(sbox, wxVERTICAL);
                 gsizer = new wxFlexGridSizer(3);
                 sbsizer->Add(gsizer, 0, wxEXPAND | wxALL, 5);
                 sizer->Add(sbsizer, 0, wxEXPAND | wxALL, 5);
             }
-            gsizer->Add(new wxStaticText(panel, -1, wxString(m_descriptors[i]->title) + _T(":"),
+            gsizer->Add(new wxStaticText(panel, wxID_ANY, wxString(m_descriptors[i]->title) + _T(":"),
                 wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT), 0, wxEXPAND | wxALL, 5);
             gsizer->Add(1, 1, wxEXPAND | wxALL, 5);
-            gsizer->Add(new wxStaticText(panel, -1, GetUnitString(m_descriptors[i]->unit)),
+            gsizer->Add(new wxStaticText(panel, wxID_ANY, GetUnitString(m_descriptors[i]->unit)),
                 0, wxEXPAND | wxALL, 5);
         }
     }
@@ -135,7 +135,7 @@ wxWindow *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
 
 wxWindow *wxIASaneAcquireDialog::MakePreviewPanel(wxWindow *parent)
 {
-    wxScrolledWindow *panel = new wxScrolledWindow(parent, -1,
+    wxScrolledWindow *panel = new wxScrolledWindow(parent, wxID_ANY,
         wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 
     panel->SetExtraStyle(wxWS_EX_VALIDATE_RECURSIVELY);
