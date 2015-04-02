@@ -38,41 +38,38 @@
 
 #include "wx/msw/private.h"
 
-#define TWAIN_DLL_NAME		_T("TWAIN_32.DLL")
+#define TWAIN_DLL_NAME      _T("TWAIN_32.DLL")
 
-wxTwainMSWClient::wxTwainMSWClient(wxTwainMSW* twain)
+wxTwainMSWClient::wxTwainMSWClient(wxTwainMSW *twain)
 {
-  m_twain = twain;
+    m_twain = twain;
 }
 
 wxTwainMSWClient::~wxTwainMSWClient()
 {
 }
 
-void
-wxTwainMSWClient::SetTwain(wxTwainMSW* twain)
+void wxTwainMSWClient::SetTwain(wxTwainMSW *twain)
 {
-  m_twain = twain;
+    m_twain = twain;
 }
 
-wxTwainMSW*
-wxTwainMSWClient::GetTwain()
+wxTwainMSW *wxTwainMSWClient::GetTwain()
 {
-  return m_twain;
+    return m_twain;
 }
 
 IMPLEMENT_CLASS(wxTwainMSW, wxTwainBase);
 
-wxTwainMSW::wxTwainMSW(wxTwainMSWClient* client, const wxString& appName,
-                       const wxString& appFamily,
-                       const wxString& appManufacturer, int majorVersion,
-                       int minorVersion, const wxString& versionInfo,
-                       int language, int country) :
-  wxTwainBase(client, appName, appFamily, appManufacturer, majorVersion,
-              minorVersion, versionInfo, language, country)
+wxTwainMSW::wxTwainMSW(wxTwainMSWClient *client, const wxString &appName,
+    const wxString &appFamily, const wxString &appManufacturer,
+    int majorVersion, int minorVersion, const wxString &versionInfo,
+    int language, int country)
+    : wxTwainBase(client, appName, appFamily, appManufacturer, majorVersion,
+        minorVersion, versionInfo, language, country)
 {
     m_hTwainDLL = NULL;
-    if(wxTheApp->GetTopWindow())
+    if (wxTheApp->GetTopWindow())
         m_hParent = (TW_HANDLE)wxTheApp->GetTopWindow()->GetHWND();
     else
         m_hParent = 0;
@@ -86,18 +83,17 @@ wxTwainMSW::~wxTwainMSW()
     wxLogDebug("wxTwainMSW::~wxTwainMSW()");
 }
 
-bool
-wxTwainMSW::Startup()
+bool wxTwainMSW::Startup()
 {
     wxLogDebug("wxTwainMSW::Startup");
-    if(!Ok())
+    if (!Ok())
     {
         m_hTwainDLL = ::LoadLibrary(TWAIN_DLL_NAME);
-        if(m_hTwainDLL)
+        if (m_hTwainDLL)
         {
             wxLogDebug("twain lib loaded");
             m_DSMEntryProc = (DSMENTRYPROC)::GetProcAddress(m_hTwainDLL, MAKEINTRESOURCE(1));
-            if(!m_DSMEntryProc)
+            if (!m_DSMEntryProc)
             {
                 ::FreeLibrary(m_hTwainDLL);
                 m_hTwainDLL = NULL;
@@ -107,18 +103,17 @@ wxTwainMSW::Startup()
         }
         else
             wxLogDebug("Unable to load twain lib '%s'", TWAIN_DLL_NAME);
-        if(Ok())
+        if (Ok())
             return OpenSourceManager();
     }
 
     return Ok();
 }
 
-void
-wxTwainMSW::Shutdown()
+void wxTwainMSW::Shutdown()
 {
     wxLogDebug("wxTwainMSW::Shutdown()");
-    if(Ok())
+    if (Ok())
     {
         wxLogDebug("shutting down wxTwainMSW");
         CloseSource();
@@ -130,32 +125,30 @@ wxTwainMSW::Shutdown()
     }
 }
 
-bool
-wxTwainMSW::GetCapability(TW_CAPABILITY& twCap, TW_UINT16 cap,
-                           TW_UINT16 conType)
+bool wxTwainMSW::GetCapability(TW_CAPABILITY &twCap, TW_UINT16 cap,
+    TW_UINT16 conType)
 {
-  if(IsSourceOpen())
-  {
-      twCap.Cap = cap;
-      twCap.ConType = conType;
-      twCap.hContainer = NULL;
+    if (IsSourceOpen())
+    {
+        twCap.Cap = cap;
+        twCap.ConType = conType;
+        twCap.hContainer = NULL;
 
-      if(CallDSMEntryProc(&m_appId, &m_sourceId, DG_CONTROL, DAT_CAPABILITY,
-                          MSG_GET, (TW_MEMREF)&twCap))
-          return TRUE;
-  }
-  return FALSE;
+        if (CallDSMEntryProc(&m_appId, &m_sourceId, DG_CONTROL, DAT_CAPABILITY,
+            MSG_GET, (TW_MEMREF)&twCap))
+            return TRUE;
+    }
+    return FALSE;
 }
 
-bool
-wxTwainMSW::GetCapability(TW_UINT16 cap, TW_UINT32& value)
+bool wxTwainMSW::GetCapability(TW_UINT16 cap, TW_UINT32 &value)
 {
     TW_CAPABILITY twCap;
 
-    if(GetCapability(twCap, cap))
+    if (GetCapability(twCap, cap))
     {
         pTW_ONEVALUE val = (pTW_ONEVALUE)GlobalLock(twCap.hContainer);
-        if(val)
+        if (val)
         {
             value = val->Item;
             GlobalUnlock(val);
@@ -166,10 +159,9 @@ wxTwainMSW::GetCapability(TW_UINT16 cap, TW_UINT32& value)
     return FALSE;
 }
 
-bool
-wxTwainMSW::SetCapability(TW_UINT16 cap, TW_UINT16 value, bool sign)
+bool wxTwainMSW::SetCapability(TW_UINT16 cap, TW_UINT16 value, bool sign)
 {
-    if(IsSourceOpen())
+    if (IsSourceOpen())
     {
         TW_CAPABILITY twCap;
         pTW_ONEVALUE val;
@@ -178,7 +170,7 @@ wxTwainMSW::SetCapability(TW_UINT16 cap, TW_UINT16 value, bool sign)
         twCap.Cap = cap;
         twCap.ConType = TWON_ONEVALUE;
         twCap.hContainer = GlobalAlloc(GHND, sizeof(TW_ONEVALUE));
-        if(twCap.hContainer)
+        if (twCap.hContainer)
         {
             val = (pTW_ONEVALUE)GlobalLock(twCap.hContainer);
             val->ItemType = sign ? TWTY_INT16 : TWTY_UINT16;
@@ -192,36 +184,34 @@ wxTwainMSW::SetCapability(TW_UINT16 cap, TW_UINT16 value, bool sign)
     return FALSE;
 }
 
-bool
-wxTwainMSW::SetCapability(TW_CAPABILITY& twCap)
+bool wxTwainMSW::SetCapability(TW_CAPABILITY &twCap)
 {
     if(IsSourceOpen())
         return CallDSMEntryProc(&m_appId, &m_sourceId, DG_CONTROL,
-                                DAT_CAPABILITY, MSG_SET, (TW_MEMREF)&twCap);
+            DAT_CAPABILITY, MSG_SET, (TW_MEMREF)&twCap);
 
     return FALSE;
 }
 
-HBITMAP
-wxTwainMSW::GetHBitmap()
+HBITMAP wxTwainMSW::GetHBitmap()
 {
     return m_hBitmap;
 }
 
-bool
-wxTwainMSW::GetImage(TW_IMAGEINFO& info)
+bool wxTwainMSW::GetImage(TW_IMAGEINFO &info)
 {
     wxLogDebug("GetImage");
     CallDSMEntryProc(&m_appId, &m_sourceId, DG_IMAGE, DAT_IMAGENATIVEXFER,
-                     MSG_GET, &m_hBitmap);
+        MSG_GET, &m_hBitmap);
     switch(GetReturnCode())
     {
         case TWRC_XFERDONE:
-            if(m_client)
+            if (m_client)
             {
                 wxLogDebug("m_hBitmap = %08lx", m_hBitmap);
-                if(!m_client->HandleImage(info) ||
-                   !m_client->UpdateStatus(_("Acquiring image(s)"), m_imagesAcquired, m_imageCount))
+                if (!m_client->HandleImage(info) ||
+                    !m_client->UpdateStatus(_("Acquiring image(s)"),
+                    m_imagesAcquired, m_imageCount))
                 {
                     CancelTransfer();
                     CloseSource();
@@ -233,24 +223,23 @@ wxTwainMSW::GetImage(TW_IMAGEINFO& info)
         break;
 
         case TWRC_CANCEL:
-	break;
+    break;
 
-	case TWRC_FAILURE:
-	    CancelTransfer();
+    case TWRC_FAILURE:
+        CancelTransfer();
         return FALSE;
     }
     return EndTransfer();
 }
 
-bool
-wxTwainMSW::DoMessageLoop(bool showUI)
+bool wxTwainMSW::DoMessageLoop(bool showUI)
 {
-    if(showUI)
+    if (showUI)
         m_windowDisabler = new wxWindowDisabler(NULL);
 
     MSG msg;
 
-    while(IsSourceEnabled() && ::GetMessage((LPMSG)&msg, NULL, 0, 0))
+    while (IsSourceEnabled() && ::GetMessage((LPMSG)&msg, NULL, 0, 0))
     {
         wxLogDebug("processing msg");
         TW_EVENT twEvent;
@@ -258,8 +247,8 @@ wxTwainMSW::DoMessageLoop(bool showUI)
         twEvent.pEvent = (TW_MEMREF)&msg;
         twEvent.TWMessage = MSG_NULL;
         CallDSMEntryProc(&m_appId, &m_sourceId, DG_CONTROL, DAT_EVENT,
-                         MSG_PROCESSEVENT, (TW_MEMREF)&twEvent);
-        if(GetReturnCode() != TWRC_NOTDSEVENT)
+            MSG_PROCESSEVENT, (TW_MEMREF)&twEvent);
+        if (GetReturnCode() != TWRC_NOTDSEVENT)
         {
             switch(twEvent.TWMessage)
             {
@@ -295,12 +284,9 @@ wxTwainMSW::DoMessageLoop(bool showUI)
     return m_imageCount == m_imagesAcquired;
 }
 
-void
-wxTwainMSW::DisableSource()
+void wxTwainMSW::DisableSource()
 {
     delete m_windowDisabler;
     m_windowDisabler = NULL;
     wxTwainBase::DisableSource();
 }
-
-

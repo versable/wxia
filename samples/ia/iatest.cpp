@@ -65,21 +65,14 @@ public:
 // Define a simple image viewer window
 class ImageWindow : public wxScrolledWindow
 {
-    wxBitmap
-        m_bitmap,
-        m_dbBitmap;
-
-    double
-        m_zoomFactor;
-
 public:
-    ImageWindow(wxWindow* parent, wxWindowID id,
-                const wxImage& image = wxNullImage,
-                const wxPoint& pos = wxDefaultPosition,
-                const wxSize& size = wxDefaultSize,
-                long style = wxSUNKEN_BORDER | wxWANTS_CHARS);
+    ImageWindow(wxWindow *parent, wxWindowID id,
+        const wxImage &image = wxNullImage,
+        const wxPoint &pos = wxDefaultPosition,
+        const wxSize &size = wxDefaultSize,
+        long style = wxSUNKEN_BORDER | wxWANTS_CHARS);
 
-    void SetImage(const wxImage& image);
+    void SetImage(const wxImage &image);
 
     void SetZoomFactor(double factor) { m_zoomFactor = factor; DoSetScrollbars(); }
     double GetZoomFactor() { return m_zoomFactor; }
@@ -92,6 +85,9 @@ private:
     void OnPaint(wxPaintEvent& event);
     void OnSize(wxSizeEvent& event);
 
+    wxBitmap m_bitmap, m_dbBitmap;
+    double m_zoomFactor;
+
     // any class wishing to process wxWindows events must use this macro
     DECLARE_EVENT_TABLE()
 };
@@ -101,8 +97,8 @@ class MyFrame : public wxFrame
 {
 public:
     // ctor(s)
-    MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size,
-            long style = wxDEFAULT_FRAME_STYLE);
+    MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size,
+        long style = wxDEFAULT_FRAME_STYLE);
 
 private:
     // event handlers (these functions should _not_ be virtual)
@@ -190,7 +186,7 @@ bool MyApp::OnInit()
 {
     // create the main application window
     MyFrame *frame = new MyFrame(_("wxIA Image Acquistion Test Program"),
-                                 wxPoint(-1, -1), wxSize(450, 340));
+        wxPoint(-1, -1), wxSize(450, 340));
 
     // and show it (the frames, unlike simple controls, are not shown when
     // created initially)
@@ -207,8 +203,8 @@ bool MyApp::OnInit()
 // ----------------------------------------------------------------------------
 
 // frame constructor
-MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size, long style)
-       : wxFrame(NULL, -1, title, pos, size, style)
+MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size, long style)
+    : wxFrame(NULL, -1, title, pos, size, style)
 {
     // create a menu bar
     wxMenu *menuFile = new wxMenu;
@@ -253,7 +249,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size, 
     SetSizer(sizer);
 
 #ifdef USE_IA_EVENTS
-    if(wxIAManager::Get().GetDefaultProvider())
+    if (wxIAManager::Get().GetDefaultProvider())
         wxIAManager::Get().GetDefaultProvider()->SetEvtHandler(this);
 #endif
 }
@@ -269,26 +265,24 @@ void MyFrame::OnQuit(wxCommandEvent& WXUNUSED(event))
 void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
     wxString msg = _("wxIA Image Acquisition Test Program.\n"
-                     "Written by Derry Bryson");
+        "Written by Derry Bryson");
 
     wxMessageBox(msg, _T("About"), wxOK | wxICON_INFORMATION, this);
 }
 
 void MyFrame::OnSelectSource(wxCommandEvent& WXUNUSED(event))
 {
-    if(wxIAManager::Get().GetDefaultProvider())
+    if (wxIAManager::Get().GetDefaultProvider())
     {
         wxIAReturnCode rc;
-        if((rc = wxIAManager::Get().GetDefaultProvider()->SelectSource()) == wxIA_RC_SUCCESS)
+        if ((rc = wxIAManager::Get().GetDefaultProvider()->SelectSource()) == wxIA_RC_SUCCESS)
         {
             wxIASourceInfo source = wxIAManager::Get().GetDefaultProvider()->GetSelSourceInfo();
             wxString msg;
 
             msg.Printf(_("Name: %s\nModel: %s\nVendor: %s\nType: %d"),
-                       source.GetName().c_str(),
-                       source.GetModel().c_str(),
-                       source.GetVendor().c_str(),
-                       source.GetType());
+                source.GetName().c_str(), source.GetModel().c_str(),
+                source.GetVendor().c_str(), source.GetType());
 
             wxMessageBox(msg, _("Selected Source Information"), wxOK, this);
         }
@@ -301,11 +295,11 @@ void MyFrame::OnAcquireImage(wxCommandEvent& event)
 {
     wxIAProvider *provider = wxIAManager::Get().GetDefaultProvider();
 
-    if(provider && provider->IsSourceSelected())
+    if (provider && provider->IsSourceSelected())
     {
         wxIAUIMode uiMode;
 
-        if(event.GetId() == ID_ACQUIREIMAGE)
+        if (event.GetId() == ID_ACQUIREIMAGE)
             uiMode = wxIA_UIMODE_NORMAL;
         else
             uiMode = wxIA_UIMODE_NONE;
@@ -316,10 +310,10 @@ void MyFrame::OnAcquireImage(wxCommandEvent& event)
 #ifdef USE_IA_EVENTS
         rc = provider->AcquireImage(uiMode, this);
 #else
-        if((rc = provider->AcquireImage(uiMode, this)) == wxIA_RC_SUCCESS)
+        if ((rc = provider->AcquireImage(uiMode, this)) == wxIA_RC_SUCCESS)
             m_imageWin->SetImage(provider->GetImage());
 #endif
-        if(rc != wxIA_RC_SUCCESS)
+        if (rc != wxIA_RC_SUCCESS)
             wxLogError(wxIAManager::Get().GetReturnCodeDesc(rc));
     }
 }
@@ -332,13 +326,12 @@ void MyFrame::OnAcquireImages(wxCommandEvent& event)
     if(provider && provider->IsSourceSelected())
     {
         m_imageCount = wxGetNumberFromUser(_("Enter number of images to acquire"),
-                                           _("Count:"), _("Acquire Images"), 1,
-                                           0, 10, this);
-        if(m_imageCount > 0)
+            _("Count:"), _("Acquire Images"), 1, 0, 10, this);
+        if (m_imageCount > 0)
         {
             wxIAUIMode uiMode;
 
-            if(event.GetId() == ID_ACQUIREIMAGES)
+            if (event.GetId() == ID_ACQUIREIMAGES)
                 uiMode = wxIA_UIMODE_NORMAL;
             else
                 uiMode = wxIA_UIMODE_NONE;
@@ -346,7 +339,7 @@ void MyFrame::OnAcquireImages(wxCommandEvent& event)
             wxIAReturnCode rc;
 
             rc = provider->AcquireImages(m_imageCount, uiMode, this);
-            if(rc != wxIA_RC_SUCCESS)
+            if (rc != wxIA_RC_SUCCESS)
                 wxLogError(wxIAManager::Get().GetReturnCodeDesc(rc));
         }
     }
@@ -387,7 +380,7 @@ void MyFrame::OnGetImage(wxIAEvent& event)
     m_imageCount--;
     m_imageWin->SetImage(event.GetProvider()->GetImage());
 
-    if(GetMenuBar()->IsChecked(ID_PROMPTONGETIMAGE) &&
+    if (GetMenuBar()->IsChecked(ID_PROMPTONGETIMAGE) &&
        m_imageCount &&
        wxMessageBox(_("Got image, continue?"), _("Acquire Image"), wxYES_NO, this) != wxYES)
         event.Abort(TRUE);
@@ -402,13 +395,13 @@ void MyFrame::OnUpdateStatus(wxIAEvent& event)
 
 void MyFrame::OnZoomIn(wxCommandEvent& WXUNUSED(event))
 {
-    if(m_imageWin->GetZoomFactor() < MAX_ZOOM)
+    if (m_imageWin->GetZoomFactor() < MAX_ZOOM)
         m_imageWin->SetZoomFactor(m_imageWin->GetZoomFactor() * 2.0);
 }
 
 void MyFrame::OnZoomOut(wxCommandEvent& WXUNUSED(event))
 {
-    if(m_imageWin->GetZoomFactor() > MIN_ZOOM)
+    if (m_imageWin->GetZoomFactor() > MIN_ZOOM)
         m_imageWin->SetZoomFactor(m_imageWin->GetZoomFactor() / 2.0);
 }
 
@@ -422,15 +415,12 @@ BEGIN_EVENT_TABLE(ImageWindow, wxScrolledWindow)
     EVT_ERASE_BACKGROUND(ImageWindow::OnEraseBackground)
 END_EVENT_TABLE()
 
-ImageWindow::ImageWindow(wxWindow* parent, wxWindowID id,
-                         const wxImage& image,
-                         const wxPoint& pos,
-                         const wxSize& size,
-                         long style) :
-    wxScrolledWindow(parent, id, pos, size, style)
+ImageWindow::ImageWindow(wxWindow *parent, wxWindowID id, const wxImage &image,
+    const wxPoint &pos, const wxSize &size, long style)
+    : wxScrolledWindow(parent, id, pos, size, style)
 {
     m_zoomFactor = 1.0;
-    if(image.Ok())
+    if (image.Ok())
     {
         m_bitmap = wxBitmap(image);
         DoSetScrollbars(FALSE);
@@ -440,26 +430,22 @@ ImageWindow::ImageWindow(wxWindow* parent, wxWindowID id,
 
 void ImageWindow::DoSetScrollbars(bool refresh)
 {
-    int
-        x,
-        y;
-
+    int x, y;
     GetViewStart(&x, &y);
 
-    if(m_bitmap.Ok())
+    if (m_bitmap.Ok())
         SetScrollbars(1, 1, m_bitmap.GetWidth() * m_zoomFactor,
-                      m_bitmap.GetHeight() * m_zoomFactor, x, y,
-                      TRUE);
+            m_bitmap.GetHeight() * m_zoomFactor, x, y, TRUE);
 
-    if(refresh)
+    if (refresh)
         Refresh();
 }
 
-void ImageWindow::SetImage(const wxImage& image)
+void ImageWindow::SetImage(const wxImage &image)
 {
     m_bitmap = wxNullBitmap;
 
-    if(image.Ok())
+    if (image.Ok())
         m_bitmap = wxBitmap(image);
 
     DoSetScrollbars(TRUE);
@@ -472,33 +458,18 @@ void ImageWindow::OnEraseBackground(wxEraseEvent& event)
 
 void ImageWindow::OnPaint(wxPaintEvent& event)
 {
-    wxPaintDC
-        pdc(this);
-
-    int
-        bx,
-        by,
-        x,
-        y,
-        w,
-        h,
-        zw,
-        zh,
-        bw,
-        bh;
+    wxPaintDC pdc(this);
+    int bx, by, x, y, w, h, zw, zh, bw, bh;
 
     GetClientSize(&w, &h);
-    if(!m_dbBitmap.Ok() || m_dbBitmap.GetWidth() != w || m_dbBitmap.GetHeight() != h)
+    if (!m_dbBitmap.Ok() || m_dbBitmap.GetWidth() != w || m_dbBitmap.GetHeight() != h)
         m_dbBitmap = wxBitmap(w, h);
 
-    if(!m_dbBitmap.Ok())
+    if (!m_dbBitmap.Ok())
         return;
 
-    wxMemoryDC
-        dc;
-
+    wxMemoryDC dc;
     dc.SelectObject(m_dbBitmap);
-
     GetViewStart(&x, &y);
 
     //
@@ -511,10 +482,9 @@ void ImageWindow::OnPaint(wxPaintEvent& event)
     dc.SetBrush(wxBrush(GetForegroundColour(), wxCROSSDIAG_HATCH));
     dc.DrawRectangle(0, 0, w, h);
 
-    if(m_bitmap.Ok())
+    if (m_bitmap.Ok())
     {
-        wxMemoryDC
-          memdc;
+        wxMemoryDC memdc;
 
         x = (int)(x / m_zoomFactor + 0.5);
         y = (int)(y / m_zoomFactor + 0.5);
@@ -523,7 +493,7 @@ void ImageWindow::OnPaint(wxPaintEvent& event)
         bw = (int)(m_bitmap.GetWidth() * m_zoomFactor + 0.5);
         bh = (int)(m_bitmap.GetHeight() * m_zoomFactor + 0.5);
 
-        if(m_bitmap.GetWidth() < zw)
+        if (m_bitmap.GetWidth() < zw)
         {
             bx = (zw - m_bitmap.GetWidth()) / 2;
             zw = m_bitmap.GetWidth();
@@ -531,7 +501,7 @@ void ImageWindow::OnPaint(wxPaintEvent& event)
         else
             bx = 0;
 
-        if(m_bitmap.GetHeight() < zh)
+        if (m_bitmap.GetHeight() < zh)
         {
             by = (zh - m_bitmap.GetHeight()) / 2;
             zh = m_bitmap.GetHeight();
@@ -553,5 +523,3 @@ void ImageWindow::OnSize(wxSizeEvent& event)
 {
     DoSetScrollbars();
 }
-
-
