@@ -84,7 +84,7 @@ wxIASourceInfo
 wxIATwainMSWProvider::GetSourceInfo(int i)
 {
     wxCHECK_MSG(Ok(), wxNullIASourceInfo, wxT("TWAIN not initialized"));
-    
+
     const TW_IDENTITY* id = GetTwain()->GetSourceIdentity(i);
     if(id)
         return wxIASourceInfo(wxTwainBase::GetStringValue(id->ProductName),

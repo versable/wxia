@@ -83,25 +83,25 @@ wxIASourceInfo::SetModel(const wxString& model)
     m_model = model;
 }
 
-wxString 
+wxString
 wxIASourceInfo::GetModel() const
 {
     return m_model;
 }
 
-void 
+void
 wxIASourceInfo::SetVendor(const wxString& vendor)
 {
     m_vendor = vendor;
 }
 
-wxString 
+wxString
 wxIASourceInfo::GetVendor() const
 {
     return m_vendor;
 }
 
-void 
+void
 wxIASourceInfo::SetType(wxIASourceType type)
 {
     m_type = type;

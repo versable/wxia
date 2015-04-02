@@ -331,7 +331,7 @@ bool
 wxTwainBase::SelectSource(int i)
 {
     m_sourceSelected = FALSE;
-    
+
     if(IsSourceManagerOpen() && i < (int)m_sources.GetCount())
     {
         memcpy(&m_sourceId, m_sources[i], sizeof(TW_IDENTITY));
