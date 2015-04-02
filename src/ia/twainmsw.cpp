@@ -64,8 +64,8 @@ IMPLEMENT_CLASS(wxTwainMSW, wxTwainBase);
 wxTwainMSW::wxTwainMSW(wxTwainMSWClient *client, const wxString &appName,
     const wxString &appFamily, const wxString &appManufacturer,
     int majorVersion, int minorVersion, const wxString &versionInfo,
-    int language, int country)
-    : wxTwainBase(client, appName, appFamily, appManufacturer, majorVersion,
+    int language, int country) :
+    wxTwainBase(client, appName, appFamily, appManufacturer, majorVersion,
         minorVersion, versionInfo, language, country)
 {
     m_hTwainDLL = NULL;
@@ -113,16 +113,15 @@ bool wxTwainMSW::Startup()
 void wxTwainMSW::Shutdown()
 {
     wxLogDebug("wxTwainMSW::Shutdown()");
-    if (Ok())
-    {
-        wxLogDebug("shutting down wxTwainMSW");
-        CloseSource();
-        CloseSourceManager();
-        ::FreeLibrary(m_hTwainDLL);
-        m_hTwainDLL = NULL;
-        m_DSMEntryProc = NULL;
-        m_ok = FALSE;
-    }
+    if (!Ok())
+        return;
+    wxLogDebug("shutting down wxTwainMSW");
+    CloseSource();
+    CloseSourceManager();
+    ::FreeLibrary(m_hTwainDLL);
+    m_hTwainDLL = NULL;
+    m_DSMEntryProc = NULL;
+    m_ok = FALSE;
 }
 
 bool wxTwainMSW::GetCapability(TW_CAPABILITY &twCap, TW_UINT16 cap,
@@ -223,11 +222,11 @@ bool wxTwainMSW::GetImage(TW_IMAGEINFO &info)
         break;
 
         case TWRC_CANCEL:
-    break;
+        break;
 
-    case TWRC_FAILURE:
-        CancelTransfer();
-        return FALSE;
+        case TWRC_FAILURE:
+            CancelTransfer();
+            return FALSE;
     }
     return EndTransfer();
 }

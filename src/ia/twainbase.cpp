@@ -481,8 +481,8 @@ bool wxTwainBase::EndTransfer()
     {
     wxLogDebug("twPend.Count = %d", twPend.Count);
     #if 0
-            if(!twPend.Count)
-                CloseSource();
+        if(!twPend.Count)
+            CloseSource();
     #endif
             return twPend.Count != 0;
     }

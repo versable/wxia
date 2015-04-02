@@ -203,8 +203,9 @@ bool MyApp::OnInit()
 // ----------------------------------------------------------------------------
 
 // frame constructor
-MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size, long style)
-    : wxFrame(NULL, -1, title, pos, size, style)
+MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size,
+    long style) :
+    wxFrame(NULL, -1, title, pos, size, style)
 {
     // create a menu bar
     wxMenu *menuFile = new wxMenu;
@@ -329,16 +330,10 @@ void MyFrame::OnAcquireImages(wxCommandEvent& event)
             _("Count:"), _("Acquire Images"), 1, 0, 10, this);
         if (m_imageCount > 0)
         {
-            wxIAUIMode uiMode;
+            wxIAUIMode uiMode = event.GetId() == ID_ACQUIREIMAGES ?
+                wxIA_UIMODE_NORMAL : wxIA_UIMODE_NONE;
 
-            if (event.GetId() == ID_ACQUIREIMAGES)
-                uiMode = wxIA_UIMODE_NORMAL;
-            else
-                uiMode = wxIA_UIMODE_NONE;
-
-            wxIAReturnCode rc;
-
-            rc = provider->AcquireImages(m_imageCount, uiMode, this);
+            wxIAReturnCode rc = provider->AcquireImages(m_imageCount, uiMode, this);
             if (rc != wxIA_RC_SUCCESS)
                 wxLogError(wxIAManager::Get().GetReturnCodeDesc(rc));
         }
@@ -357,7 +352,7 @@ void MyFrame::OnUpdateUI(wxUpdateUIEvent& event)
         case ID_ACQUIREIMAGESNOUI :
 #endif
             event.Enable(wxIAManager::Get().GetDefaultProvider()  &&
-                         wxIAManager::Get().GetDefaultProvider()->IsSourceSelected());
+                wxIAManager::Get().GetDefaultProvider()->IsSourceSelected());
         break;
 
         case ID_SELECTSOURCE :
@@ -381,15 +376,14 @@ void MyFrame::OnGetImage(wxIAEvent& event)
     m_imageWin->SetImage(event.GetProvider()->GetImage());
 
     if (GetMenuBar()->IsChecked(ID_PROMPTONGETIMAGE) &&
-       m_imageCount &&
-       wxMessageBox(_("Got image, continue?"), _("Acquire Image"), wxYES_NO, this) != wxYES)
+        m_imageCount && wxMessageBox(_("Got image, continue?"), _("Acquire Image"), wxYES_NO, this) != wxYES)
         event.Abort(TRUE);
 }
 
 void MyFrame::OnUpdateStatus(wxIAEvent& event)
 {
     SetStatusText(wxString::Format(_("%s %d of %d"), event.GetText().c_str(),
-                  event.GetQuantum(), event.GetSpan()));
+        event.GetQuantum(), event.GetSpan()));
 }
 #endif
 
@@ -416,8 +410,8 @@ BEGIN_EVENT_TABLE(ImageWindow, wxScrolledWindow)
 END_EVENT_TABLE()
 
 ImageWindow::ImageWindow(wxWindow *parent, wxWindowID id, const wxImage &image,
-    const wxPoint &pos, const wxSize &size, long style)
-    : wxScrolledWindow(parent, id, pos, size, style)
+    const wxPoint &pos, const wxSize &size, long style) :
+    wxScrolledWindow(parent, id, pos, size, style)
 {
     m_zoomFactor = 1.0;
     if (image.Ok())

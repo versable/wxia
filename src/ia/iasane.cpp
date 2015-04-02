@@ -90,8 +90,8 @@ int wxIASaneProvider::GetSourceCount()
 
         if (m_sane->SaneGetDevices(&m_deviceList, FALSE) == SANE_STATUS_GOOD &&
            m_deviceList)
-        for (unsigned int i = 0; m_deviceList[i]; i++)
-            m_numDevices++;
+            for (unsigned int i = 0; m_deviceList[i]; i++)
+                m_numDevices++;
     }
 
     return m_numDevices;
@@ -148,8 +148,7 @@ wxIASourceInfo wxIASaneProvider::GetSourceInfo(int i)
 }
 
 wxIAReturnCode wxIASaneProvider::SelectSource(const wxString &name,
-                               wxIAUIMode uiMode,
-                               wxWindow *parent)
+    wxIAUIMode uiMode, wxWindow *parent)
 {
     wxCHECK_MSG(Ok(), wxIA_RC_NOTINITIALIZED, _T("wxIASane not valid!"));
 
@@ -175,7 +174,7 @@ wxIAReturnCode wxIASaneProvider::SelectSource(const wxString &name,
             sel = i;
     }
 
-    if(uiMode == wxIA_UIMODE_NORMAL)
+    if (uiMode == wxIA_UIMODE_NORMAL)
     {
         wxSingleChoiceDialog d(parent, _("Available Devices:"),
             _T("Select Source"), m_numDevices, sources);
@@ -237,15 +236,15 @@ wxString wxIASaneProvider::GetSelSourceConfig()
 }
 
 wxIAReturnCode wxIASaneProvider::AcquireImages(int numImages, wxIAUIMode uiMode,
-                                wxWindow *parent, wxIAMonitor *mon)
+    wxWindow *parent, wxIAMonitor *mon)
 {
     wxCHECK_MSG(Ok(), wxIA_RC_NOTINITIALIZED, _T("wxIASane not valid!"));
 
-    if(uiMode == wxIA_UIMODE_NORMAL)
+    if (uiMode == wxIA_UIMODE_NORMAL)
     {
         wxIASaneAcquireDialog d(parent, -1, _("Acquire"), m_sane);
 
-        if(d.ShowModal() == wxID_OK)
+        if (d.ShowModal() == wxID_OK)
             ;
     }
 
@@ -269,39 +268,39 @@ wxIAReturnCode wxIASaneProvider::MapStatus(SANE_Status status)
     switch(status)
     {
         case SANE_STATUS_GOOD :
-        return wxIA_RC_SUCCESS;
+            return wxIA_RC_SUCCESS;
 
         case SANE_STATUS_UNSUPPORTED :
-        return wxIA_RC_NOTSUPPORTED;
+            return wxIA_RC_NOTSUPPORTED;
 
         case SANE_STATUS_CANCELLED :
-        return wxIA_RC_CANCELLED;
+            return wxIA_RC_CANCELLED;
 
         case SANE_STATUS_DEVICE_BUSY :
-        return wxIA_RC_DEVICEBUSY;
+            return wxIA_RC_DEVICEBUSY;
 
         case SANE_STATUS_INVAL :
-        return wxIA_RC_INVAL;
+            return wxIA_RC_INVAL;
 
         case SANE_STATUS_JAMMED :
-        return wxIA_RC_JAMMED;
+            return wxIA_RC_JAMMED;
 
         case SANE_STATUS_NO_DOCS :
-        return wxIA_RC_NODOCS;
+            return wxIA_RC_NODOCS;
 
         case SANE_STATUS_COVER_OPEN :
-        return wxIA_RC_COVEROPEN;
+            return wxIA_RC_COVEROPEN;
 
         case SANE_STATUS_IO_ERROR :
-        return wxIA_RC_IOERROR;
+            return wxIA_RC_IOERROR;
 
         case SANE_STATUS_NO_MEM :
-        return wxIA_RC_NOMEM;
+            return wxIA_RC_NOMEM;
 
         case SANE_STATUS_ACCESS_DENIED :
-        return wxIA_RC_ACCESSDENIED;
+            return wxIA_RC_ACCESSDENIED;
 
         default :
-        return wxIA_RC_UNKNOWNERROR;
+            return wxIA_RC_UNKNOWNERROR;
     }
 }

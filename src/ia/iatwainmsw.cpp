@@ -48,7 +48,7 @@ wxIATwainMSWProvider::wxIATwainMSWProvider() :
 {
     m_monitor = NULL;
     SetTwain(new wxTwainMSW(this, wxTheApp->GetAppName(), wxEmptyString,
-                            wxTheApp->GetVendorName()));
+        wxTheApp->GetVendorName()));
 
     if (GetTwain())
         GetTwain()->Startup();
@@ -84,14 +84,13 @@ wxIASourceInfo wxIATwainMSWProvider::GetSourceInfo(int i)
 
     const TW_IDENTITY *id = GetTwain()->GetSourceIdentity(i);
     return id ? wxIASourceInfo(wxTwainBase::GetStringValue(id->ProductName),
-                               wxTwainBase::GetStringValue(id->ProductFamily),
-                               wxTwainBase::GetStringValue(id->Manufacturer),
-                               wxIA_SOURCE_UNKNOWN) : wxNullIASourceInfo;
+        wxTwainBase::GetStringValue(id->ProductFamily),
+        wxTwainBase::GetStringValue(id->Manufacturer), wxIA_SOURCE_UNKNOWN)
+        : wxNullIASourceInfo;
 }
 
 wxIAReturnCode wxIATwainMSWProvider::SelectSource(const wxString &name,
-                                   wxIAUIMode uiMode,
-                                   wxWindow *parent)
+    wxIAUIMode uiMode, wxWindow *parent)
 {
     wxCHECK_MSG(Ok(), wxIA_RC_NOTINITIALIZED, wxT("TWAIN not initialized"));
 
@@ -244,7 +243,7 @@ HBITMAP wxIATwainMSWProvider::CreateDIB(HANDLE hDib)
     {
         // create a device dependent monochrome bitmap
         hBitMap = CreateBitmap((int)lpDib->biWidth,(int)lpDib->biHeight,1,1,lpBits);
-        if(hBitMap)
+        if (hBitMap)
         {
             SetDIBits(hDC,hBitMap,0,(UINT)lpDib->biHeight,lpBits,(LPBITMAPINFO)lpDib,DIB_RGB_COLORS);
         }
@@ -252,13 +251,13 @@ HBITMAP wxIATwainMSWProvider::CreateDIB(HANDLE hDib)
     else
     {
         // Create a device-independent bitmap from the BMP
-        hBitMap = CreateDIBitmap (hDC, lpDib, (LONG)CBM_INIT, (LPSTR)lpBits,
-                                  (LPBITMAPINFO)lpDib, DIB_RGB_COLORS);
+        hBitMap = CreateDIBitmap(hDC, lpDib, (LONG)CBM_INIT, (LPSTR)lpBits,
+            (LPBITMAPINFO)lpDib, DIB_RGB_COLORS);
     }
 
     GlobalUnlock(hDib);
 
-    ReleaseDC (NULL, hDC);
+    ReleaseDC(NULL, hDC);
     DeleteObject(hDibPal);
 
     // Return handle to device-dependent bitmap
@@ -300,31 +299,30 @@ HPALETTE wxIATwainMSWProvider::CreateBIPalette (LPBITMAPINFOHEADER lpbi)
         //  SDH - 02/01/95 - For compatability with the Large model...
         //  pPal = (LOGPALETTE*)LocalAlloc(LPTR,sizeof(LOGPALETTE) + nNumColors *
         //                  sizeof(PALETTEENTRY));
-        hPal = GlobalAlloc(GPTR, sizeof(LOGPALETTE) + nNumColors *
-                            sizeof(PALETTEENTRY));
+        hPal = GlobalAlloc(GPTR, sizeof(LOGPALETTE) + nNumColors * sizeof(PALETTEENTRY));
         pPal = (LOGPALETTE*)(GlobalLock (hPal));
         if (!pPal)
         {
             return NULL;
-    }
+        }
 
-    pPal->palNumEntries = nNumColors;
-    pPal->palVersion    = PALVERSION;
+        pPal->palNumEntries = nNumColors;
+        pPal->palVersion    = PALVERSION;
 
-    // Fill in the palette entries from the DIB color table and
-    // create a logical color palette.
-    for (i = 0; i < nNumColors; i++)
-    {
-        pPal->palPalEntry[i].peRed   = pRgb[i].rgbRed;
-        pPal->palPalEntry[i].peGreen = pRgb[i].rgbGreen;
-        pPal->palPalEntry[i].peBlue  = pRgb[i].rgbBlue;
-        pPal->palPalEntry[i].peFlags = (BYTE)0;
-    }
+        // Fill in the palette entries from the DIB color table and
+        // create a logical color palette.
+        for (i = 0; i < nNumColors; i++)
+        {
+            pPal->palPalEntry[i].peRed   = pRgb[i].rgbRed;
+            pPal->palPalEntry[i].peGreen = pRgb[i].rgbGreen;
+            pPal->palPalEntry[i].peBlue  = pRgb[i].rgbBlue;
+            pPal->palPalEntry[i].peFlags = (BYTE)0;
+        }
 
-    hPalette = CreatePalette(pPal);
+        hPalette = CreatePalette(pPal);
 
-    GlobalUnlock(hPal);
-    GlobalFree(hPal);
+        GlobalUnlock(hPal);
+        GlobalFree(hPal);
     }
     else if (lpbi->biBitCount == 24)
     {
@@ -354,12 +352,9 @@ HPALETTE wxIATwainMSWProvider::CreateBIPalette (LPBITMAPINFOHEADER lpbi)
             pPal->palPalEntry[i].peBlue  = Blue;
             pPal->palPalEntry[i].peFlags = (BYTE)0;
 
-            if (!(Red += 32))
+            if (!(Red += 32) && !(Green += 32))
             {
-                if (!(Green += 32))
-                {
-                    Blue += 64;
-                }
+                Blue += 64;
             }
         }
 
@@ -401,17 +396,17 @@ int wxIATwainMSWProvider::DibNumColors (void *pv)
     switch (Bits)
     {
         case 1:
-        return 2;
+            return 2;
 
         case 4:
-        return 16;
+            return 16;
 
         case 8:
-        return 256;
+            return 256;
 
         default:
-        // A 24 bitcount DIB has no color table
-        return 0;
+            // A 24 bitcount DIB has no color table
+            return 0;
     }
 }
 
@@ -431,8 +426,8 @@ bool wxIATwainMSWProvider::HandleImage(TW_IMAGEINFO& info)
     LPBITMAPINFOHEADER dib = (LPBITMAPINFOHEADER)::GlobalLock((HBITMAP)GetTwain()->GetHBitmap());
     LPSTR dibits = (LPSTR)dib + dib->biSize + DibNumColors(dib) * sizeof(RGBQUAD);
     ::StretchDIBits((HDC)memdc.GetHDC(), 0, 0, info.ImageWidth, info.ImageLength,
-                    0, 0, info.ImageWidth, info.ImageLength, dibits,
-                    (LPBITMAPINFO)dib, DIB_RGB_COLORS, SRCCOPY);
+        0, 0, info.ImageWidth, info.ImageLength, dibits,
+        (LPBITMAPINFO)dib, DIB_RGB_COLORS, SRCCOPY);
     memdc.SelectObject(wxNullBitmap);
     ::GlobalUnlock((HBITMAP)GetTwain()->GetHBitmap());
 #endif
@@ -447,11 +442,11 @@ bool wxIATwainMSWProvider::HandleImage(TW_IMAGEINFO& info)
 }
 
 bool wxIATwainMSWProvider::UpdateStatus(const wxString &text, size_t quantum,
-                                   size_t span)
+    size_t span)
 {
     if (m_monitor)
         return m_monitor->Update(text, quantum, span);
-    else if (m_evtHandler)
+    if (m_evtHandler)
     {
         wxIAEvent event(wxEVT_IA_UPDATE, this, text, quantum, span);
         m_evtHandler->ProcessEvent(event);
@@ -466,34 +461,34 @@ wxIAReturnCode wxIATwainMSWProvider::MapStatus(TW_STATUS status)
     switch(status.ConditionCode)
     {
         case TWCC_SUCCESS :
-        return wxIA_RC_SUCCESS;
+            return wxIA_RC_SUCCESS;
 
         case TWCC_LOWMEMORY :
-        return wxIA_RC_NOMEM;
+            return wxIA_RC_NOMEM;
 
         case TWCC_NODS :
-        return wxIA_RC_NOSOURCE;
+            return wxIA_RC_NOSOURCE;
 
         case TWCC_BADVALUE :
-        return wxIA_RC_INVAL;
+            return wxIA_RC_INVAL;
 
         case TWCC_CAPUNSUPPORTED :
         case TWCC_BADCAP :
         case TWCC_CAPBADOPERATION :
-        return wxIA_RC_NOTSUPPORTED;
+            return wxIA_RC_NOTSUPPORTED;
 
         case TWCC_DENIED :
-        return wxIA_RC_ACCESSDENIED;
+            return wxIA_RC_ACCESSDENIED;
 
         case TWCC_PAPERJAM :
         case TWCC_PAPERDOUBLEFEED :
-        return wxIA_RC_JAMMED;
+            return wxIA_RC_JAMMED;
 
         case TWCC_CHECKDEVICEONLINE :
-        return wxIA_RC_NOTREADY;
+            return wxIA_RC_NOTREADY;
 
         default:
         case TWCC_BUMMER :
-        return wxIA_RC_UNKNOWNERROR;
+            return wxIA_RC_UNKNOWNERROR;
     }
 }

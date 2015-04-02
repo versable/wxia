@@ -26,8 +26,8 @@
 
 #include "wx/ia/sane.h"
 
-#define DEFAULT_SANE_LIBNAME            _T("libsane.so")
-//#define DEFAULT_SANE_LIBNAME            _T("/usr/lib/sane/libsane-pnm.so")
+#define DEFAULT_SANE_LIBNAME _T("libsane.so")
+//#define DEFAULT_SANE_LIBNAME _T("/usr/lib/sane/libsane-pnm.so")
 
 IMPLEMENT_CLASS(wxSane, wxObject)
 
@@ -69,39 +69,39 @@ bool wxSane::Startup()
     m_saneLib = dlopen(m_saneLibName.c_str(), RTLD_LAZY);
     if (!m_saneLib)
         goto out;
-    if(!(m_sane_init = (sane_init)dlsym(m_saneLib, "sane_init")))
+    if (!(m_sane_init = (sane_init)dlsym(m_saneLib, "sane_init")))
         goto out;
-    if(!(m_sane_exit = (sane_exit)dlsym(m_saneLib, "sane_exit")))
+    if (!(m_sane_exit = (sane_exit)dlsym(m_saneLib, "sane_exit")))
         goto out;
-    if(!(m_sane_get_devices = (sane_get_devices)dlsym(m_saneLib, "sane_get_devices")))
+    if (!(m_sane_get_devices = (sane_get_devices)dlsym(m_saneLib, "sane_get_devices")))
         goto out;
-    if(!(m_sane_open = (sane_open)dlsym(m_saneLib, "sane_open")))
+    if (!(m_sane_open = (sane_open)dlsym(m_saneLib, "sane_open")))
         goto out;
-    if(!(m_sane_close = (sane_close)dlsym(m_saneLib, "sane_close")))
+    if (!(m_sane_close = (sane_close)dlsym(m_saneLib, "sane_close")))
         goto out;
-    if(!(m_sane_get_option_descriptor = (sane_get_option_descriptor)dlsym(m_saneLib, "sane_get_option_descriptor")))
+    if (!(m_sane_get_option_descriptor = (sane_get_option_descriptor)dlsym(m_saneLib, "sane_get_option_descriptor")))
         goto out;
-    if(!(m_sane_control_option = (sane_control_option)dlsym(m_saneLib, "sane_control_option")))
+    if (!(m_sane_control_option = (sane_control_option)dlsym(m_saneLib, "sane_control_option")))
         goto out;
-    if(!(m_sane_get_parameters = (sane_get_parameters)dlsym(m_saneLib, "sane_get_parameters")))
+    if (!(m_sane_get_parameters = (sane_get_parameters)dlsym(m_saneLib, "sane_get_parameters")))
         goto out;
-    if(!(m_sane_start = (sane_start)dlsym(m_saneLib, "sane_start")))
+    if (!(m_sane_start = (sane_start)dlsym(m_saneLib, "sane_start")))
         goto out;
-    if(!(m_sane_read = (sane_read)dlsym(m_saneLib, "sane_read")))
+    if (!(m_sane_read = (sane_read)dlsym(m_saneLib, "sane_read")))
         goto out;
-    if(!(m_sane_cancel = (sane_cancel)dlsym(m_saneLib, "sane_cancel")))
+    if (!(m_sane_cancel = (sane_cancel)dlsym(m_saneLib, "sane_cancel")))
         goto out;
-    if(!(m_sane_set_io_mode = (sane_set_io_mode)dlsym(m_saneLib, "sane_set_io_mode")))
+    if (!(m_sane_set_io_mode = (sane_set_io_mode)dlsym(m_saneLib, "sane_set_io_mode")))
         goto out;
-    if(!(m_sane_get_select_fd = (sane_get_select_fd)dlsym(m_saneLib, "sane_get_select_fd")))
+    if (!(m_sane_get_select_fd = (sane_get_select_fd)dlsym(m_saneLib, "sane_get_select_fd")))
         goto out;
-    if(!(m_sane_strstatus = (sane_strstatus)dlsym(m_saneLib, "sane_strstatus")))
+    if (!(m_sane_strstatus = (sane_strstatus)dlsym(m_saneLib, "sane_strstatus")))
         goto out;
 
     retval = TRUE;
 
  out:
-    if(!retval && m_saneLib)
+    if (!retval && m_saneLib)
     {
         dlclose(m_saneLib);
         m_saneLib = NULL;
@@ -112,7 +112,7 @@ bool wxSane::Startup()
 
 bool wxSane::Shutdown()
 {
-    if(Ok())
+    if (Ok())
     {
         dlclose(m_saneLib);
         m_saneLib = NULL;
@@ -151,7 +151,8 @@ SANE_Status wxSane::GetLastStatus()
     return m_lastStatus;
 }
 
-SANE_Status wxSane::SaneInit(SANE_Int *version_code, SANE_Auth_Callback authorize)
+SANE_Status wxSane::SaneInit(SANE_Int *version_code,
+    SANE_Auth_Callback authorize)
 {
     wxCHECK_MSG(Ok(), SANE_STATUS_INVAL, _T("wxSane not started!"));
     return m_lastStatus = (*m_sane_init)(version_code, authorize);
@@ -173,10 +174,10 @@ SANE_Status wxSane::SaneGetDevices(const SANE_Device ***device_list,
 SANE_Status wxSane::SaneOpen(const wxString &name)
 {
     wxCHECK_MSG(Ok(), SANE_STATUS_INVAL, _T("wxSane not started!"));
-    if(m_handle)
-      SaneClose();
+    if (m_handle)
+        SaneClose();
     m_lastStatus = (*m_sane_open)(name.c_str(), &m_handle);
-    if(m_lastStatus != SANE_STATUS_GOOD)
+    if (m_lastStatus != SANE_STATUS_GOOD)
         m_handle = 0;
     return m_lastStatus;
 }
