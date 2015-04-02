@@ -68,20 +68,17 @@ wxIASaneProvider::~wxIASaneProvider()
     delete m_sane;
 }
 
-bool
-wxIASaneProvider::Ok()
+bool wxIASaneProvider::Ok()
 {
     return m_sane && m_saneInit;
 }
 
-wxString
-wxIASaneProvider::GetName()
+wxString wxIASaneProvider::GetName()
 {
     return _T("SANE");
 }
 
-int
-wxIASaneProvider::GetSourceCount()
+int wxIASaneProvider::GetSourceCount()
 {
     wxCHECK_MSG(Ok(), 0, _T("wxIASane not valid!"));
 
@@ -108,8 +105,7 @@ struct typemap
     wxIASourceType type;
 };
 
-wxIASourceInfo
-wxIASaneProvider::GetSourceInfo(int i)
+wxIASourceInfo wxIASaneProvider::GetSourceInfo(int i)
 {
     static struct typemap
         typeMaps[] =
@@ -154,8 +150,7 @@ wxIASaneProvider::GetSourceInfo(int i)
     return wxNullIASourceInfo;
 }
 
-wxIAReturnCode
-wxIASaneProvider::SelectSource(const wxString& name,
+wxIAReturnCode wxIASaneProvider::SelectSource(const wxString &name,
                                wxIAUIMode uiMode,
                                wxWindow *parent)
 {
@@ -168,8 +163,7 @@ wxIASaneProvider::SelectSource(const wxString& name,
     if(!m_deviceList)
         GetSourceCount();
 
-    wxString
-        *sources = new wxString[m_numDevices];
+    wxString *sources = new wxString[m_numDevices];
 
     int i, sel = 0;
     for(i = 0; i < m_numDevices; i++)
@@ -220,55 +214,47 @@ wxIASaneProvider::SelectSource(const wxString& name,
     return MapStatus(rc);
 }
 
-wxIAReturnCode
-wxIASaneProvider::SelectDefaultSource()
+wxIAReturnCode wxIASaneProvider::SelectDefaultSource()
 {
     wxCHECK_MSG(Ok(), wxIA_RC_NOTINITIALIZED, _T("wxIASane not valid!"));
     return wxIA_RC_NOTSUPPORTED;
 }
 
-bool
-wxIASaneProvider::IsSourceSelected()
+bool wxIASaneProvider::IsSourceSelected()
 {
     wxCHECK_MSG(Ok(), FALSE, _T("wxIASane not valid!"));
     return m_sane->IsOpen();
 }
 
-wxIASourceInfo
-wxIASaneProvider::GetSelSourceInfo()
+wxIASourceInfo wxIASaneProvider::GetSelSourceInfo()
 {
     wxCHECK_MSG(Ok(), wxNullIASourceInfo, _T("wxIASane not valid!"));
     return GetSourceInfo(m_selDevice);
 }
 
-wxIAReturnCode
-wxIASaneProvider::SetSelSourceConfig(const wxString& configString)
+wxIAReturnCode wxIASaneProvider::SetSelSourceConfig(const wxString &configString)
 {
     wxCHECK_MSG(Ok(), wxIA_RC_NOTINITIALIZED, _T("wxIASane not valid!"));
     return wxIA_RC_NOTSUPPORTED;
 }
 
-wxString
-wxIASaneProvider::GetSelSourceConfig()
+wxString wxIASaneProvider::GetSelSourceConfig()
 {
     wxCHECK_MSG(Ok(), wxEmptyString, _T("wxIASane not valid!"));
     return wxEmptyString;
 }
 
-wxIAReturnCode
-wxIASaneProvider::AcquireImages(int numImages, wxIAUIMode uiMode,
-                                wxWindow *parent, wxIAMonitor* mon)
+wxIAReturnCode wxIASaneProvider::AcquireImages(int numImages, wxIAUIMode uiMode,
+                                wxWindow *parent, wxIAMonitor *mon)
 {
     wxCHECK_MSG(Ok(), wxIA_RC_NOTINITIALIZED, _T("wxIASane not valid!"));
 
     if(uiMode == wxIA_UIMODE_NORMAL)
     {
-        wxIASaneAcquireDialog
-            d(parent, -1, _("Acquire"), m_sane);
+        wxIASaneAcquireDialog d(parent, -1, _("Acquire"), m_sane);
 
         if(d.ShowModal() == wxID_OK)
-        {
-        }
+            ;
     }
     else
     {
@@ -277,22 +263,19 @@ wxIASaneProvider::AcquireImages(int numImages, wxIAUIMode uiMode,
     return wxIA_RC_NOTSUPPORTED;
 }
 
-wxImage
-wxIASaneProvider::GetImage()
+wxImage wxIASaneProvider::GetImage()
 {
     wxCHECK_MSG(Ok(), wxNullImage, _T("wxIASane not valid!"));
     return wxNullImage;
 }
 
-wxBitmap
-wxIASaneProvider::GetBitmap()
+wxBitmap wxIASaneProvider::GetBitmap()
 {
     wxCHECK_MSG(Ok(), wxNullBitmap, _T("wxIASane not valid!"));
     return wxNullBitmap;
 }
 
-wxIAReturnCode
-wxIASaneProvider::MapStatus(SANE_Status status)
+wxIAReturnCode wxIASaneProvider::MapStatus(SANE_Status status)
 {
     switch(status)
     {

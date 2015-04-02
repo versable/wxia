@@ -60,15 +60,14 @@ wxSane::~wxSane()
     wxASSERT_MSG(!m_saneLib, _("wxSane not shutdown properly!"));
 }
 
-bool
-wxSane::Startup()
+bool wxSane::Startup()
 {
     wxCHECK_MSG(!Ok(), FALSE, _("wxSane already started!"));
 
     bool retval = FALSE;
 
     m_saneLib = dlopen(m_saneLibName.c_str(), RTLD_LAZY);
-    if(m_saneLib)
+    if (m_saneLib)
     {
         if(!(m_sane_init = (sane_init)dlsym(m_saneLib, "sane_init")))
             goto Outtahere;
@@ -112,8 +111,7 @@ Outtahere:
     return retval;
 }
 
-bool
-wxSane::Shutdown()
+bool wxSane::Shutdown()
 {
     if(Ok())
     {
@@ -124,66 +122,56 @@ wxSane::Shutdown()
     return FALSE;
 }
 
-void
-wxSane::SetSaneLibName(const wxString& libName)
+void wxSane::SetSaneLibName(const wxString &libName)
 {
     m_saneLibName = libName;
 }
 
-wxString
-wxSane::GetSaneLibName()
+wxString wxSane::GetSaneLibName()
 {
     return m_saneLibName;
 }
 
-bool
-wxSane::Ok()
+bool wxSane::Ok()
 {
     return m_saneLib != NULL;
 }
 
-bool
-wxSane::IsOpen()
+bool wxSane::IsOpen()
 {
     return m_handle != 0;
 }
 
-SANE_Handle
-wxSane::GetHandle()
+SANE_Handle wxSane::GetHandle()
 {
     return m_handle;
 }
 
-SANE_Status
-wxSane::GetLastStatus()
+SANE_Status wxSane::GetLastStatus()
 {
     return m_lastStatus;
 }
 
-SANE_Status
-wxSane::SaneInit(SANE_Int * version_code, SANE_Auth_Callback authorize)
+SANE_Status wxSane::SaneInit(SANE_Int *version_code, SANE_Auth_Callback authorize)
 {
     wxCHECK_MSG(Ok(), SANE_STATUS_INVAL, _T("wxSane not started!"));
     return m_lastStatus = (*m_sane_init)(version_code, authorize);
 }
 
-void
-wxSane::SaneExit()
+void wxSane::SaneExit()
 {
     wxCHECK_RET(Ok(), _T("wxSane not started!"));
     (*m_sane_exit)();
 }
 
-SANE_Status
-wxSane::SaneGetDevices(const SANE_Device *** device_list,
-                       bool local_only)
+SANE_Status wxSane::SaneGetDevices(const SANE_Device ***device_list,
+    bool local_only)
 {
     wxCHECK_MSG(Ok(), SANE_STATUS_INVAL, _T("wxSane not started!"));
     return m_lastStatus = (*m_sane_get_devices)(device_list, (SANE_Bool)local_only);
 }
 
-SANE_Status
-wxSane::SaneOpen(const wxString& name)
+SANE_Status wxSane::SaneOpen(const wxString &name)
 {
     wxCHECK_MSG(Ok(), SANE_STATUS_INVAL, _T("wxSane not started!"));
     if(m_handle)
@@ -194,73 +182,63 @@ wxSane::SaneOpen(const wxString& name)
     return m_lastStatus;
 }
 
-void
-wxSane::SaneClose()
+void wxSane::SaneClose()
 {
     wxCHECK_RET(Ok(), _T("wxSane not started!"));
     (*m_sane_close)(m_handle);
     m_handle = 0;
 }
 
-const SANE_Option_Descriptor*
-wxSane::SaneGetOptionDescriptor(SANE_Int option)
+const SANE_Option_Descriptor *wxSane::SaneGetOptionDescriptor(SANE_Int option)
 {
     wxCHECK_MSG(Ok(), NULL, _T("wxSane not started!"));
     return (*m_sane_get_option_descriptor)(m_handle, option);
 }
 
-SANE_Status
-wxSane::SaneControlOption(SANE_Int option, SANE_Action action,
-                          void* value, SANE_Int* info)
+SANE_Status wxSane::SaneControlOption(SANE_Int option, SANE_Action action,
+    void *value, SANE_Int *info)
 {
     wxCHECK_MSG(Ok(), SANE_STATUS_INVAL, _T("wxSane not started!"));
     return m_lastStatus = (*m_sane_control_option)(m_handle, option, action, value, info);
 }
 
-SANE_Status
-wxSane::SaneGetParameters(SANE_Parameters* params)
+SANE_Status wxSane::SaneGetParameters(SANE_Parameters *params)
 {
     wxCHECK_MSG(Ok(), SANE_STATUS_INVAL, _T("wxSane not started!"));
     return m_lastStatus = (*m_sane_get_parameters)(m_handle, params);
 }
 
-SANE_Status
-wxSane::SaneStart()
+SANE_Status wxSane::SaneStart()
 {
     wxCHECK_MSG(Ok(), SANE_STATUS_INVAL, _T("wxSane not started!"));
     return m_lastStatus = (*m_sane_start)(m_handle);
 }
 
-SANE_Status
-wxSane::SaneRead(SANE_Byte* data, SANE_Int max_length, SANE_Int* length)
+SANE_Status wxSane::SaneRead(SANE_Byte *data, SANE_Int max_length, SANE_Int *length)
 {
     wxCHECK_MSG(Ok(), SANE_STATUS_INVAL, _T("wxSane not started!"));
     return m_lastStatus = (*m_sane_read)(m_handle, data, max_length, length);
 }
 
-void
-wxSane::SaneCancel()
+void wxSane::SaneCancel()
 {
     wxCHECK_RET(Ok(), _T("wxSane not started!"));
     (*m_sane_cancel)(m_handle);
 }
 
-SANE_Status
-wxSane::SaneSetIOMode(bool non_blocking)
+SANE_Status wxSane::SaneSetIOMode(bool non_blocking)
 {
     wxCHECK_MSG(Ok(), SANE_STATUS_INVAL, _T("wxSane not started!"));
     return m_lastStatus = (*m_sane_set_io_mode)(m_handle, (SANE_Bool)non_blocking);
 }
 
-SANE_Status
-wxSane::SaneGetSelectFD(SANE_Int* fd)
+SANE_Status wxSane::SaneGetSelectFD(SANE_Int *fd)
 {
     wxCHECK_MSG(Ok(), SANE_STATUS_INVAL, _T("wxSane not started!"));
     return m_lastStatus = (*m_sane_get_select_fd)(m_handle, fd);
 }
 
-wxString
-wxSane::SaneStrStatus(SANE_Status status)
+wxString wxSane::SaneStrStatus(SANE_Status status)
 {
     wxCHECK_MSG(Ok(), wxEmptyString, _T("wxSane not started!"));
     return wxString((*m_sane_strstatus)(status));

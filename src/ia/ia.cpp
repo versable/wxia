@@ -55,8 +55,8 @@ wxIASourceInfo::wxIASourceInfo()
     m_type = wxIA_SOURCE_UNKNOWN;
 }
 
-wxIASourceInfo::wxIASourceInfo(const wxString& name, const wxString& model,
-                               const wxString& vendor, wxIASourceType type)
+wxIASourceInfo::wxIASourceInfo(const wxString &name, const wxString &model,
+                               const wxString &vendor, wxIASourceType type)
 {
     m_name = name;
     m_model = model;
@@ -64,7 +64,7 @@ wxIASourceInfo::wxIASourceInfo(const wxString& name, const wxString& model,
     m_type = type;
 }
 
-void wxIASourceInfo::SetName(const wxString& name)
+void wxIASourceInfo::SetName(const wxString &name)
 {
     m_name = name;
 }
@@ -74,7 +74,7 @@ wxString wxIASourceInfo::GetName() const
     return m_name;
 }
 
-void wxIASourceInfo::SetModel(const wxString& model)
+void wxIASourceInfo::SetModel(const wxString &model)
 {
     m_model = model;
 }
@@ -84,7 +84,7 @@ wxString wxIASourceInfo::GetModel() const
     return m_model;
 }
 
-void wxIASourceInfo::SetVendor(const wxString& vendor)
+void wxIASourceInfo::SetVendor(const wxString &vendor)
 {
     m_vendor = vendor;
 }
@@ -126,7 +126,7 @@ bool wxIAProvider::Ok()
 
 wxString wxIAProvider::GetName()
 {
-    return _T("");
+    return wxEmptyString;
 }
 
 int wxIAProvider::GetSourceCount()
@@ -139,8 +139,8 @@ wxIASourceInfo wxIAProvider::GetSourceInfo(int i)
     return wxNullIASourceInfo;
 }
 
-wxIAReturnCode wxIAProvider::SelectSource(const wxString& name, wxIAUIMode uiMode,
-                           wxWindow* parent)
+wxIAReturnCode wxIAProvider::SelectSource(const wxString &name, wxIAUIMode uiMode,
+                           wxWindow *parent)
 {
     return wxIA_RC_NOTSUPPORTED;
 }
@@ -160,7 +160,7 @@ wxIASourceInfo wxIAProvider::GetSelSourceInfo()
     return wxNullIASourceInfo;
 }
 
-wxIAReturnCode wxIAProvider::SetSelSourceConfig(const wxString& configString)
+wxIAReturnCode wxIAProvider::SetSelSourceConfig(const wxString &configString)
 {
     return wxIA_RC_NOTSUPPORTED;
 }
@@ -170,7 +170,7 @@ wxString wxIAProvider::GetSelSourceConfig()
     return wxEmptyString;
 }
 
-wxIAReturnCode wxIAProvider::AcquireImage(wxIAUIMode uiMode, wxWindow* parent,
+wxIAReturnCode wxIAProvider::AcquireImage(wxIAUIMode uiMode, wxWindow *parent,
                            wxIAMonitor *mon)
 {
     return AcquireImages(1, uiMode, parent, mon);
@@ -182,12 +182,12 @@ wxIAReturnCode wxIAProvider::AcquireImages(int numImages, wxIAUIMode uiMode, wxW
     return wxIA_RC_NOTSUPPORTED;
 }
 
-void wxIAProvider::SetEvtHandler(wxEvtHandler* evtHandler)
+void wxIAProvider::SetEvtHandler(wxEvtHandler *evtHandler)
 {
     m_evtHandler = evtHandler;
 }
 
-wxEvtHandler* wxIAProvider::GetEvtHandler()
+wxEvtHandler *wxIAProvider::GetEvtHandler()
 {
     return m_evtHandler;
 }
@@ -202,12 +202,12 @@ wxBitmap wxIAProvider::GetBitmap()
     return wxNullBitmap;
 }
 
-bool wxIAProvider::SaveSettings(wxConfigBase* config)
+bool wxIAProvider::SaveSettings(wxConfigBase *config)
 {
     return TRUE;
 }
 
-bool wxIAProvider::LoadSettings(wxConfigBase* config)
+bool wxIAProvider::LoadSettings(wxConfigBase *config)
 {
     return TRUE;
 }
@@ -220,10 +220,10 @@ wxIAReturnCode wxIAProvider::SetTransferMode(wxIATransferMode mode)
 
 wxIATransferMode wxIAProvider::GetTransferMode()
 {
-  return m_transferMode;
+    return m_transferMode;
 }
 
-wxIAReturnCode wxIAProvider::SetTransferFilename(const wxString& filename,
+wxIAReturnCode wxIAProvider::SetTransferFilename(const wxString &filename,
                                   wxIATransferFileType type)
 {
     m_transferFilename = filename;
@@ -241,7 +241,7 @@ wxIATransferFileType wxIAProvider::GetTransferFileType()
     return m_transferFileType;
 }
 
-wxIAReturnCode wxIAProvider::SetTransferBuffer(void* buffer, size_t size)
+wxIAReturnCode wxIAProvider::SetTransferBuffer(void *buffer, size_t size)
 {
     m_transferBuffer = buffer;
     m_transferBufferSize = size;
@@ -262,7 +262,7 @@ IMPLEMENT_CLASS(wxIAManager, wxObject)
 
 bool wxIAManager::s_init = FALSE;
 
-wxIAProvider* wxIAManager::s_defaultProvider = NULL;
+wxIAProvider *wxIAManager::s_defaultProvider = NULL;
 
 wxIAManager &wxIAManager::Get()
 {
@@ -283,7 +283,7 @@ wxIAManager &wxIAManager::Get()
     return manager;
 }
 
-void wxIAManager::AddProvider(wxIAProvider* provider)
+void wxIAManager::AddProvider(wxIAProvider *provider)
 {
     m_providers.Add(provider);
 }
@@ -339,15 +339,15 @@ wxIAManager::~wxIAManager()
 DEFINE_EVENT_TYPE(wxEVT_IA_GETIMAGE)
 DEFINE_EVENT_TYPE(wxEVT_IA_UPDATE)
 
-wxIAEvent::wxIAEvent(wxEventType type, wxIAProvider* provider) :
+wxIAEvent::wxIAEvent(wxEventType type, wxIAProvider *provider) :
     wxEvent(-1, type)
 {
     m_provider = provider;
     m_abort = FALSE;
 }
 
-wxIAEvent::wxIAEvent(wxEventType type, wxIAProvider* provider,
-                     const wxString& text, size_t quantum, size_t span) :
+wxIAEvent::wxIAEvent(wxEventType type, wxIAProvider *provider,
+                     const wxString &text, size_t quantum, size_t span) :
     wxEvent(-1, type)
 {
     m_provider = provider;
@@ -357,7 +357,7 @@ wxIAEvent::wxIAEvent(wxEventType type, wxIAProvider* provider,
     m_abort = FALSE;
 }
 
-wxIAEvent::wxIAEvent(const wxIAEvent& event) :
+wxIAEvent::wxIAEvent(const wxIAEvent &event) :
     wxEvent(event)
 {
     m_provider = event.m_provider;

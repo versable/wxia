@@ -43,12 +43,9 @@ BEGIN_EVENT_TABLE(wxIASaneAcquireDialog, wxDialog)
     EVT_UPDATE_UI(-1, wxIASaneAcquireDialog::OnUpdateUI)
 END_EVENT_TABLE()
 
-wxIASaneAcquireDialog::wxIASaneAcquireDialog(wxWindow* parent, wxWindowID id,
-                                             const wxString& title,
-                                             wxSane* sane,
-                                             const wxPoint& pos,
-                                             const wxSize& size,
-                                             const long style) :
+wxIASaneAcquireDialog::wxIASaneAcquireDialog(wxWindow *parent, wxWindowID id,
+    const wxString &title, wxSane *sane, const wxPoint &pos, const wxSize &size,
+    const long style) :
     wxDialog(parent, id, title, pos, size, style)
 {
     m_sane = sane;
@@ -89,8 +86,7 @@ wxIASaneAcquireDialog::~wxIASaneAcquireDialog()
     delete[] m_optionControls;
 }
 
-wxWindow*
-wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow* parent)
+wxWindow *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
 {
     wxScrolledWindow *panel = new wxScrolledWindow(parent, -1, wxDefaultPosition,
                                                  wxDefaultSize, wxTAB_TRAVERSAL);
@@ -138,8 +134,7 @@ wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow* parent)
     return panel;
 }
 
-wxWindow*
-wxIASaneAcquireDialog::MakePreviewPanel(wxWindow* parent)
+wxWindow *wxIASaneAcquireDialog::MakePreviewPanel(wxWindow *parent)
 {
     wxScrolledWindow
         *panel = new wxScrolledWindow(parent, -1, wxDefaultPosition, wxDefaultSize,
@@ -157,8 +152,7 @@ wxIASaneAcquireDialog::MakePreviewPanel(wxWindow* parent)
     return panel;
 }
 
-void
-wxIASaneAcquireDialog::OnOk(wxCommandEvent& event)
+void wxIASaneAcquireDialog::OnOk(wxCommandEvent& event)
 {
     if(Validate() && TransferDataFromWindow())
     {
@@ -173,24 +167,21 @@ wxIASaneAcquireDialog::OnOk(wxCommandEvent& event)
     }
 }
 
-void
-wxIASaneAcquireDialog::OnUpdateUI(wxUpdateUIEvent& event)
+void wxIASaneAcquireDialog::OnUpdateUI(wxUpdateUIEvent& event)
 {
     switch(event.GetId())
     {
     }
 }
 
-void
-wxIASaneAcquireDialog::GetOptionDescriptors()
+void wxIASaneAcquireDialog::GetOptionDescriptors()
 {
     const SANE_Option_Descriptor *d;
-    int i;
 
     //
     //  Get the option descriptors from the source
     //
-    for(i = 0; (d = m_sane->SaneGetOptionDescriptor(i)) != NULL; i++)
+    for(unsigned int i = 0; (d = m_sane->SaneGetOptionDescriptor(i)) != NULL; i++)
     {
         m_descriptors.Add(d);
         wxLogDebug("Descriptor %d: %s, type = %d, size = %d, constraint type = %d", i, d->title,
@@ -209,14 +200,13 @@ wxIASaneAcquireDialog::GetOptionDescriptors()
 #endif
 }
 
-wxString
-wxIASaneAcquireDialog::GetUnitString(SANE_Unit unit)
+wxString wxIASaneAcquireDialog::GetUnitString(SANE_Unit unit)
 {
     switch(unit)
     {
         default:
         case SANE_UNIT_NONE :
-        return wxString(_T(""));
+        return wxEmptyString;
 
         case SANE_UNIT_PIXEL :
         return wxString(_("pixels"));
@@ -231,19 +221,16 @@ wxIASaneAcquireDialog::GetUnitString(SANE_Unit unit)
         return wxString(_("dpi"));
 
         case SANE_UNIT_PERCENT :
-        return wxString(_("%"));
+        return wxString(_('%'));
 
         case SANE_UNIT_MICROSECOND :
         return wxString(_("microseconds"));
     }
 }
 
-void
-wxIASaneAcquireDialog::GetOptionValues()
+void wxIASaneAcquireDialog::GetOptionValues()
 {
-    size_t i;
-
-    for(i = 0; i < m_descriptors.GetCount(); i++)
+    for(unsigned int i = 0; i < m_descriptors.GetCount(); i++)
     {
         if(m_descriptors[i]->type != SANE_TYPE_GROUP)
             m_sane->SaneControlOption(i, SANE_ACTION_GET_VALUE,
@@ -251,12 +238,9 @@ wxIASaneAcquireDialog::GetOptionValues()
     }
 }
 
-void
-wxIASaneAcquireDialog::SetOptionValues()
+void wxIASaneAcquireDialog::SetOptionValues()
 {
-    size_t i;
-
-    for(i = 0; i < m_descriptors.GetCount(); i++)
+    for(unsigned int i = 0; i < m_descriptors.GetCount(); i++)
     {
         if(m_descriptors[i]->type != SANE_TYPE_GROUP)
             m_sane->SaneControlOption(i, SANE_ACTION_SET_VALUE,
