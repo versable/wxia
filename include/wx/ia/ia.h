@@ -149,8 +149,8 @@ public:
         \param vendor vendor or manufacturer
         \param type type of device or source
     */
-    wxIASourceInfo(const wxString& name, const wxString& model,
-                   const wxString& vendor, wxIASourceType type);
+    wxIASourceInfo(const wxString &name, const wxString &model,
+                   const wxString &vendor, wxIASourceType type);
 
     //
     //  Accessors
@@ -159,7 +159,7 @@ public:
     /*! Sets the name
         \param name name of the source
     */
-    void SetName(const wxString& name);
+    void SetName(const wxString &name);
     //! Get name
     /*! \return the name
     */
@@ -168,7 +168,7 @@ public:
     /*! Sets the model
         \param model particular model of the device or scanner
     */
-    void SetModel(const wxString& model);
+    void SetModel(const wxString &model);
     //! Get model
     /*! \return the model
     */
@@ -176,7 +176,7 @@ public:
     //! Set vendor
     /*! \param vendor vendor or manufacturer
     */
-    void SetVendor(const wxString& vendor);
+    void SetVendor(const wxString &vendor);
     //! Get vendor
     /*! \return the vendor
     */
@@ -238,7 +238,7 @@ public:
 
         \return True to continue process or false to abort.
     */
-    virtual bool Update(const wxString& text, const off_t quantum, const off_t span) = 0;
+    virtual bool Update(const wxString &text, const off_t quantum, const off_t span) = 0;
 };
 
 //! Image Acquisition Provider
@@ -310,9 +310,9 @@ public:
         code on failure.
 
     */
-    virtual wxIAReturnCode SelectSource(const wxString& name = _T(""),
+    virtual wxIAReturnCode SelectSource(const wxString& name = wxEmptyString,
                                          wxIAUIMode uiMode = wxIA_UIMODE_NORMAL,
-                                         wxWindow* parent = NULL);
+                                         wxWindow *parent = NULL);
 
     /*! Select the default source.
 
@@ -341,7 +341,7 @@ public:
 
         \return True on success or false on failure.
     */
-    virtual wxIAReturnCode SetSelSourceConfig(const wxString& configString);
+    virtual wxIAReturnCode SetSelSourceConfig(const wxString &configString);
 
     //! Get the current configuration of the selected source.
     /*! \return The configuration of the currently selected source encoded as a
@@ -365,7 +365,7 @@ public:
                    is made.  May be NULL.
     */
     virtual wxIAReturnCode AcquireImage(wxIAUIMode uiMode = wxIA_UIMODE_NORMAL,
-                                        wxWindow* parent = NULL,
+                                        wxWindow *parent = NULL,
                                         wxIAMonitor *mon = NULL);
 
     //! Acquire one or more images.
@@ -387,7 +387,7 @@ public:
     virtual wxIAReturnCode AcquireImages(int numImages,
                                          wxIAUIMode uiMode = wxIA_UIMODE_NORMAL,
                                          wxWindow *parent = NULL,
-                                         wxIAMonitor* mon = NULL);
+                                         wxIAMonitor *mon = NULL);
 
     //! Set event handler.
     /*! Set the event handler to be notified when wxIAEvent's occur.
@@ -400,7 +400,7 @@ public:
 
         \param evtHandler Pointer to the event handler.
     */
-    virtual void SetEvtHandler(wxEvtHandler* evtHandler);
+    virtual void SetEvtHandler(wxEvtHandler *evtHandler);
 
 
     //! Set transfer mode
@@ -423,7 +423,7 @@ public:
 
         \return wxIA_RC_SUCCESS on success or another return code on failure
     */
-    virtual wxIAReturnCode SetTransferFilename(const wxString& filename,
+    virtual wxIAReturnCode SetTransferFilename(const wxString &filename,
                                                wxIATransferFileType type);
 
     //! Get the transfer file name
@@ -474,7 +474,7 @@ public:
 
         \return True on success or false on failure.
     */
-    virtual bool SaveSettings(wxConfigBase* config);
+    virtual bool SaveSettings(wxConfigBase *config);
 
     //! Load settings
     /*! Load saved settings for this provider from the specified config
@@ -482,10 +482,10 @@ public:
 
         \return True on success or false on failure.
     */
-    virtual bool LoadSettings(wxConfigBase* config);
+    virtual bool LoadSettings(wxConfigBase *config);
 
 protected:
-    wxEvtHandler* m_evtHandler;
+    wxEvtHandler *m_evtHandler;
     wxIATransferMode m_transferMode;
     void *m_transferBuffer;
     size_t m_transferBufferSize;
@@ -518,18 +518,18 @@ public:
 
         \return A reference to the wxIAManager.
     */
-    static wxIAManager& Get();
+    static wxIAManager &Get();
 
     //! Add a provider
     /*! The provider becomes the property of the wxIAManager.
 
         \param provider provider to add
     */
-    void AddProvider(wxIAProvider* provider);
+    void AddProvider(wxIAProvider *provider);
 
     /*! \returns a reference to the provider array.
     */
-    wxIAProviderPtrArray& GetProviders();
+    wxIAProviderPtrArray &GetProviders();
 
     //! Gets the default provider
     /*! \return the default provider for the platform or NULL if there
@@ -538,7 +538,7 @@ public:
         On Windows and MAC this will probably return a TWAIN provider.
         On Unix this will probably return a SANE provider.
     */
-    wxIAProvider* GetDefaultProvider();
+    wxIAProvider *GetDefaultProvider();
 
     //
     //  GetReturnCodeDesc() - Returns a description of the specified
@@ -554,7 +554,7 @@ private:
 
     static bool s_init;
     wxIAProviderPtrArray m_providers;
-    static wxIAProvider* s_defaultProvider;
+    static wxIAProvider *s_defaultProvider;
 
     DECLARE_CLASS(wxIAManager)
 };
@@ -571,25 +571,25 @@ class wxIAEvent : public wxEvent
 {
 public:
     //! Constructor
-    wxIAEvent(wxEventType type, wxIAProvider* provider);
+    wxIAEvent(wxEventType type, wxIAProvider *provider);
     //! Constructor
-    wxIAEvent(wxEventType type, wxIAProvider* provider, const wxString& text,
+    wxIAEvent(wxEventType type, wxIAProvider *provider, const wxString &text,
               size_t quantum, size_t span);
     // Copy constructor
     wxIAEvent(const wxIAEvent& event);
 
     /*! \return a pointer to the provider that posted the event
     */
-    virtual wxIAProvider* GetProvider() { return m_provider; }
+    virtual wxIAProvider *GetProvider() { return m_provider; }
     /*! Set the provider
     */
-    virtual void SetProvider(wxIAProvider* provider) { m_provider = provider; }
+    virtual void SetProvider(wxIAProvider *provider) { m_provider = provider; }
     /*! Get update status text
     */
     virtual wxString GetText() { return m_text; }
     /*! Set update status text
     */
-    virtual void SetText(const wxString& text) { m_text = text; }
+    virtual void SetText(const wxString &text) { m_text = text; }
     /*! Get quantum - the value indicating the current status relative to
        span (GetSpan())
     */
@@ -616,7 +616,7 @@ public:
     wxEvent *Clone(void) const { return new wxIAEvent(*this); }
 
 private:
-    wxIAProvider* m_provider;
+    wxIAProvider *m_provider;
     wxString m_text;
     size_t m_quantum;
     size_t m_span;
