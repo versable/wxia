@@ -48,17 +48,17 @@ wxIASaneProvider::wxIASaneProvider()
     m_saneVersionCode = 0;
     m_sane = new wxSane();
 
-    if(m_sane && m_sane->Startup())
+    if (m_sane && m_sane->Startup())
         m_saneInit = m_sane->SaneInit(&m_saneVersionCode, NULL) == SANE_STATUS_GOOD;
 }
 
 wxIASaneProvider::~wxIASaneProvider()
 {
-    if(m_sane)
+    if (m_sane)
     {
-        if(m_saneInit)
+        if (m_saneInit)
         {
-            if(m_sane->IsOpen())
+            if (m_sane->IsOpen())
                 m_sane->SaneClose();
             m_sane->SaneExit();
         }
@@ -82,17 +82,15 @@ int wxIASaneProvider::GetSourceCount()
 {
     wxCHECK_MSG(Ok(), 0, _T("wxIASane not valid!"));
 
-    if(!m_numDevices)
+    if (!m_numDevices)
     {
         wxBusyCursor busy;
 
         wxYield();
 
-        int i;
-
-        if(m_sane->SaneGetDevices(&m_deviceList, FALSE) == SANE_STATUS_GOOD &&
+        if (m_sane->SaneGetDevices(&m_deviceList, FALSE) == SANE_STATUS_GOOD &&
            m_deviceList)
-        for(i = 0; m_deviceList[i]; i++)
+        for (unsigned int i = 0; m_deviceList[i]; i++)
             m_numDevices++;
     }
 
@@ -124,10 +122,10 @@ wxIASourceInfo wxIASaneProvider::GetSourceInfo(int i)
 
     wxCHECK_MSG(Ok(), wxNullIASourceInfo, _T("wxIASane not valid!"));
 
-    if(!m_deviceList)
+    if (!m_deviceList)
         GetSourceCount();
 
-    if(i < m_numDevices)
+    if (i < m_numDevices)
     {
         wxIASourceInfo sourceInfo;
 
@@ -136,9 +134,8 @@ wxIASourceInfo wxIASaneProvider::GetSourceInfo(int i)
         sourceInfo.SetVendor(m_deviceList[i]->vendor);
         sourceInfo.SetType(wxIA_SOURCE_UNKNOWN);
 
-        int j;
-        for(j = 0; typeMaps[j].typeName; j++)
-            if(!wxStrcmp(m_deviceList[i]->type, typeMaps[j].typeName))
+        for (unsigned int j = 0; typeMaps[j].typeName; j++)
+            if (!wxStrcmp(m_deviceList[i]->type, typeMaps[j].typeName))
             {
                 sourceInfo.SetType(typeMaps[j].type);
                 break;
@@ -157,50 +154,45 @@ wxIAReturnCode wxIASaneProvider::SelectSource(const wxString &name,
     wxCHECK_MSG(Ok(), wxIA_RC_NOTINITIALIZED, _T("wxIASane not valid!"));
 
     wxString selName = name;
-
     m_selDevice = -1;
 
-    if(!m_deviceList)
+    if (!m_deviceList)
         GetSourceCount();
+
+    if (m_numDevices <= 0) {
+        wxMessageBox(_("No devices available"), wxTheApp->GetAppName(),
+            wxOK | wxICON_EXCLAMATION | wxCENTRE);
+            return wxIA_RC_NOSOURCE;
+    }
 
     wxString *sources = new wxString[m_numDevices];
 
-    int i, sel = 0;
-    for(i = 0; i < m_numDevices; i++)
+    unsigned int sel = 0;
+    for (unsigned int i = 0; i < m_numDevices; i++)
     {
         sources[i] = (m_deviceList[i]->name);
-        if(name == wxString(m_deviceList[i]->name).Strip())
+        if (name == wxString(m_deviceList[i]->name).Strip())
             sel = i;
     }
 
     if(uiMode == wxIA_UIMODE_NORMAL)
     {
-        if(m_numDevices)
+        wxSingleChoiceDialog d(parent, _("Available Devices:"),
+            _T("Select Source"), m_numDevices, sources);
+
+        d.SetSelection(sel);
+
+        if(d.ShowModal() == wxID_OK)
         {
-            wxSingleChoiceDialog d(parent, _("Available Devices:"),
-                                   _T("Select Source"), m_numDevices,
-                                   sources);
-
-            d.SetSelection(sel);
-
-            if(d.ShowModal() == wxID_OK)
-            {
-                sel = d.GetSelection();
-                selName = d.GetStringSelection().Strip();
-                delete[] sources;
-            }
-            else
-            {
-                sel = -1;
-                delete[] sources;
-                return wxIA_RC_CANCELLED;
-            }
+            sel = d.GetSelection();
+            selName = d.GetStringSelection().Strip();
+            delete[] sources;
         }
         else
         {
-            wxMessageBox(_("No devices available"), wxTheApp->GetAppName(),
-                         wxOK | wxICON_EXCLAMATION | wxCENTRE);
-            return wxIA_RC_NOSOURCE;
+            sel = -1;
+            delete[] sources;
+            return wxIA_RC_CANCELLED;
         }
     }
     else if(!(sel <= m_numDevices))
@@ -255,9 +247,6 @@ wxIAReturnCode wxIASaneProvider::AcquireImages(int numImages, wxIAUIMode uiMode,
 
         if(d.ShowModal() == wxID_OK)
             ;
-    }
-    else
-    {
     }
 
     return wxIA_RC_NOTSUPPORTED;
