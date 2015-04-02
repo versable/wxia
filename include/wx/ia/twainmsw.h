@@ -20,36 +20,36 @@ class wxTwainMSW;
 class wxTwainMSWClient : public wxTwainClient
 {
 public:
-    wxTwainMSWClient(wxTwainMSW* twain);
+    wxTwainMSWClient(wxTwainMSW *twain);
     virtual ~wxTwainMSWClient();
 
-    virtual void SetTwain(wxTwainMSW* twain);
-    virtual wxTwainMSW* GetTwain();
-    
+    virtual void SetTwain(wxTwainMSW *twain);
+    virtual wxTwainMSW *GetTwain();
+
 private:
-    wxTwainMSW* m_twain;    
+    wxTwainMSW *m_twain;
 };
 
 class wxTwainMSW : public wxTwainBase
 {
 public:
-    wxTwainMSW(wxTwainMSWClient* client,
-               const wxString& appName = _T(""),
-               const wxString& appFamily = _T(""),
-               const wxString& appManufacturer = _T(""),
-               int versionMajor = 0, int versionMinor = 0,
-               const wxString& versionInfo = _T(""),
-               int language = TWLG_ENGLISH_USA, int country = TWCY_USA);
+    wxTwainMSW(wxTwainMSWClient *client,
+        const wxString &appName = wxEmptyString,
+        const wxString &appFamily = wxEmptyString,
+        const wxString &appManufacturer = wxEmptyString,
+        int versionMajor = 0, int versionMinor = 0,
+        const wxString &versionInfo = wxEmptyString,
+        int language = TWLG_ENGLISH_USA, int country = TWCY_USA);
     virtual ~wxTwainMSW();
 
     virtual bool Startup();
     virtual void Shutdown();
 
-    virtual bool GetCapability(TW_CAPABILITY& twCap, TW_UINT16 cap,
-                               TW_UINT16 conType = TWON_DONTCARE16);
-    virtual bool GetCapability(TW_UINT16 cap, TW_UINT32& value);
+    virtual bool GetCapability(TW_CAPABILITY &twCap, TW_UINT16 cap,
+        TW_UINT16 conType = TWON_DONTCARE16);
+    virtual bool GetCapability(TW_UINT16 cap, TW_UINT32 &value);
     virtual bool SetCapability(TW_UINT16 cap, TW_UINT16 value, bool sign = FALSE);
-    virtual bool SetCapability(TW_CAPABILITY& twCap);
+    virtual bool SetCapability(TW_CAPABILITY &twCap);
 
     virtual HBITMAP GetHBitmap();
 
@@ -62,7 +62,7 @@ protected:
     HBITMAP m_hBitmap;
     wxWindowDisabler *m_windowDisabler;
 
-    virtual bool GetImage(TW_IMAGEINFO& info);
+    virtual bool GetImage(TW_IMAGEINFO &info);
 
 private:
     DECLARE_CLASS(wxTwainMSW)

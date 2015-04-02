@@ -26,36 +26,36 @@
 */
 enum wxIAReturnCode
 {
-  //! Operation completed successfully
-  wxIA_RC_SUCCESS = 0,
-  //! Unknown error
-  wxIA_RC_UNKNOWNERROR,
-  //! Operation, mode, or value not supported
-  wxIA_RC_NOTSUPPORTED,
-  //! Operation was cancelled by user
-  wxIA_RC_CANCELLED,
-  //! Device is not ready
-  wxIA_RC_NOTREADY,
-  //! Device is busy
-  wxIA_RC_DEVICEBUSY,
-  //! Invalid data or argument
-  wxIA_RC_INVAL,
-  //! Document feeder jammed
-  wxIA_RC_JAMMED,
-  //! Document feeder out of documents
-  wxIA_RC_NODOCS,
-  //! Scanner cover is open
-  wxIA_RC_COVEROPEN,
-  //! Error during device I/O
-  wxIA_RC_IOERROR,
-  //! Out of memory
-  wxIA_RC_NOMEM,
-  //! Access to resource has been denied
-  wxIA_RC_ACCESSDENIED,
-  //! No source selected
-  wxIA_RC_NOSOURCE,
-  //! Provider not initialized
-  wxIA_RC_NOTINITIALIZED,
+    //! Operation completed successfully
+    wxIA_RC_SUCCESS = 0,
+    //! Unknown error
+    wxIA_RC_UNKNOWNERROR,
+    //! Operation, mode, or value not supported
+    wxIA_RC_NOTSUPPORTED,
+    //! Operation was cancelled by user
+    wxIA_RC_CANCELLED,
+    //! Device is not ready
+    wxIA_RC_NOTREADY,
+    //! Device is busy
+    wxIA_RC_DEVICEBUSY,
+    //! Invalid data or argument
+    wxIA_RC_INVAL,
+    //! Document feeder jammed
+    wxIA_RC_JAMMED,
+    //! Document feeder out of documents
+    wxIA_RC_NODOCS,
+    //! Scanner cover is open
+    wxIA_RC_COVEROPEN,
+    //! Error during device I/O
+    wxIA_RC_IOERROR,
+    //! Out of memory
+    wxIA_RC_NOMEM,
+    //! Access to resource has been denied
+    wxIA_RC_ACCESSDENIED,
+    //! No source selected
+    wxIA_RC_NOSOURCE,
+    //! Provider not initialized
+    wxIA_RC_NOTINITIALIZED,
 };
 
 //! IA Source Types
@@ -63,30 +63,30 @@ enum wxIAReturnCode
 */
 enum wxIASourceType
 {
-  //! Unknown
-  wxIA_SOURCE_UNKNOWN = 0,
-  //! Generic scanner - exact type is unknown, but it is a scanner
-  wxIA_SOURCE_SCANNER,
-  //! Flatbed scanner
-  wxIA_SOURCE_FLATBEDSCANNER,
-  //! Film scanner
-  wxIA_SOURCE_FILMSCANNER,
-  //! Still camera
-  wxIA_SOURCE_STILLCAMERA,
-  //! Video camera
-  wxIA_SOURCE_VIDEOCAMERA,
-  //! Image file
-  wxIA_SOURCE_FILE,
-  //! ImageBase - Image data base
-  wxIA_SOURCE_IMAGEBASE,
-  //! Frame grabber
-  wxIA_SOURCE_FRAMEGRABBER,
-  //! Multifunction device - fax/scanner/printer etc.
-  wxIA_SOURCE_MULTIFUNCTION,
-  //! Sheetfed scanner
-  wxIA_SOURCE_SHEETFEDSCANNER,
-  //! Handheld scanner
-  wxIA_SOURCE_HANDHELDSCANNER,
+    //! Unknown
+    wxIA_SOURCE_UNKNOWN = 0,
+    //! Generic scanner - exact type is unknown, but it is a scanner
+    wxIA_SOURCE_SCANNER,
+    //! Flatbed scanner
+    wxIA_SOURCE_FLATBEDSCANNER,
+    //! Film scanner
+    wxIA_SOURCE_FILMSCANNER,
+    //! Still camera
+    wxIA_SOURCE_STILLCAMERA,
+    //! Video camera
+    wxIA_SOURCE_VIDEOCAMERA,
+    //! Image file
+    wxIA_SOURCE_FILE,
+    //! ImageBase - Image data base
+    wxIA_SOURCE_IMAGEBASE,
+    //! Frame grabber
+    wxIA_SOURCE_FRAMEGRABBER,
+    //! Multifunction device - fax/scanner/printer etc.
+    wxIA_SOURCE_MULTIFUNCTION,
+    //! Sheetfed scanner
+    wxIA_SOURCE_SHEETFEDSCANNER,
+    //! Handheld scanner
+    wxIA_SOURCE_HANDHELDSCANNER,
 };
 
 //! User Interface Mode
@@ -94,10 +94,10 @@ enum wxIASourceType
 */
 enum wxIAUIMode
 {
-  //! No user interface if possible
-  wxIA_UIMODE_NONE = 0,
-  //! Normal user interface.  Provides a dialog or whatever is appropriate.
-  wxIA_UIMODE_NORMAL,
+    //! No user interface if possible
+    wxIA_UIMODE_NONE = 0,
+    //! Normal user interface.  Provides a dialog or whatever is appropriate.
+    wxIA_UIMODE_NORMAL,
 };
 
 //! Source Image Transfer Mode
@@ -105,31 +105,31 @@ enum wxIAUIMode
 */
 enum wxIATransferMode
 {
-  //! Native image transfer mode
-  /*! Image data will be supplied as both wxBitmap and wxImage.  For TWAIN
-      the native mode supplies DIB and for Mac OS the native mode supplies
-      a PICT.  No matter what native format is actually used, the user
-      will retrieve the data as a wxBitmap or wxImage.
-  */
-  wxIA_TRANSFERMODE_NATIVE = 0,
-  //! Transfer raw data a buffer at a time.
-  /*! Image data will be transfered to a user supplied buffer using
-      as many transfers as necessary.
-  */
-  wxIA_TRANSFERMODE_BUFFER,
-  //! Transfer image data by storing data in a file
-  wxIA_TRANSFERMODE_FILE,
+    //! Native image transfer mode
+    /*! Image data will be supplied as both wxBitmap and wxImage.  For TWAIN
+        the native mode supplies DIB and for Mac OS the native mode supplies
+        a PICT.  No matter what native format is actually used, the user
+        will retrieve the data as a wxBitmap or wxImage.
+    */
+    wxIA_TRANSFERMODE_NATIVE = 0,
+    //! Transfer raw data a buffer at a time.
+    /*! Image data will be transfered to a user supplied buffer using
+        as many transfers as necessary.
+    */
+    wxIA_TRANSFERMODE_BUFFER,
+    //! Transfer image data by storing data in a file
+    wxIA_TRANSFERMODE_FILE,
 };
 
 //! Image transfer file type
 enum wxIATransferFileType
 {
-  //! JPG - JPEG
-  wxIA_FILETYPE_JPG = 0,
-  //! TIFF
-  wxIA_FILETYPE_TIFF,
-  //! BMP - Windows/OS2 bitmap
-  wxIA_FILETYPE_BMP,
+    //! JPG - JPEG
+    wxIA_FILETYPE_JPG = 0,
+    //! TIFF
+    wxIA_FILETYPE_TIFF,
+    //! BMP - Windows/OS2 bitmap
+    wxIA_FILETYPE_BMP,
 };
 
 //! Image Acquisition Source Info
@@ -150,7 +150,7 @@ public:
         \param type type of device or source
     */
     wxIASourceInfo(const wxString &name, const wxString &model,
-                   const wxString &vendor, wxIASourceType type);
+        const wxString &vendor, wxIASourceType type);
 
     //
     //  Accessors
@@ -311,8 +311,7 @@ public:
 
     */
     virtual wxIAReturnCode SelectSource(const wxString& name = wxEmptyString,
-                                         wxIAUIMode uiMode = wxIA_UIMODE_NORMAL,
-                                         wxWindow *parent = NULL);
+        wxIAUIMode uiMode = wxIA_UIMODE_NORMAL, wxWindow *parent = NULL);
 
     /*! Select the default source.
 
@@ -365,8 +364,7 @@ public:
                    is made.  May be NULL.
     */
     virtual wxIAReturnCode AcquireImage(wxIAUIMode uiMode = wxIA_UIMODE_NORMAL,
-                                        wxWindow *parent = NULL,
-                                        wxIAMonitor *mon = NULL);
+        wxWindow *parent = NULL, wxIAMonitor *mon = NULL);
 
     //! Acquire one or more images.
     /*! Aquire images from the currently selected source.  Returns true on
@@ -385,9 +383,8 @@ public:
                     as progress is made.  May be NULL.
     */
     virtual wxIAReturnCode AcquireImages(int numImages,
-                                         wxIAUIMode uiMode = wxIA_UIMODE_NORMAL,
-                                         wxWindow *parent = NULL,
-                                         wxIAMonitor *mon = NULL);
+        wxIAUIMode uiMode = wxIA_UIMODE_NORMAL, wxWindow *parent = NULL,
+        wxIAMonitor *mon = NULL);
 
     //! Set event handler.
     /*! Set the event handler to be notified when wxIAEvent's occur.
@@ -424,7 +421,7 @@ public:
         \return wxIA_RC_SUCCESS on success or another return code on failure
     */
     virtual wxIAReturnCode SetTransferFilename(const wxString &filename,
-                                               wxIATransferFileType type);
+        wxIATransferFileType type);
 
     //! Get the transfer file name
     virtual wxString GetTransferFilename();
@@ -441,12 +438,12 @@ public:
 
         \return wxIA_RC_SUCCESS on success or another return code on failure
     */
-    virtual wxIAReturnCode SetTransferBuffer(void* buffer, size_t size);
+    virtual wxIAReturnCode SetTransferBuffer(void *buffer, size_t size);
 
     //! Get the transfer buffer
     /*! \return a pointer to the transfer buffer
     */
-    virtual void* GetTransferBuffer();
+    virtual void *GetTransferBuffer();
 
     //! Get the transfer buffer size
     virtual size_t GetTransferBufferSize();
@@ -454,7 +451,7 @@ public:
     //! Get current event handler.
     /*! \return Current event handler.
     */
-    wxEvtHandler* GetEvtHandler();
+    wxEvtHandler *GetEvtHandler();
 
     //! Get the last image aqcuired as a wxImage.
     /*! \return The last image acquired as a wxImage.  Image data is destroyed
@@ -574,7 +571,7 @@ public:
     wxIAEvent(wxEventType type, wxIAProvider *provider);
     //! Constructor
     wxIAEvent(wxEventType type, wxIAProvider *provider, const wxString &text,
-              size_t quantum, size_t span);
+        size_t quantum, size_t span);
     // Copy constructor
     wxIAEvent(const wxIAEvent& event);
 

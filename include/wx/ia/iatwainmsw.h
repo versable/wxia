@@ -28,25 +28,23 @@ public:
     virtual wxString GetName();
     virtual int GetSourceCount();
     virtual wxIASourceInfo GetSourceInfo(int i);
-    virtual wxIAReturnCode SelectSource(const wxString& name = _T(""),
-                                        wxIAUIMode uiMode = wxIA_UIMODE_NORMAL,
-                                        wxWindow *parent = NULL);
+    virtual wxIAReturnCode SelectSource(const wxString& name = wxEmptyString,
+        wxIAUIMode uiMode = wxIA_UIMODE_NORMAL, wxWindow *parent = NULL);
     virtual wxIAReturnCode SelectDefaultSource();
     virtual bool IsSourceSelected();
     virtual wxIASourceInfo GetSelSourceInfo();
     virtual wxIAReturnCode SetSelSourceConfig(const wxString& configString);
     virtual wxString GetSelSourceConfig();
     virtual wxIAReturnCode AcquireImages(int numImages,
-                                         wxIAUIMode uiMode = wxIA_UIMODE_NORMAL,
-                                         wxWindow *parent = NULL,
-                                         wxIAMonitor* mon = NULL);
+        wxIAUIMode uiMode = wxIA_UIMODE_NORMAL, wxWindow *parent = NULL,
+        wxIAMonitor *mon = NULL);
 
     virtual wxImage GetImage();
     virtual wxBitmap GetBitmap();
 
     // wxTwainClient methods
     virtual bool HandleImage(TW_IMAGEINFO& info);
-    virtual bool UpdateStatus(const wxString& text, size_t quantum, size_t span);
+    virtual bool UpdateStatus(const wxString &text, size_t quantum, size_t span);
 
 private:
     wxIAReturnCode MapStatus(TW_STATUS status);

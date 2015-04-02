@@ -23,7 +23,7 @@
 
 #include "wx/ia/twain.h"
 
-WX_DEFINE_ARRAY(TW_IDENTITY*, TW_IDENTITYArray);
+WX_DEFINE_ARRAY(TW_IDENTITY *, TW_IDENTITYArray);
 
 //
 //  wxTwainClient - Responsible for handling image data when it arrives and
@@ -39,7 +39,7 @@ public:
     //    attached to when an image is available.  This method must
     //    do something with the image data.
     //
-    virtual bool HandleImage(TW_IMAGEINFO& info) = 0;
+    virtual bool HandleImage(TW_IMAGEINFO &info) = 0;
 
     //
     //  UpdateStatus - called by twain class this client is attached to
@@ -48,30 +48,30 @@ public:
     //    like update a progress dialog or something.  Should return TRUE
     //    if the operation should continue or NULL if not.
     //
-    //    text 		- text describing the operation being performed
+    //    text      - text describing the operation being performed
     //
-    //    quantum 	- amount of the operation completed, between 0 and
+    //    quantum   - amount of the operation completed, between 0 and
     //                    (span - 1).
     //
-    //    span 		-
+    //    span      -
     //
-    virtual bool UpdateStatus(const wxString& text, size_t quantum, size_t span) = 0;
+    virtual bool UpdateStatus(const wxString &text, size_t quantum, size_t span) = 0;
 };
 
 class wxTwainBase : public wxObject
 {
 public:
-    wxTwainBase(wxTwainClient* client,
-                const wxString& appName = _T(""),
-                const wxString& appFamily = _T(""),
-                const wxString& appManufacturer = _T(""),
-                int versionMajor = 0, int versionMinor = 0,
-                const wxString& versionInfo = _T(""),
-                int language = TWLG_ENGLISH_USA, int country = TWCY_USA);
+    wxTwainBase(wxTwainClient *client,
+        const wxString &appName = wxEmptyString,
+        const wxString &appFamily = wxEmptyString,
+        const wxString &appManufacturer = wxEmptyString,
+        int versionMajor = 0, int versionMinor = 0,
+        const wxString &versionInfo = wxEmptyString,
+        int language = TWLG_ENGLISH_USA, int country = TWCY_USA);
     virtual ~wxTwainBase();
 
     virtual void SetClient(wxTwainClient* client);
-    virtual wxTwainClient* GetClient();
+    virtual wxTwainClient *GetClient();
 
     //
     //  Do whatever is necessary to setup TWAIN and open the Source Manager.
@@ -122,7 +122,7 @@ public:
     virtual void CloseSourceManager();
     virtual bool IsSourceManagerOpen();
     virtual int GetSourceCount();
-    virtual const TW_IDENTITY* GetSourceIdentity(int i);
+    virtual const TW_IDENTITY *GetSourceIdentity(int i);
 
     virtual bool OpenSource();
     virtual void CloseSource();
@@ -132,22 +132,22 @@ public:
     virtual int GetAppLanguage();
     virtual void SetAppCountry(int country);
     virtual int GetAppCountry();
-    virtual void SetAppVersion(int major, int minor, const wxString& versionInfo);
-    virtual void GetAppVersion(int* major, int* minor, wxString* versionInfo);
-    virtual void SetAppManufacturer(const wxString& manufacturer);
+    virtual void SetAppVersion(int major, int minor, const wxString &versionInfo);
+    virtual void GetAppVersion(int *major, int *minor, wxString *versionInfo);
+    virtual void SetAppManufacturer(const wxString &manufacturer);
     virtual wxString GetAppManufacturer();
-    virtual void SetAppProductFamily(const wxString& family);
+    virtual void SetAppProductFamily(const wxString &family);
     virtual wxString GetProductFamily();
-    virtual void SetAppProductName(const wxString& name);
+    virtual void SetAppProductName(const wxString &name);
     virtual wxString GetAppProductName();
 
     virtual bool SelectDefaultSource();
-    virtual bool UserSelectSource(const wxString& defSource);
-    virtual bool SelectSource(const wxString& source);
+    virtual bool UserSelectSource(const wxString &defSource);
+    virtual bool SelectSource(const wxString &source);
     virtual bool SelectSource(int i);
     virtual bool IsSourceSelected();
 
-    virtual void GetSourceVersion(int* major, int *minor, wxString* versionInfo);
+    virtual void GetSourceVersion(int *major, int *minor, wxString *versionInfo);
     virtual wxString GetSourceProductName();
     virtual wxString GetSourceProductFamily();
     virtual wxString GetSourceManufacturer();
@@ -168,7 +168,7 @@ public:
     //  Windows this is just a strcpy, but the TWAIN docs indicate that
     //  something different must happen on MacOS.
     //
-    static void SetStringValue(char *str, const wxString& value, int maxLen);
+    static void SetStringValue(char *str, const wxString &value, int maxLen);
     static wxString GetStringValue(const char *str);
 
 protected:
@@ -180,45 +180,42 @@ protected:
     virtual void TransferImage();
     virtual bool EndTransfer();
     virtual void CancelTransfer();
-    virtual bool GetImageInfo(TW_IMAGEINFO& info);
-    virtual bool GetImage(TW_IMAGEINFO& info) = 0;
+    virtual bool GetImageInfo(TW_IMAGEINFO &info);
+    virtual bool GetImage(TW_IMAGEINFO &info) = 0;
 
     virtual bool GetAvailableSources();
     void DeleteAvailableSources();
 
-    void Init(wxTwainClient* client,
-              const wxString& appName, const wxString& appFamily,
-              const wxString& appManufacturer,
-              int versionMajor, int versionMinor,
-              const wxString& versionInfo,
-              int language, int country);
+    void Init(wxTwainClient* client, const wxString &appName,
+        const wxString &appFamily, const wxString &appManufacturer,
+        int versionMajor, int versionMinor, const wxString &versionInfo,
+        int language, int country);
 
 
     virtual bool CallDSMEntryProc(pTW_IDENTITY origin, pTW_IDENTITY dest,
-                                  TW_UINT32 dg, TW_UINT16 dat, TW_UINT16 msg,
-                                  TW_MEMREF data);
+        TW_UINT32 dg, TW_UINT16 dat, TW_UINT16 msg, TW_MEMREF data);
 
     DSMENTRYPROC m_DSMEntryProc;
 
-    TW_IDENTITY m_appId;		// application identity struct
-    TW_IDENTITY m_sourceId;		// source identity struct
-    TW_STATUS m_status;			// last status
-    TW_INT16 m_returnCode;		// last return code
-    TW_HANDLE* m_hParentPtr;		// ptr HWD for Windows, 0 for MacOS
+    TW_IDENTITY m_appId;        // application identity struct
+    TW_IDENTITY m_sourceId;     // source identity struct
+    TW_STATUS m_status;         // last status
+    TW_INT16 m_returnCode;      // last return code
+    TW_HANDLE *m_hParentPtr;    // ptr HWD for Windows, 0 for MacOS
 
-    bool m_ok;				// TWAIN is loaded and ready
-    bool m_sourceManagerIsOpen;		// source manager is open
-    bool m_sourceIsOpen;		// source is open
-    bool m_sourceSelected;		// source has been selected
-    bool m_sourceEnabled;		// source wants msgs
-    bool m_modalUI;			// UI is modal?
+    bool m_ok;                  // TWAIN is loaded and ready
+    bool m_sourceManagerIsOpen; // source manager is open
+    bool m_sourceIsOpen;        // source is open
+    bool m_sourceSelected;      // source has been selected
+    bool m_sourceEnabled;       // source wants msgs
+    bool m_modalUI;             // UI is modal?
 
-    int m_imageCount;			// num images to aquire
-    int m_imagesAcquired;		// num acquired
+    int m_imageCount;           // num images to aquire
+    int m_imagesAcquired;       // num acquired
 
-    wxTwainClient* m_client;		// client
+    wxTwainClient *m_client;    // client
 
-    TW_IDENTITYArray m_sources;		// array of available sources
+    TW_IDENTITYArray m_sources; // array of available sources
 
 private:
     DECLARE_CLASS(wxTwainBase)
