@@ -5,9 +5,11 @@ Makefile.in
 *.la
 *.lo
 *.o
+samples/ia/iatest
 
 /aclocal.m4
 /autom4te.cache/
+/build-aux/
 /config.*
 /libtool
-samples/ia/iatest
+/stamp-h1

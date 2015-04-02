@@ -1,7 +1,9 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT()
-
-AM_INIT_AUTOMAKE(wxia, 0.0.1)
+AC_INIT([wxia], [0.0.1])
+AC_CONFIG_AUX_DIR([build-aux])
+AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_MACRO_DIR([m4])
+AM_INIT_AUTOMAKE()
 
 AC_PROG_AWK
 AC_PROG_CC
