@@ -285,6 +285,7 @@ top_build_prefix = ../../
 top_builddir = ../..
 top_srcdir = ../..
 wxlibname = /usr/lib/libwx_gtk.so
+AM_CPPFLAGSS = -I$(top_srcdir) $(all_includes) -I$(top_srcdir)/include
 LDADD = -L$(top_srcdir)/src/ia/ -lwxia
 iatest_SOURCES = iatest.cpp
 noinst_HEADERS = 
@@ -576,7 +577,6 @@ uninstall-am:
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
 	tags tags-am uninstall uninstall-am
 
-AM_CPPFLAGS S= -I$(top_srcdir) $(all_includes) -I$(top_srcdir)/include
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
