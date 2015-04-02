@@ -191,9 +191,8 @@ void wxIASaneAcquireDialog::GetOptionDescriptors()
     //  Create the option values array
     //
     m_optionValues = new SaneOptionValue[m_descriptors->GetCount()];
-    for(i = 0; i < (int)m_descriptors.GetCount(); i++)
-    {
-        if(m_descriptors[i]->type == SANE_TYPE_STRING)
+    for (i = 0; i < (int)m_descriptors.GetCount(); i++)
+        if (m_descriptors[i]->type == SANE_TYPE_STRING)
             m_optionValues[i].s = new SANE_Char[m_descriptors[i]->size];
 #endif
 }

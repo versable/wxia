@@ -56,7 +56,7 @@ wxIASourceInfo::wxIASourceInfo()
 }
 
 wxIASourceInfo::wxIASourceInfo(const wxString &name, const wxString &model,
-                               const wxString &vendor, wxIASourceType type)
+    const wxString &vendor, wxIASourceType type)
 {
     m_name = name;
     m_model = model;
@@ -139,8 +139,8 @@ wxIASourceInfo wxIAProvider::GetSourceInfo(int i)
     return wxNullIASourceInfo;
 }
 
-wxIAReturnCode wxIAProvider::SelectSource(const wxString &name, wxIAUIMode uiMode,
-                           wxWindow *parent)
+wxIAReturnCode wxIAProvider::SelectSource(const wxString &name,
+    wxIAUIMode uiMode, wxWindow *parent)
 {
     return wxIA_RC_NOTSUPPORTED;
 }
@@ -176,8 +176,8 @@ wxIAReturnCode wxIAProvider::AcquireImage(wxIAUIMode uiMode, wxWindow *parent,
     return AcquireImages(1, uiMode, parent, mon);
 }
 
-wxIAReturnCode wxIAProvider::AcquireImages(int numImages, wxIAUIMode uiMode, wxWindow *parent,
-                            wxIAMonitor* mon)
+wxIAReturnCode wxIAProvider::AcquireImages(int numImages, wxIAUIMode uiMode,
+    wxWindow *parent, wxIAMonitor* mon)
 {
     return wxIA_RC_NOTSUPPORTED;
 }
@@ -224,7 +224,7 @@ wxIATransferMode wxIAProvider::GetTransferMode()
 }
 
 wxIAReturnCode wxIAProvider::SetTransferFilename(const wxString &filename,
-                                  wxIATransferFileType type)
+    wxIATransferFileType type)
 {
     m_transferFilename = filename;
     m_transferFileType = type;
@@ -347,7 +347,7 @@ wxIAEvent::wxIAEvent(wxEventType type, wxIAProvider *provider) :
 }
 
 wxIAEvent::wxIAEvent(wxEventType type, wxIAProvider *provider,
-                     const wxString &text, size_t quantum, size_t span) :
+    const wxString &text, size_t quantum, size_t span) :
     wxEvent(-1, type)
 {
     m_provider = provider;
