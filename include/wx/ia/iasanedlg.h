@@ -58,7 +58,7 @@ protected:
 
     wxSane *m_sane;
     SaneDescriptorArray m_descriptors;
-    SaneOptionValue **m_optionValues;
+    SaneOptionValue *m_optionValues;
     wxWindow *m_optionControls;
     wxSplitterWindow *m_splitter;
     wxWindow *m_settingsPanel;

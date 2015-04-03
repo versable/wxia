@@ -96,34 +96,27 @@ wxWindow *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
 
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 
-    wxStaticBoxSizer *sbsizer = 0;
     wxStaticBox *sbox;
-    wxFlexGridSizer *gsizer = 0;
-    wxString label;
+    wxFlexGridSizer *gsizer;
 
     for (unsigned int i = 1; i < m_descriptors.GetCount(); i++)
     {
+        // If the descriptor is of type GROUP, create a static box with the
+        // group name and continue the iteration
         if (m_descriptors[i]->type == SANE_TYPE_GROUP)
         {
-            sbsizer = 0;
-            label = wxString(m_descriptors[i]->title);
+            sbox = new wxStaticBox(panel, wxID_ANY, wxString(m_descriptors[i]->title));
+            wxStaticBoxSizer *sbsizer = new wxStaticBoxSizer(sbox, wxVERTICAL);
+            gsizer = new wxFlexGridSizer(3);
+            sbsizer->Add(gsizer, 0, wxEXPAND | wxALL, 5);
+            sizer->Add(sbsizer, 0, wxEXPAND | wxALL, 5);
+            continue;
         }
-        else
-        {
-            if (!sbsizer)
-            {
-                sbox = new wxStaticBox(panel, wxID_ANY, label);
-                sbsizer = new wxStaticBoxSizer(sbox, wxVERTICAL);
-                gsizer = new wxFlexGridSizer(3);
-                sbsizer->Add(gsizer, 0, wxEXPAND | wxALL, 5);
-                sizer->Add(sbsizer, 0, wxEXPAND | wxALL, 5);
-            }
-            gsizer->Add(new wxStaticText(panel, wxID_ANY, wxString(m_descriptors[i]->title) + _T(":"),
-                wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT), 0, wxEXPAND | wxALL, 5);
-            gsizer->Add(1, 1, wxEXPAND | wxALL, 5);
-            gsizer->Add(new wxStaticText(panel, wxID_ANY, GetUnitString(m_descriptors[i]->unit)),
-                0, wxEXPAND | wxALL, 5);
-        }
+        gsizer->Add(new wxStaticText(panel, wxID_ANY, wxString(m_descriptors[i]->title) + _T(":"),
+            wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT), 0, wxEXPAND | wxALL, 5);
+        gsizer->Add(1, 1, wxEXPAND | wxALL, 5);
+        gsizer->Add(new wxStaticText(panel, wxID_ANY, GetUnitString(m_descriptors[i]->unit)),
+            0, wxEXPAND | wxALL, 5);
     }
 
     panel->SetAutoLayout(TRUE);
@@ -186,15 +179,24 @@ void wxIASaneAcquireDialog::GetOptionDescriptors()
             i, d->title, d->type, d->size, d->constraint_type);
     }
 
-#if 0
     //
     //  Create the option values array
     //
-    m_optionValues = new SaneOptionValue[m_descriptors->GetCount()];
-    for (i = 0; i < (int)m_descriptors.GetCount(); i++)
-        if (m_descriptors[i]->type == SANE_TYPE_STRING)
-            m_optionValues[i].s = new SANE_Char[m_descriptors[i]->size];
-#endif
+    m_optionValues = new SaneOptionValue[m_descriptors.GetCount()];
+    for (unsigned int i = 0; i < (int)m_descriptors.GetCount(); i++) {
+        int type = m_descriptors[i]->type;
+        switch(type) {
+            case SANE_TYPE_BOOL:
+                break;
+            case SANE_TYPE_INT:
+                break;
+            case SANE_TYPE_FIXED:
+                break;
+            case SANE_TYPE_STRING:
+                m_optionValues[i].s = new SANE_Char[m_descriptors[i]->size];
+                break;
+        }
+    }
 }
 
 wxString wxIASaneAcquireDialog::GetUnitString(SANE_Unit unit)
