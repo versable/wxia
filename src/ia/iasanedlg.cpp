@@ -16,7 +16,7 @@
 #pragma implementation "iasanedlg.h"
 #endif
 
-#include "wx/wxprec.h"
+#include <wx/wxprec.h>
 #include <wx/log.h>
 
 #ifdef __BORLANDC__
@@ -24,13 +24,15 @@
 #endif
 
 #ifndef WX_PRECOMP
-#include "wx/wx.h"
+#include <wx/wx.h>
 #endif
 
-#include "wx/notebook.h"
+#include <wx/notebook.h>
+#include <wx/checkbox.h>
+#include <wx/spinctrl.h>
 
-#include "wx/ia/sane.h"
-#include "wx/ia/iasanedlg.h"
+#include <wx/ia/sane.h>
+#include <wx/ia/iasanedlg.h>
 
 enum
 {
@@ -114,7 +116,44 @@ wxWindow *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
         }
         gsizer->Add(new wxStaticText(panel, wxID_ANY, wxString(m_descriptors[i]->title) + _T(":"),
             wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT), 0, wxEXPAND | wxALL, 5);
-        gsizer->Add(1, 1, wxEXPAND | wxALL, 5);
+        if (m_descriptors[i]->type == SANE_TYPE_BOOL)
+        {
+            gsizer->Add(new wxCheckBox(panel, wxID_ANY, wxEmptyString), wxEXPAND | wxALL, 5);
+        }
+        else if (m_descriptors[i]->type == SANE_TYPE_INT || m_descriptors[i]->type == SANE_TYPE_FIXED)
+        {
+            if (m_descriptors[i]->constraint_type == SANE_CONSTRAINT_RANGE)
+            {
+                wxSpinCtrl *spinctrl = new wxSpinCtrl(panel, wxID_ANY);
+                gsizer->Add(spinctrl, wxEXPAND | wxALL, 5);
+                SANE_Word min = m_descriptors[i]->constraint.range->min;
+                SANE_Word max = m_descriptors[i]->constraint.range->max;
+                SANE_Word quant = m_descriptors[i]->constraint.range->quant;
+                spinctrl->SetRange(min, max);
+                wxLogDebug("%s: min: %d, max: %d, quant: %d", m_descriptors[i]->title, min, max, quant);
+            }
+            else if (m_descriptors[i]->constraint_type == SANE_CONSTRAINT_WORD_LIST)
+            {
+                wxChoice *choice = new wxChoice(panel, wxID_ANY);
+                gsizer->Add(choice, wxEXPAND | wxALL, 5);
+                const SANE_Word *word_list = m_descriptors[i]->constraint.word_list;
+                for (unsigned int i = 0, max = *word_list; i < max; i++) {
+                    word_list++;
+                    choice->Append(wxString::Format("%d", *word_list));
+                }
+            }
+        }
+        else if (m_descriptors[i]->type == SANE_TYPE_STRING)
+        {
+            wxChoice *choice = new wxChoice(panel, wxID_ANY);
+            const SANE_String_Const *string_list = m_descriptors[i]->constraint.string_list;
+            while (*string_list != NULL)
+            {
+                choice->Append(wxString(*string_list));
+                string_list++;
+            }
+            gsizer->Add(choice, wxEXPAND | wxALL, 5);
+        }
         gsizer->Add(new wxStaticText(panel, wxID_ANY, GetUnitString(m_descriptors[i]->unit)),
             0, wxEXPAND | wxALL, 5);
     }
