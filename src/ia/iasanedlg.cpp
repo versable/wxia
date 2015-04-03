@@ -28,9 +28,10 @@
 #endif
 
 #include <wx/notebook.h>
+#include <wx/gbsizer.h>
 #include <wx/checkbox.h>
+#include <wx/slider.h>
 #include <wx/spinctrl.h>
-
 #include <wx/ia/sane.h>
 #include <wx/ia/iasanedlg.h>
 
@@ -99,7 +100,7 @@ wxWindow *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 
     wxStaticBox *sbox;
-    wxFlexGridSizer *gsizer;
+    wxGridBagSizer *gsizer;
 
     for (unsigned int i = 1; i < m_descriptors.GetCount(); i++)
     {
@@ -109,33 +110,47 @@ wxWindow *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
         {
             sbox = new wxStaticBox(panel, wxID_ANY, wxString(m_descriptors[i]->title));
             wxStaticBoxSizer *sbsizer = new wxStaticBoxSizer(sbox, wxVERTICAL);
-            gsizer = new wxFlexGridSizer(3);
+            gsizer = new wxGridBagSizer(5, 5);
             sbsizer->Add(gsizer, 0, wxEXPAND | wxALL, 5);
             sizer->Add(sbsizer, 0, wxEXPAND | wxALL, 5);
             continue;
         }
-        gsizer->Add(new wxStaticText(panel, wxID_ANY, wxString(m_descriptors[i]->title) + _T(":"),
-            wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT), 0, wxEXPAND | wxALL, 5);
+        unsigned int row = gsizer->GetEffectiveRowsCount();
+        gsizer->Add(new wxStaticText(panel, wxID_ANY, wxString(m_descriptors[i]->title) + _T(":")),
+            wxGBPosition(row, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT);
+
         if (m_descriptors[i]->type == SANE_TYPE_BOOL)
         {
-            gsizer->Add(new wxCheckBox(panel, wxID_ANY, wxEmptyString), wxEXPAND | wxALL, 5);
+            gsizer->Add(new wxCheckBox(panel, wxID_ANY, wxEmptyString),
+                wxGBPosition(row, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
         }
         else if (m_descriptors[i]->type == SANE_TYPE_INT || m_descriptors[i]->type == SANE_TYPE_FIXED)
         {
             if (m_descriptors[i]->constraint_type == SANE_CONSTRAINT_RANGE)
             {
-                wxSpinCtrl *spinctrl = new wxSpinCtrl(panel, wxID_ANY);
-                gsizer->Add(spinctrl, wxEXPAND | wxALL, 5);
                 SANE_Word min = m_descriptors[i]->constraint.range->min;
                 SANE_Word max = m_descriptors[i]->constraint.range->max;
                 SANE_Word quant = m_descriptors[i]->constraint.range->quant;
-                spinctrl->SetRange(min, max);
                 wxLogDebug("%s: min: %d, max: %d, quant: %d", m_descriptors[i]->title, min, max, quant);
+                if (m_descriptors[i]->unit == SANE_UNIT_PERCENT)
+                {
+                    wxSlider *slider = new wxSlider(panel, wxID_ANY, 0, min, max);
+                    gsizer->Add(slider, wxGBPosition(row, 1),
+                        wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
+                }
+                else
+                {
+                    wxSpinCtrl *spinctrl = new wxSpinCtrl(panel, wxID_ANY);
+                    spinctrl->SetRange(min, max);
+                    gsizer->Add(spinctrl, wxGBPosition(row, 1),
+                        wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
+                }
             }
             else if (m_descriptors[i]->constraint_type == SANE_CONSTRAINT_WORD_LIST)
             {
                 wxChoice *choice = new wxChoice(panel, wxID_ANY);
-                gsizer->Add(choice, wxEXPAND | wxALL, 5);
+                gsizer->Add(choice, wxGBPosition(row, 1),
+                    wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
                 const SANE_Word *word_list = m_descriptors[i]->constraint.word_list;
                 for (unsigned int i = 0, max = *word_list; i < max; i++) {
                     word_list++;
@@ -152,10 +167,13 @@ wxWindow *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
                 choice->Append(wxString(*string_list));
                 string_list++;
             }
-            gsizer->Add(choice, wxEXPAND | wxALL, 5);
+            gsizer->Add(choice, wxGBPosition(row, 1),
+                wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
         }
+        if (!gsizer->IsColGrowable(1))
+            gsizer->AddGrowableCol(1);
         gsizer->Add(new wxStaticText(panel, wxID_ANY, GetUnitString(m_descriptors[i]->unit)),
-            0, wxEXPAND | wxALL, 5);
+           wxGBPosition(row, 2), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
     }
 
     panel->SetAutoLayout(TRUE);
