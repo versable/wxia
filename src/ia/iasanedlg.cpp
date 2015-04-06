@@ -56,9 +56,9 @@ wxIASaneAcquireDialog::wxIASaneAcquireDialog(wxWindow *parent, wxWindowID id,
     m_optionControls = NULL;
     GetOptionDescriptors();
 
-    m_splitter = new wxSplitterWindow(this, wxID_ANY);
-    m_settingsPanel = MakeSettingsPanel(m_splitter);
-    m_previewPanel = MakePreviewPanel(m_splitter);
+    wxBoxSizer *hsizer = new wxBoxSizer(wxHORIZONTAL);
+    hsizer->Add(MakeSettingsPanel(this), 1, wxEXPAND | wxALL, 5);
+    hsizer->Add(MakePreviewPanel(this), 1, wxEXPAND | wxALL, 5);
 
     wxBoxSizer *bsizer = new wxBoxSizer(wxHORIZONTAL);
     bsizer->Add(10, 10, 1, wxEXPAND);
@@ -69,18 +69,11 @@ wxIASaneAcquireDialog::wxIASaneAcquireDialog(wxWindow *parent, wxWindowID id,
     bsizer->Add(new wxButton(this, wxID_CANCEL, _("Cancel")), 0, wxALIGN_RIGHT | wxALL, 5);
 
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
-    sizer->Add(m_splitter, 1, wxEXPAND | wxALL, 5);
+    sizer->Add(hsizer, 1, wxEXPAND | wxALL, 5);
     sizer->Add(bsizer, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 5);
 
-    SetAutoLayout(TRUE);
     SetSizer(sizer);
-
-    Layout();
-    Centre(wxBOTH);
-
-    m_splitter->SplitVertically(m_settingsPanel, m_previewPanel, 0);
-
-    SetExtraStyle(wxWS_EX_VALIDATE_RECURSIVELY);
+    sizer->SetSizeHints(this);
 }
 
 wxIASaneAcquireDialog::~wxIASaneAcquireDialog()
@@ -89,17 +82,11 @@ wxIASaneAcquireDialog::~wxIASaneAcquireDialog()
     delete[] m_optionControls;
 }
 
-wxWindow *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
+wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
 {
-    wxScrolledWindow *panel = new wxScrolledWindow(parent, wxID_ANY,
-        wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-
-    panel->SetExtraStyle(wxWS_EX_VALIDATE_RECURSIVELY);
-    panel->SetScrollbars(1, 1, 1, 1);
-
+    wxPanel *panel = new wxPanel(parent);
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 
-    wxStaticBox *sbox;
     wxGridBagSizer *gsizer;
 
     for (unsigned int i = 1; i < m_descriptors.GetCount(); i++)
@@ -108,7 +95,7 @@ wxWindow *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
         // group name and continue the iteration
         if (m_descriptors[i]->type == SANE_TYPE_GROUP)
         {
-            sbox = new wxStaticBox(panel, wxID_ANY, wxString(m_descriptors[i]->title));
+            wxStaticBox *sbox = new wxStaticBox(panel, wxID_ANY, wxString(m_descriptors[i]->title));
             wxStaticBoxSizer *sbsizer = new wxStaticBoxSizer(sbox, wxVERTICAL);
             gsizer = new wxGridBagSizer(5, 5);
             sbsizer->Add(gsizer, 0, wxEXPAND | wxALL, 5);
@@ -176,26 +163,19 @@ wxWindow *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
            wxGBPosition(row, 2), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
     }
 
-    panel->SetAutoLayout(TRUE);
     panel->SetSizer(sizer);
-    sizer->FitInside(panel);
+    sizer->SetSizeHints(panel);
 
     return panel;
 }
 
-wxWindow *wxIASaneAcquireDialog::MakePreviewPanel(wxWindow *parent)
+wxPanel *wxIASaneAcquireDialog::MakePreviewPanel(wxWindow *parent)
 {
-    wxScrolledWindow *panel = new wxScrolledWindow(parent, wxID_ANY,
-        wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-
-    panel->SetExtraStyle(wxWS_EX_VALIDATE_RECURSIVELY);
-    panel->SetScrollbars(1, 1, 1, 1);
-
+    wxPanel *panel = new wxPanel(parent);
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 
-    panel->SetAutoLayout(TRUE);
     panel->SetSizer(sizer);
-    sizer->FitInside(panel);
+    sizer->SetSizeHints(panel);
 
     return panel;
 }

@@ -50,8 +50,8 @@ protected:
     //  Misc helper methods
     //
     void GetOptionDescriptors();
-    wxWindow *MakeSettingsPanel(wxWindow *parent);
-    wxWindow *MakePreviewPanel(wxWindow *parent);
+    wxPanel *MakeSettingsPanel(wxWindow *parent);
+    wxPanel *MakePreviewPanel(wxWindow *parent);
     wxString GetUnitString(SANE_Unit unit);
     void GetOptionValues();
     void SetOptionValues();
@@ -60,9 +60,6 @@ protected:
     SaneDescriptorArray m_descriptors;
     SaneOptionValue *m_optionValues;
     wxWindow *m_optionControls;
-    wxSplitterWindow *m_splitter;
-    wxWindow *m_settingsPanel;
-    wxWindow *m_previewPanel;
 
 private:
     DECLARE_EVENT_TABLE()
