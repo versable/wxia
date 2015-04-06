@@ -287,8 +287,8 @@ void MyFrame::OnSelectSource(wxCommandEvent& WXUNUSED(event))
     wxString msg;
 
     msg.Printf(_("Name: %s\nModel: %s\nVendor: %s\nType: %d"),
-        source.GetName().c_str(), source.GetModel().c_str(),
-        source.GetVendor().c_str(), source.GetType());
+        source.GetName(), source.GetModel(),
+        source.GetVendor(), source.GetType());
 
     wxMessageBox(msg, _("Selected Source Information"), wxOK, this);
 }
