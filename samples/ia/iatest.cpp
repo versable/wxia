@@ -273,50 +273,50 @@ void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
 
 void MyFrame::OnSelectSource(wxCommandEvent& WXUNUSED(event))
 {
-    if (wxIAManager::Get().GetDefaultProvider())
+    if (!wxIAManager::Get().GetDefaultProvider())
+        return;
+
+    wxIAReturnCode rc;
+    if ((rc = wxIAManager::Get().GetDefaultProvider()->SelectSource()) != wxIA_RC_SUCCESS)
     {
-        wxIAReturnCode rc;
-        if ((rc = wxIAManager::Get().GetDefaultProvider()->SelectSource()) == wxIA_RC_SUCCESS)
-        {
-            wxIASourceInfo source = wxIAManager::Get().GetDefaultProvider()->GetSelSourceInfo();
-            wxString msg;
-
-            msg.Printf(_("Name: %s\nModel: %s\nVendor: %s\nType: %d"),
-                source.GetName().c_str(), source.GetModel().c_str(),
-                source.GetVendor().c_str(), source.GetType());
-
-            wxMessageBox(msg, _("Selected Source Information"), wxOK, this);
-        }
-        else
-            wxLogError(wxIAManager::Get().GetReturnCodeDesc(rc));
+        wxLogError(wxIAManager::Get().GetReturnCodeDesc(rc));
+        return;
     }
+
+    wxIASourceInfo source = wxIAManager::Get().GetDefaultProvider()->GetSelSourceInfo();
+    wxString msg;
+
+    msg.Printf(_("Name: %s\nModel: %s\nVendor: %s\nType: %d"),
+        source.GetName().c_str(), source.GetModel().c_str(),
+        source.GetVendor().c_str(), source.GetType());
+
+    wxMessageBox(msg, _("Selected Source Information"), wxOK, this);
 }
 
 void MyFrame::OnAcquireImage(wxCommandEvent& event)
 {
     wxIAProvider *provider = wxIAManager::Get().GetDefaultProvider();
 
-    if (provider && provider->IsSourceSelected())
-    {
-        wxIAUIMode uiMode;
+    if (!provider || !provider->IsSourceSelected())
+        return;
+    wxIAUIMode uiMode;
+    wxIAReturnCode rc;
 
-        if (event.GetId() == ID_ACQUIREIMAGE)
-            uiMode = wxIA_UIMODE_NORMAL;
-        else
-            uiMode = wxIA_UIMODE_NONE;
+    if (event.GetId() == ID_ACQUIREIMAGE)
+        uiMode = wxIA_UIMODE_NORMAL;
+    else
+        uiMode = wxIA_UIMODE_NONE;
 
-        wxIAReturnCode rc;
+    m_imageCount = 1;
 
-        m_imageCount = 1;
 #ifdef USE_IA_EVENTS
-        rc = provider->AcquireImage(uiMode, this);
+    rc = provider->AcquireImage(uiMode, this);
 #else
-        if ((rc = provider->AcquireImage(uiMode, this)) == wxIA_RC_SUCCESS)
-            m_imageWin->SetImage(provider->GetImage());
+    if ((rc = provider->AcquireImage(uiMode, this)) == wxIA_RC_SUCCESS)
+        m_imageWin->SetImage(provider->GetImage());
 #endif
-        if (rc != wxIA_RC_SUCCESS)
-            wxLogError(wxIAManager::Get().GetReturnCodeDesc(rc));
-    }
+    if (rc != wxIA_RC_SUCCESS)
+        wxLogError(wxIAManager::Get().GetReturnCodeDesc(rc));
 }
 
 #ifdef USE_IA_EVENTS
@@ -324,20 +324,21 @@ void MyFrame::OnAcquireImages(wxCommandEvent& event)
 {
     wxIAProvider *provider = wxIAManager::Get().GetDefaultProvider();
 
-    if(provider && provider->IsSourceSelected())
-    {
-        m_imageCount = wxGetNumberFromUser(_("Enter number of images to acquire"),
-            _("Count:"), _("Acquire Images"), 1, 0, 10, this);
-        if (m_imageCount > 0)
-        {
-            wxIAUIMode uiMode = event.GetId() == ID_ACQUIREIMAGES ?
-                wxIA_UIMODE_NORMAL : wxIA_UIMODE_NONE;
+    if (!provider || !provider->IsSourceSelected())
+        return;
 
-            wxIAReturnCode rc = provider->AcquireImages(m_imageCount, uiMode, this);
-            if (rc != wxIA_RC_SUCCESS)
-                wxLogError(wxIAManager::Get().GetReturnCodeDesc(rc));
-        }
-    }
+    m_imageCount = wxGetNumberFromUser(_("Enter number of images to acquire"),
+        _("Count:"), _("Acquire Images"), 1, 0, 10, this);
+    if (m_imageCount <= 0)
+        return;
+
+    wxIAUIMode uiMode = event.GetId() == ID_ACQUIREIMAGES ?
+        wxIA_UIMODE_NORMAL : wxIA_UIMODE_NONE;
+
+    wxIAReturnCode rc = provider->AcquireImages(m_imageCount, uiMode, this);
+    if (rc != wxIA_RC_SUCCESS)
+        wxLogError(wxIAManager::Get().GetReturnCodeDesc(rc));
+
 }
 #endif
 
