@@ -22,29 +22,28 @@
 #endif
 
 // For compilers that support precompilation, includes "wx.h".
-#include "wx/wxprec.h"
+#include <wx/wxprec.h>
 
 #if defined(__BORLANDC__)
     #pragma hdrstop
 #endif
 
 #ifndef WX_PRECOMP
-#include "wx/wx.h"
+    #include <wx/wx.h>
 #endif
 
-#include "wx/image.h"
-
-#include "wx/ia/ia.h"
+#include <wx/image.h>
+#include <wx/ia/ia.h>
 
 #ifdef __WXMSW__
-#include "wx/ia/twainbase.h"
-#include "wx/ia/twainmsw.h"
-#include "wx/ia/iatwainmsw.h"
+    #include <wx/ia/twainbase.h>
+    #include <wx/ia/twainmsw.h>
+    #include <wx/ia/iatwainmsw.h>
 #endif
 
 #ifdef __WXGTK__
-#include "wx/ia/sane.h"
-#include "wx/ia/iasane.h"
+    #include <wx/ia/sane.h>
+    #include <wx/ia/iasane.h>
 #endif
 
 //

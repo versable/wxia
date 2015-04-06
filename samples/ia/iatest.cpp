@@ -18,7 +18,7 @@
 // ----------------------------------------------------------------------------
 
 // For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
+#include <wx/wxprec.h>
 #include <wx/log.h>
 
 #ifdef __BORLANDC__
@@ -28,12 +28,12 @@
 // for all others, include the necessary headers (this file is usually all you
 // need because it includes almost all "standard" wxWindows headers)
 #ifndef WX_PRECOMP
-    #include "wx/wx.h"
+    #include <wx/wx.h>
 #endif
 
-#include "wx/image.h"
+#include <wx/image.h>
 #include <wx/numdlg.h>
-#include "wx/ia/ia.h"
+#include <wx/ia/ia.h>
 
 // Define to use IA events :)
 #define USE_IA_EVENTS
@@ -232,7 +232,6 @@ MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size,
     wxMenu *helpMenu = new wxMenu;
     helpMenu->Append(wxID_ABOUT, _("&About...\tF1"), _("Show about dialog"));
 
-
     // now append the freshly created menu to the menu bar...
     wxMenuBar *menuBar = new wxMenuBar();
     menuBar->Append(menuFile, _("&File"));
@@ -284,9 +283,8 @@ void MyFrame::OnSelectSource(wxCommandEvent& WXUNUSED(event))
     }
 
     wxIASourceInfo source = wxIAManager::Get().GetDefaultProvider()->GetSelSourceInfo();
-    wxString msg;
 
-    msg.Printf(_("Name: %s\nModel: %s\nVendor: %s\nType: %d"),
+    wxString msg = wxString::Format(_("Name: %s\nModel: %s\nVendor: %s\nType: %d"),
         source.GetName(), source.GetModel(),
         source.GetVendor(), source.GetType());
 

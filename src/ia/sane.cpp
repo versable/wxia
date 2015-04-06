@@ -10,10 +10,10 @@
 /////////////////////////////////////////////////////////////////////////////
 
 // For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
+#include <wx/wxprec.h>
 
 #ifdef __GNUG__
-#pragma implementation "sane.h"
+    #pragma implementation "sane.h"
 #endif
 
 #ifdef __BORLANDC__
@@ -21,13 +21,12 @@
 #endif
 
 #ifndef WX_PRECOMP
-    #include "wx/wx.h"
+    #include <wx/wx.h>
 #endif
 
-#include "wx/ia/sane.h"
+#include <wx/ia/sane.h>
 
 #define DEFAULT_SANE_LIBNAME _T("libsane.so")
-//#define DEFAULT_SANE_LIBNAME _T("/usr/lib/sane/libsane-pnm.so")
 
 IMPLEMENT_CLASS(wxSane, wxObject)
 

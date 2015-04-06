@@ -22,7 +22,7 @@
 #endif
 
 // For compilers that support precompilation, includes "wx.h".
-#include "wx/wxprec.h"
+#include <wx/wxprec.h>
 #include <wx/log.h>
 
 #if defined(__BORLANDC__)
@@ -30,16 +30,14 @@
 #endif
 
 #ifndef WX_PRECOMP
-#include "wx/wx.h"
+    #include <wx/wx.h>
 #endif
 
-#include "wx/image.h"
-
-#include "wx/msw/private.h"
-
-#include "wx/ia/ia.h"
-#include "wx/ia/iatwainmsw.h"
-#include "wx/ia/twainmsw.h"
+#include <wx/msw/private.h>
+#include <wx/image.h>
+#include <wx/ia/ia.h>
+#include <wx/ia/iatwainmsw.h>
+#include <wx/ia/twainmsw.h>
 
 IMPLEMENT_CLASS(wxIATwainMSWProvider, wxIAProvider)
 

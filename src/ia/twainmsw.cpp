@@ -22,21 +22,20 @@
 #endif
 
 // For compilers that support precompilation, includes "wx.h".
-#include "wx/wxprec.h"
-#include <wx/log.h>
+#include <wx/wxprec.h>
 
 #if defined(__BORLANDC__)
     #pragma hdrstop
 #endif
 
 #ifndef WX_PRECOMP
-#include "wx/wx.h"
+    #include <wx/wx.h>
 #endif
 
-#include "wx/ia/twainbase.h"
-#include "wx/ia/twainmsw.h"
-
-#include "wx/msw/private.h"
+#include <wx/log.h>
+#include <wx/ia/twainbase.h>
+#include <wx/ia/twainmsw.h>
+#include <wx/msw/private.h>
 
 #define TWAIN_DLL_NAME      _T("TWAIN_32.DLL")
 

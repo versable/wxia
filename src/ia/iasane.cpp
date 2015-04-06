@@ -22,20 +22,20 @@
 #endif
 
 // For compilers that support precompilation, includes "wx.h".
-#include "wx/wxprec.h"
+#include <wx/wxprec.h>
 
 #if defined(__BORLANDC__)
     #pragma hdrstop
 #endif
 
 #ifndef WX_PRECOMP
-#include "wx/wx.h"
+    #include <wx/wx.h>
 #endif
 
-#include "wx/ia/ia.h"
-#include "wx/ia/iasane.h"
-#include "wx/ia/sane.h"
-#include "wx/ia/iasanedlg.h"
+#include <wx/ia/ia.h>
+#include <wx/ia/iasane.h>
+#include <wx/ia/sane.h>
+#include <wx/ia/iasanedlg.h>
 
 IMPLEMENT_CLASS(wxIASaneProvider, wxIAProvider)
 
