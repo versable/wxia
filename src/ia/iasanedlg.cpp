@@ -137,10 +137,15 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
                 gsizer->Add(choice, wxGBPosition(row, 1),
                     wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
                 const SANE_Word *word_list = m_descriptors[i]->constraint.word_list;
-                for (unsigned int i = 0, max = *word_list; i < max; i++) {
+                for (unsigned int w = 0, max = *word_list; w < max; w++) {
                     word_list++;
                     choice->Append(wxString::Format("%d", *word_list));
                 }
+                if (m_descriptors[i]->unit == SANE_UNIT_DPI)
+                    choice->SetSelection(choice->FindString("150"));
+                else
+                    choice->SetSelection(0);
+
             }
         }
         else if (m_descriptors[i]->type == SANE_TYPE_STRING)
@@ -152,6 +157,7 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
                 choice->Append(wxString(*string_list));
                 string_list++;
             }
+            choice->SetSelection(0);
             gsizer->Add(choice, wxGBPosition(row, 1),
                 wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
         }
