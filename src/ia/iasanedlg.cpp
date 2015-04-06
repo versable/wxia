@@ -52,7 +52,6 @@ wxIASaneAcquireDialog::wxIASaneAcquireDialog(wxWindow *parent, wxWindowID id,
     wxDialog(parent, id, title, pos, size, style)
 {
     m_sane = sane;
-    m_optionValues = NULL;
     m_optionControls = NULL;
     GetOptionDescriptors();
 
@@ -78,7 +77,6 @@ wxIASaneAcquireDialog::wxIASaneAcquireDialog(wxWindow *parent, wxWindowID id,
 
 wxIASaneAcquireDialog::~wxIASaneAcquireDialog()
 {
-    delete[] m_optionValues;
     delete[] m_optionControls;
 }
 
@@ -215,25 +213,6 @@ void wxIASaneAcquireDialog::GetOptionDescriptors()
         wxLogDebug("Descriptor %d: %s, type = %d, size = %d, constraint type = %d",
             i, d->title, d->type, d->size, d->constraint_type);
     }
-
-    //
-    //  Create the option values array
-    //
-    m_optionValues = new SaneOptionValue[m_descriptors.GetCount()];
-    for (unsigned int i = 0; i < (int)m_descriptors.GetCount(); i++) {
-        int type = m_descriptors[i]->type;
-        switch(type) {
-            case SANE_TYPE_BOOL:
-                break;
-            case SANE_TYPE_INT:
-                break;
-            case SANE_TYPE_FIXED:
-                break;
-            case SANE_TYPE_STRING:
-                m_optionValues[i].s = new SANE_Char[m_descriptors[i]->size];
-                break;
-        }
-    }
 }
 
 wxString wxIASaneAcquireDialog::GetUnitString(SANE_Unit unit)
@@ -261,25 +240,5 @@ wxString wxIASaneAcquireDialog::GetUnitString(SANE_Unit unit)
 
         case SANE_UNIT_MICROSECOND :
             return wxString(_("microseconds"));
-    }
-}
-
-void wxIASaneAcquireDialog::GetOptionValues()
-{
-    for (unsigned int i = 0; i < m_descriptors.GetCount(); i++)
-    {
-        if (m_descriptors[i]->type != SANE_TYPE_GROUP)
-            m_sane->SaneControlOption(i, SANE_ACTION_GET_VALUE,
-                &m_optionValues[i], NULL);
-    }
-}
-
-void wxIASaneAcquireDialog::SetOptionValues()
-{
-    for (unsigned int i = 0; i < m_descriptors.GetCount(); i++)
-    {
-        if (m_descriptors[i]->type != SANE_TYPE_GROUP)
-            m_sane->SaneControlOption(i, SANE_ACTION_SET_VALUE,
-                &m_optionValues[i], NULL);
     }
 }
