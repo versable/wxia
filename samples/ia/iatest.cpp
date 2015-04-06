@@ -276,8 +276,8 @@ void MyFrame::OnSelectSource(wxCommandEvent& WXUNUSED(event))
     if (!wxIAManager::Get().GetDefaultProvider())
         return;
 
-    wxIAReturnCode rc;
-    if ((rc = wxIAManager::Get().GetDefaultProvider()->SelectSource()) != wxIA_RC_SUCCESS)
+    wxIAReturnCode rc = wxIAManager::Get().GetDefaultProvider()->SelectSource();
+    if (rc != wxIA_RC_SUCCESS)
     {
         wxLogError(wxIAManager::Get().GetReturnCodeDesc(rc));
         return;
@@ -309,10 +309,10 @@ void MyFrame::OnAcquireImage(wxCommandEvent& event)
 
     m_imageCount = 1;
 
-#ifdef USE_IA_EVENTS
     rc = provider->AcquireImage(uiMode, this);
-#else
-    if ((rc = provider->AcquireImage(uiMode, this)) == wxIA_RC_SUCCESS)
+
+#ifndef USE_IA_EVENTS
+    if (rc == wxIA_RC_SUCCESS)
         m_imageWin->SetImage(provider->GetImage());
 #endif
     if (rc != wxIA_RC_SUCCESS)
