@@ -287,7 +287,7 @@ void wxIASaneAcquireDialog::GetOptionValues()
     for (unsigned int i = 0; i < size; i++)
     {
         int type = m_descriptors[i]->type;
-        struct SaneOptionValue option;
+        SaneOptionValue option;
         switch(type) {
             case SANE_TYPE_GROUP:
                 option.sane_status = SANE_STATUS_GOOD;
