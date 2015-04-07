@@ -122,13 +122,19 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
                     wxSlider *slider = new wxSlider(panel, wxID_ANY, 0, min, max);
                     gsizer->Add(slider, wxGBPosition(row, 1),
                         wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
+                    SANE_Int value;
+                    if (m_sane->SaneControlOption(i, SANE_ACTION_GET_VALUE, &value) == SANE_STATUS_GOOD)
+                        slider->SetValue(value);
                 }
                 else
                 {
                     wxSpinCtrl *spinctrl = new wxSpinCtrl(panel, wxID_ANY);
-                    spinctrl->SetRange(min, max);
+                    spinctrl->SetRange(min / quant, max / quant);
                     gsizer->Add(spinctrl, wxGBPosition(row, 1),
                         wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
+                    SANE_Int value;
+                    if (m_sane->SaneControlOption(i, SANE_ACTION_GET_VALUE, &value) == SANE_STATUS_GOOD)
+                        spinctrl->SetValue(value / quant);
                 }
             }
             else if (m_descriptors[i]->constraint_type == SANE_CONSTRAINT_WORD_LIST)
@@ -141,11 +147,11 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
                     word_list++;
                     choice->Append(wxString::Format("%d", *word_list));
                 }
-                if (m_descriptors[i]->unit == SANE_UNIT_DPI)
-                    choice->SetSelection(choice->FindString("150"));
+                SANE_Word value;
+                if (m_sane->SaneControlOption(i, SANE_ACTION_GET_VALUE, &value) == SANE_STATUS_GOOD)
+                    choice->SetSelection(choice->FindString(wxString::Format("%d", value)));
                 else
                     choice->SetSelection(0);
-
             }
         }
         else if (m_descriptors[i]->type == SANE_TYPE_STRING)
@@ -157,7 +163,12 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
                 choice->Append(wxString(*string_list));
                 string_list++;
             }
-            choice->SetSelection(0);
+
+            SANE_String value = new SANE_Char[m_descriptors[i]->size];
+            if (m_sane->SaneControlOption(i, SANE_ACTION_GET_VALUE, value) == SANE_STATUS_GOOD)
+                choice->SetSelection(choice->FindString(value));
+            else
+                choice->SetSelection(0);
             gsizer->Add(choice, wxGBPosition(row, 1),
                 wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
         }
@@ -211,13 +222,21 @@ void wxIASaneAcquireDialog::GetOptionDescriptors()
     const SANE_Option_Descriptor *d;
 
     //
-    //  Get the option descriptors from the source
+    //  Get the option descriptors from the source and
+    //  try to turn on automatic mode
     //
     for (unsigned int i = 0; (d = m_sane->SaneGetOptionDescriptor(i)) != NULL; i++)
     {
         m_descriptors.Add(d);
-        wxLogDebug("Descriptor %d: %s, type = %d, size = %d, constraint type = %d",
-            i, d->title, d->type, d->size, d->constraint_type);
+        wxLogDebug("Descriptor %d: name = %s, title = %s, type = %d, size = %d, constraint type = %d",
+            i, d->name, d->title, d->type, d->size, d->constraint_type);
+        unsigned int auto_status = m_sane->SaneControlOption(i, SANE_ACTION_SET_AUTO);
+        if (auto_status == SANE_STATUS_GOOD)
+            wxLogDebug("Automatic control option for %s set", d->name);
+        else if (auto_status == SANE_STATUS_UNSUPPORTED)
+            wxLogDebug("Automatic control option for %s not supported", d->name);
+        else
+            wxLogDebug("Automatic control option error (%d) for %s", auto_status);
     }
 }
 
