@@ -107,8 +107,9 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
 
         if (type == SANE_TYPE_BOOL)
         {
-            gsizer->Add(new wxCheckBox(panel, wxID_ANY, wxEmptyString),
-                wxGBPosition(row, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
+            wxCheckBox *checkbox = new wxCheckBox(panel, wxID_ANY, wxEmptyString);
+            checkbox->SetValue(m_optionValues[i].sane_bool);
+            gsizer->Add(checkbox, wxGBPosition(row, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
         }
         else if (type == SANE_TYPE_INT || type == SANE_TYPE_FIXED)
         {
@@ -133,12 +134,8 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
                     gsizer->Add(spinctrl, wxGBPosition(row, 1),
                         wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
                     if (m_optionValues[i].sane_status == SANE_STATUS_GOOD)
-                    {
-                        if (type == SANE_TYPE_FIXED)
-                            spinctrl->SetValue(m_optionValues[i].sane_fixed / quant);
-                        else
-                            spinctrl->SetValue(m_optionValues[i].sane_int / quant);
-                    }
+                        spinctrl->SetValue((type == SANE_TYPE_FIXED ?
+                            m_optionValues[i].sane_fixed : m_optionValues[i].sane_int) / quant);
                 }
             }
             else if (m_descriptors[i]->constraint_type == SANE_CONSTRAINT_WORD_LIST)
@@ -152,11 +149,9 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
                     choice->Append(wxString::Format("%d", *word_list));
                 }
                 if (m_optionValues[i].sane_status == SANE_STATUS_GOOD)
-                {
                     choice->SetSelection(choice->FindString(wxString::Format("%d",
                         type == SANE_TYPE_FIXED ?
                         m_optionValues[i].sane_fixed : m_optionValues[i].sane_int)));
-                }
                 else
                     choice->SetSelection(0);
             }
