@@ -231,6 +231,8 @@ void wxIASaneAcquireDialog::GetOptionDescriptors()
         m_descriptors.Add(d);
         wxLogDebug("Descriptor %d: name = %s, title = %s, type = %d, size = %d, constraint type = %d",
             i, d->name, d->title, d->type, d->size, d->constraint_type);
+        if (!(d->cap & SANE_CAP_AUTOMATIC))
+            continue;
         unsigned int auto_status = m_sane->SaneControlOption(i, SANE_ACTION_SET_AUTO);
         if (auto_status == SANE_STATUS_GOOD)
             wxLogDebug("Automatic control option for %s set", d->name);
