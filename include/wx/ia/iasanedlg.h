@@ -19,6 +19,14 @@
 #include "wx/dynarray.h"
 #include "wx/splitter.h"
 
+typedef union
+{
+    SANE_Bool b;
+    SANE_Int i;
+    SANE_Fixed f;
+    SANE_String s;
+} SaneOptionValue;
+
 WX_DEFINE_ARRAY(const SANE_Option_Descriptor*, SaneDescriptorArray);
 
 class wxIASaneAcquireDialog : public wxDialog
@@ -45,9 +53,12 @@ protected:
     wxPanel *MakeSettingsPanel(wxWindow *parent);
     wxPanel *MakePreviewPanel(wxWindow *parent);
     wxString GetUnitString(SANE_Unit unit);
+    void GetOptionValues();
+    void SetOptionValues();
 
     wxSane *m_sane;
     SaneDescriptorArray m_descriptors;
+    SaneOptionValue *m_optionValues;
     wxWindow *m_optionControls;
 
 private:
