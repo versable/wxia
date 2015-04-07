@@ -89,9 +89,10 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
 
     for (unsigned int i = 1; i < m_descriptors.GetCount(); i++)
     {
+        unsigned int type = m_descriptors[i]->type;
         // If the descriptor is of type GROUP, create a static box with the
         // group name and continue the iteration
-        if (m_descriptors[i]->type == SANE_TYPE_GROUP)
+        if (type == SANE_TYPE_GROUP)
         {
             wxStaticBox *sbox = new wxStaticBox(panel, wxID_ANY, wxString(m_descriptors[i]->title));
             wxStaticBoxSizer *sbsizer = new wxStaticBoxSizer(sbox, wxVERTICAL);
@@ -104,12 +105,12 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
         gsizer->Add(new wxStaticText(panel, wxID_ANY, wxString(m_descriptors[i]->title) + _T(":")),
             wxGBPosition(row, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT);
 
-        if (m_descriptors[i]->type == SANE_TYPE_BOOL)
+        if (type == SANE_TYPE_BOOL)
         {
             gsizer->Add(new wxCheckBox(panel, wxID_ANY, wxEmptyString),
                 wxGBPosition(row, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
         }
-        else if (m_descriptors[i]->type == SANE_TYPE_INT || m_descriptors[i]->type == SANE_TYPE_FIXED)
+        else if (type == SANE_TYPE_INT || type == SANE_TYPE_FIXED)
         {
             if (m_descriptors[i]->constraint_type == SANE_CONSTRAINT_RANGE)
             {
@@ -133,7 +134,7 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
                         wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
                     if (m_optionValues[i].sane_status == SANE_STATUS_GOOD)
                     {
-                        if (m_descriptors[i]->type == SANE_TYPE_FIXED)
+                        if (type == SANE_TYPE_FIXED)
                             spinctrl->SetValue(m_optionValues[i].sane_fixed / quant);
                         else
                             spinctrl->SetValue(m_optionValues[i].sane_int / quant);
@@ -153,14 +154,14 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
                 if (m_optionValues[i].sane_status == SANE_STATUS_GOOD)
                 {
                     choice->SetSelection(choice->FindString(wxString::Format("%d",
-                        m_descriptors[i]->type == SANE_TYPE_FIXED ?
+                        type == SANE_TYPE_FIXED ?
                         m_optionValues[i].sane_fixed : m_optionValues[i].sane_int)));
                 }
                 else
                     choice->SetSelection(0);
             }
         }
-        else if (m_descriptors[i]->type == SANE_TYPE_STRING)
+        else if (type == SANE_TYPE_STRING)
         {
             wxChoice *choice = new wxChoice(panel, wxID_ANY);
             const SANE_String_Const *string_list = m_descriptors[i]->constraint.string_list;
