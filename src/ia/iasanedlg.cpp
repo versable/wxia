@@ -102,6 +102,13 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
             continue;
         }
         unsigned int row = gsizer->GetEffectiveRowsCount();
+        //
+        // If an option is unsettable, skip it
+        // Note: We check it here rather then in the beginning of the for
+        // loop, since SANE_TYPE_GROUP entries are unsettable
+        //
+        if (!SANE_OPTION_IS_SETTABLE(m_descriptors[i]->cap))
+            continue;
         gsizer->Add(new wxStaticText(panel, wxID_ANY, wxString(m_descriptors[i]->title) + _T(":")),
             wxGBPosition(row, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxALIGN_RIGHT);
 
@@ -118,12 +125,13 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
                 SANE_Word min = m_descriptors[i]->constraint.range->min;
                 SANE_Word max = m_descriptors[i]->constraint.range->max;
                 SANE_Word quant = m_descriptors[i]->constraint.range->quant;
-                wxLogDebug("%s: min: %d, max: %d, quant: %d", m_descriptors[i]->title, min, max, quant);
+                wxLogDebug("%s: min: %d, max: %d, quant: %d",
+                    m_descriptors[i]->title, min, max, quant);
                 if (m_descriptors[i]->unit == SANE_UNIT_PERCENT)
                 {
                     wxSlider *slider = new wxSlider(panel, wxID_ANY, 0, min, max);
-                    gsizer->Add(slider, wxGBPosition(row, 1),
-                        wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
+                    gsizer->Add(slider, wxGBPosition(row, 1), wxDefaultSpan,
+                        wxALIGN_CENTER_VERTICAL | wxEXPAND);
                     if (m_optionValues[i].sane_status == SANE_STATUS_GOOD)
                         slider->SetValue(m_optionValues[i].sane_int);
                 }
@@ -229,8 +237,10 @@ void wxIASaneAcquireDialog::GetOptionDescriptors()
     for (unsigned int i = 0; (d = m_sane->SaneGetOptionDescriptor(i)) != NULL; i++)
     {
         m_descriptors.Add(d);
-        wxLogDebug("Descriptor %d: name = %s, title = %s, type = %d, size = %d, constraint type = %d",
-            i, d->name, d->title, d->type, d->size, d->constraint_type);
+        wxLogDebug("Descriptor %d: name = %s, title = %s, type = %d, size = %d, "
+            "capabilities = %d, constraint type = %d, is active: %s, is settable: %s",
+            i, d->name, d->title, d->type, d->size,
+            d->cap, d->constraint_type, SANE_OPTION_IS_ACTIVE(d->cap) ? "yes" : "no", SANE_OPTION_IS_SETTABLE(d->cap) ? "yes" : "no");
         if (!(d->cap & SANE_CAP_AUTOMATIC))
             continue;
         unsigned int auto_status = m_sane->SaneControlOption(i, SANE_ACTION_SET_AUTO);
