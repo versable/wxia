@@ -52,7 +52,6 @@ wxIASaneAcquireDialog::wxIASaneAcquireDialog(wxWindow *parent, wxWindowID id,
     wxDialog(parent, id, title, pos, size, style)
 {
     m_sane = sane;
-    m_optionValues = NULL;
     m_optionControls = NULL;
     GetOptionDescriptors();
 
@@ -78,7 +77,6 @@ wxIASaneAcquireDialog::wxIASaneAcquireDialog(wxWindow *parent, wxWindowID id,
 
 wxIASaneAcquireDialog::~wxIASaneAcquireDialog()
 {
-    delete[] m_optionValues;
     delete[] m_optionControls;
 }
 
@@ -124,9 +122,8 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
                     wxSlider *slider = new wxSlider(panel, wxID_ANY, 0, min, max);
                     gsizer->Add(slider, wxGBPosition(row, 1),
                         wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
-                    SANE_Int value;
-                    if (m_sane->SaneControlOption(i, SANE_ACTION_GET_VALUE, &value) == SANE_STATUS_GOOD)
-                        slider->SetValue(value);
+                    if (m_optionValues[i].sane_status == SANE_STATUS_GOOD)
+                        slider->SetValue(m_optionValues[i].sane_int);
                 }
                 else
                 {
@@ -134,9 +131,13 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
                     spinctrl->SetRange(min / quant, max / quant);
                     gsizer->Add(spinctrl, wxGBPosition(row, 1),
                         wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
-                    SANE_Int value;
-                    if (m_sane->SaneControlOption(i, SANE_ACTION_GET_VALUE, &value) == SANE_STATUS_GOOD)
-                        spinctrl->SetValue(value / quant);
+                    if (m_optionValues[i].sane_status == SANE_STATUS_GOOD)
+                    {
+                        if (m_descriptors[i]->type == SANE_TYPE_FIXED)
+                            spinctrl->SetValue(m_optionValues[i].sane_fixed / quant);
+                        else
+                            spinctrl->SetValue(m_optionValues[i].sane_int / quant);
+                    }
                 }
             }
             else if (m_descriptors[i]->constraint_type == SANE_CONSTRAINT_WORD_LIST)
@@ -149,9 +150,12 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
                     word_list++;
                     choice->Append(wxString::Format("%d", *word_list));
                 }
-                SANE_Word value;
-                if (m_sane->SaneControlOption(i, SANE_ACTION_GET_VALUE, &value) == SANE_STATUS_GOOD)
-                    choice->SetSelection(choice->FindString(wxString::Format("%d", value)));
+                if (m_optionValues[i].sane_status == SANE_STATUS_GOOD)
+                {
+                    choice->SetSelection(choice->FindString(wxString::Format("%d",
+                        m_descriptors[i]->type == SANE_TYPE_FIXED ?
+                        m_optionValues[i].sane_fixed : m_optionValues[i].sane_int)));
+                }
                 else
                     choice->SetSelection(0);
             }
@@ -166,9 +170,8 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
                 string_list++;
             }
 
-            SANE_String value = new SANE_Char[m_descriptors[i]->size];
-            if (m_sane->SaneControlOption(i, SANE_ACTION_GET_VALUE, value) == SANE_STATUS_GOOD)
-                choice->SetSelection(choice->FindString(value));
+            if (m_optionValues[i].sane_status == SANE_STATUS_GOOD)
+                choice->SetSelection(choice->FindString(m_optionValues[i].sane_string));
             else
                 choice->SetSelection(0);
             gsizer->Add(choice, wxGBPosition(row, 1),
@@ -244,21 +247,7 @@ void wxIASaneAcquireDialog::GetOptionDescriptors()
     //
     //  Create the option values array
     //
-    m_optionValues = new SaneOptionValue[m_descriptors.GetCount()];
-    for (unsigned int i = 0; i < (int)m_descriptors.GetCount(); i++) {
-        int type = m_descriptors[i]->type;
-        switch(type) {
-            case SANE_TYPE_BOOL:
-                break;
-            case SANE_TYPE_INT:
-                break;
-            case SANE_TYPE_FIXED:
-                break;
-            case SANE_TYPE_STRING:
-                m_optionValues[i].s = new SANE_Char[m_descriptors[i]->size];
-                break;
-        }
-    }
+    GetOptionValues();
 }
 
 wxString wxIASaneAcquireDialog::GetUnitString(SANE_Unit unit)
@@ -291,11 +280,37 @@ wxString wxIASaneAcquireDialog::GetUnitString(SANE_Unit unit)
 
 void wxIASaneAcquireDialog::GetOptionValues()
 {
-    for (unsigned int i = 0; i < m_descriptors.GetCount(); i++)
+    unsigned int size = m_descriptors.GetCount();
+    m_optionValues.reserve(size);
+
+    for (unsigned int i = 0; i < size; i++)
     {
-        if (m_descriptors[i]->type != SANE_TYPE_GROUP)
-            m_sane->SaneControlOption(i, SANE_ACTION_GET_VALUE,
-                &m_optionValues[i], NULL);
+        int type = m_descriptors[i]->type;
+        struct SaneOptionValue option;
+        switch(type) {
+            case SANE_TYPE_GROUP:
+                option.sane_status = SANE_STATUS_GOOD;
+                option.sane_int = m_descriptors[i]->size;
+                break;
+            case SANE_TYPE_BOOL:
+                option.sane_status = m_sane->SaneControlOption(i,
+                    SANE_ACTION_GET_VALUE, &option.sane_bool);
+                break;
+            case SANE_TYPE_INT:
+                option.sane_status = m_sane->SaneControlOption(i,
+                    SANE_ACTION_GET_VALUE, &option.sane_int);
+                break;
+            case SANE_TYPE_FIXED:
+                option.sane_status = m_sane->SaneControlOption(i,
+                    SANE_ACTION_GET_VALUE, &option.sane_fixed);
+                break;
+            case SANE_TYPE_STRING:
+                option.sane_string = new SANE_Char[m_descriptors[i]->size];
+                option.sane_status = m_sane->SaneControlOption(i,
+                    SANE_ACTION_GET_VALUE, option.sane_string);
+                break;
+        }
+        m_optionValues.push_back(option);
     }
 }
 

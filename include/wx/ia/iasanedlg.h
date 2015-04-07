@@ -19,13 +19,14 @@
 #include "wx/dynarray.h"
 #include "wx/splitter.h"
 
-typedef union
+struct SaneOptionValue
 {
-    SANE_Bool b;
-    SANE_Int i;
-    SANE_Fixed f;
-    SANE_String s;
-} SaneOptionValue;
+    SANE_Bool sane_bool;
+    SANE_Int sane_int;
+    SANE_Fixed sane_fixed;
+    SANE_String sane_string;
+    SANE_Status sane_status;
+};
 
 WX_DEFINE_ARRAY(const SANE_Option_Descriptor*, SaneDescriptorArray);
 
@@ -58,7 +59,7 @@ protected:
 
     wxSane *m_sane;
     SaneDescriptorArray m_descriptors;
-    SaneOptionValue *m_optionValues;
+    wxVector<struct SaneOptionValue> m_optionValues;
     wxWindow *m_optionControls;
 
 private:
