@@ -17,22 +17,30 @@ dnl Checks for programs.
 LT_INIT
 
 dnl figure out wx library name
-changequote(<<, >>)
-wx-config --cflags | grep DEBUG > /dev/null
-if [ $? -ne 0 ] 
-then
-  wxlibname=`wx-config --prefix`/lib/libwx_gtk.so
-else
-  wxlibname=`wx-config --prefix`/lib/libwx_gtkd.so
-fi
-changequote([, ])
-AC_SUBST(wxlibname)
+AC_ARG_WITH([wx-config],
+	[AS_HELP_STRING([--with-wx-config=PATH], [Specify path to alternate wx-config])],
+	[wx_config="$withval"], [wx_config="wx-config"])
+AC_MSG_CHECKING([for wxWidgets])
+libwx_CPPFLAGS=$($wx_config --cppflags $wxconfig_FLAGS 2>/dev/null)
+ret=$?
+AM_CONDITIONAL([HAVE_WXWIDGETS], [test "$ret" -eq 0])
+if [[ "$ret" -eq 0 ]]; then
+	AC_MSG_RESULT([yes])
+	echo "wxWidgets CPPFLAGS... $libwx_CPPFLAGS"
 
-dnl Is there a better way or place to do this?
-CFLAGS="`wx-config --cflags`"
-CXXFLAGS="`wx-config --cxxflags`"
-CPPFLAGS="`wx-config --cppflags`"
-#LIBS="`wx-config --libs`"
+	libwx_CXXFLAGS=$($wx_config --cppflags $wxconfig_FLAGS)
+	echo "wxWidgets CXXFLAGS... $libwx_CXXFLAGS"
+
+	libwx_LIBS=$($wx_config --libs $wxconfig_FLAGS)
+	echo "wxWidgets LIBS... $libwx_LIBS"
+	libwx_LIBS=$($wx_config --libs $wxconfig_FLAGS | sed -e 's/-Wl,--subsystem,windows//g' -e 's/-mwindows//g')
+	echo "wxWidgets adjusted LIBS... $libwx_LIBS"
+else
+	AC_MSG_RESULT([no])
+fi;
+AC_SUBST([libwx_CPPFLAGS])
+AC_SUBST([libwx_CXXFLAGS])
+AC_SUBST([libwx_LIBS])
 
 dnl Check for features
 
