@@ -1,9 +1,7 @@
-AM_CPPFLAGS = -I. -I../../include/
+AM_CPPFLAGS = -I${top_srcdir}/include
 AM_CXXFLAGS = ${libwx_CXXFLAGS}
 
 lib_LTLIBRARIES = libwxia.la
-
-noinst_HEADERS = 
 
 libwxia_la_LDFLAGS = -release @VERSION@
 libwxia_la_LIBADD  = ${libwx_LIBS}

@@ -3,18 +3,15 @@ AC_INIT([wxia], [0.0.1])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE()
+AM_INIT_AUTOMAKE([-Wall foreign subdir-objects])
 
-AC_PROG_AWK
 AC_PROG_CC
-AC_PROG_CPP
+AM_PROG_CC_C_O
 AC_PROG_CXX
-AC_PROG_INSTALL
-AC_PROG_LN_S
-AC_PROG_MAKE_SET
 
 dnl Checks for programs.
-LT_INIT
+m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
+LT_INIT([disable-static])
 
 dnl figure out wx library name
 AC_ARG_WITH([wx-config],
@@ -42,23 +39,8 @@ AC_SUBST([libwx_CPPFLAGS])
 AC_SUBST([libwx_CXXFLAGS])
 AC_SUBST([libwx_LIBS])
 
-dnl Check for features
-
-dnl Checks for libraries.
-dnl Checks for header files.
-AC_HEADER_STDC
-AC_HEADER_DIRENT
-dnl Checks for typedefs, structures, and compiler characteristics.
-AC_C_BIGENDIAN
-AC_TYPE_OFF_T
-AC_TYPE_SIZE_T
-dnl Checks for library functions.
-AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(vsnprintf)
-
 dnl output
-
-AC_OUTPUT([
+AC_CONFIG_FILES([
 	Makefile
 	src/Makefile
 	src/ia/Makefile
@@ -68,3 +50,4 @@ AC_OUTPUT([
 	include/wx/Makefile
 	include/wx/ia/Makefile
 	])
+AC_OUTPUT
