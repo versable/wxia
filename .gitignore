@@ -11,5 +11,6 @@ samples/ia/iatest
 /autom4te.cache/
 /build-aux/
 /config.*
+/configure
 /libtool
 /stamp-h1
