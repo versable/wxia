@@ -91,7 +91,7 @@ bool wxTwainMSW::Startup()
         if (m_hTwainDLL)
         {
             wxLogDebug("twain lib loaded");
-            m_DSMEntryProc = (DSMENTRYPROC)::GetProcAddress(m_hTwainDLL, MAKEINTRESOURCE(1));
+            m_DSMEntryProc = (DSMENTRYPROC)::GetProcAddress(m_hTwainDLL, MAKEINTRESOURCEA(1));
             if (!m_DSMEntryProc)
             {
                 ::FreeLibrary(m_hTwainDLL);
