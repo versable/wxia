@@ -3,12 +3,13 @@ AM_CXXFLAGS = ${libwx_CXXFLAGS}
 
 lib_LTLIBRARIES = libwxia.la
 
-libwxia_la_LDFLAGS = -release @VERSION@
+libwxia_la_LDFLAGS = -release @VERSION@ -no-undefined
 libwxia_la_LIBADD  = ${libwx_LIBS}
 
 libwxia_la_SOURCES = ia.cpp
 if MINGW
-libwxia_la_SOURCES += twainbase.cpp twainmsw.cpp
+libwxia_la_SOURCES += iatwainmsw.cpp twainbase.cpp twainmsw.cpp
+libwxia_la_LIBADD  += -lgdi32
 else
 libwxia_la_SOURCES += sane.cpp iasane.cpp iasanedlg.cpp
 endif
