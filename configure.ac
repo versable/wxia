@@ -13,6 +13,16 @@ dnl Checks for programs.
 m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
 LT_INIT([disable-static])
 
+case "$host_os" in
+	mingw*)
+		mingw=1
+		;;
+	*)
+		mingw=0
+		;;
+esac
+AM_CONDITIONAL([MINGW], [test "$mingw" = 1])
+
 dnl figure out wx library name
 AC_ARG_WITH([wx-config],
 	[AS_HELP_STRING([--with-wx-config=PATH], [Specify path to alternate wx-config])],

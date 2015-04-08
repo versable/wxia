@@ -359,7 +359,7 @@ bool wxTwainBase::EnableSource(bool showUI)
             wxLogDebug("Source enabled!");
         else
             wxLogDebug("Source not enabled, rc = %d, status = %d",
-                GetReturnCode(), GetStatus());
+                GetReturnCode(), GetStatus().ConditionCode);
         return m_sourceEnabled;
     }
     else
