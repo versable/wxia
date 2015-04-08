@@ -233,7 +233,7 @@ bool wxTwainMSW::GetImage(TW_IMAGEINFO &info)
 bool wxTwainMSW::DoMessageLoop(bool showUI)
 {
     if (showUI)
-        m_windowDisabler = new wxWindowDisabler(NULL);
+        m_windowDisabler = new wxWindowDisabler(static_cast<wxWindow *>(NULL));
 
     MSG msg;
 
