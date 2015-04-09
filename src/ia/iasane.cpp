@@ -164,12 +164,13 @@ wxIAReturnCode wxIASaneProvider::SelectSource(const wxString &name,
             return wxIA_RC_NOSOURCE;
     }
 
-    wxString *sources = new wxString[m_numDevices];
+    wxArrayString sources;
+    sources.Alloc(m_numDevices);
 
     unsigned int sel = 0;
     for (unsigned int i = 0; i < m_numDevices; i++)
     {
-        sources[i] = (m_deviceList[i]->name);
+        sources.Add(wxString::Format("%s %s", m_deviceList[i]->vendor, m_deviceList[i]->model));
         if (name == wxString(m_deviceList[i]->name).Strip())
             sel = i;
     }
@@ -177,20 +178,17 @@ wxIAReturnCode wxIASaneProvider::SelectSource(const wxString &name,
     if (uiMode == wxIA_UIMODE_NORMAL)
     {
         wxSingleChoiceDialog d(parent, _("Available Devices:"),
-            _T("Select Source"), m_numDevices, sources);
-
+            _("Select Source"), sources);
         d.SetSelection(sel);
 
         if(d.ShowModal() == wxID_OK)
         {
             sel = d.GetSelection();
-            selName = d.GetStringSelection().Strip();
-            delete[] sources;
+            selName = wxString(m_deviceList[sel]->name).Strip();
         }
         else
         {
             sel = -1;
-            delete[] sources;
             return wxIA_RC_CANCELLED;
         }
     }
