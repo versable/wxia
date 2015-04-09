@@ -1,4 +1,5 @@
-include_HEADERS = \
+libwxiaincdir = $(includedir)/wx/ia
+libwxiainc_HEADERS = \
 	ia.h sane.h iasane.h
 noinst_HEADERS = \
 	twain.h \
