@@ -1,4 +1,4 @@
-wxIA
+wxIA                  {#mainpage}
 =========
 
 wxIA is a collection of cross-platform image acquisition classes for the [wxWidgets][1] GUI class library providing access to native image acquisition API's. Current support is for TWAIN on Windows (and soon on Mac, hopefully) and SANE on Linux. It was originally created by Derry Bryson in 2003.
@@ -6,7 +6,7 @@ wxIA is a collection of cross-platform image acquisition classes for the [wxWidg
 Resources
 ---------
 * [Download](https://github.com/versable/wxia/releases)
-* [Documentation](http://versable.github.io/wxia/annotated.html)
+* [Documentation](http://versable.github.io/wxia)
 * [GitHub](https://github.com/versable/wxia)
 
 Features
