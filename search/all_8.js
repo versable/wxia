@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['wxia',['wxIA',['../index.html',1,'']]],
   ['wx_5fdefine_5farray',['WX_DEFINE_ARRAY',['../ia_8h.html#a3ec4a1334130c7281f16ac3a961d4ff0',1,'ia.h']]],
   ['wxia_5ffiletype_5fbmp',['wxIA_FILETYPE_BMP',['../ia_8h.html#a8c5cfb74376be723cd044baa54e8036fac99cb23acbf96569f4a8c438d3a1b6b7',1,'ia.h']]],
   ['wxia_5ffiletype_5fjpg',['wxIA_FILETYPE_JPG',['../ia_8h.html#a8c5cfb74376be723cd044baa54e8036fa02f31ed7d83c952ce3ac2708b5c70c51',1,'ia.h']]],

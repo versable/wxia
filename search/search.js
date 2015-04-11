@@ -13,7 +13,8 @@ var indexSectionsWithContent =
   3: "acgilosuw~",
   4: "w",
   5: "w",
-  6: "w"
+  6: "w",
+  7: "w"
 };
 
 var indexSectionNames =
@@ -24,7 +25,8 @@ var indexSectionNames =
   3: "functions",
   4: "variables",
   5: "enums",
-  6: "enumvalues"
+  6: "enumvalues",
+  7: "pages"
 };
 
 function convertToId(search)
