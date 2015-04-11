@@ -6,6 +6,7 @@ wxIA is a collection of cross-platform image acquisition classes for the [wxWidg
 Resources
 ---------
 * [Download](https://github.com/versable/wxia/releases)
+* [Documentation](http://versable.github.io/wxia/annotated.html)
 * [GitHub](https://github.com/versable/wxia)
 
 Features
