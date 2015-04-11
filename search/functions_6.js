@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['savesettings',['SaveSettings',['../classwxIAProvider.html#ad4aba2f6c4b7e7400d475f21f95ffe73',1,'wxIAProvider']]],
+  ['selectdefaultsource',['SelectDefaultSource',['../classwxIAProvider.html#aa67e0137e0402400c21eb280b60aeb79',1,'wxIAProvider::SelectDefaultSource()'],['../classwxIASaneProvider.html#af7a8d2f4729e80e962a4f5a4b884b2ba',1,'wxIASaneProvider::SelectDefaultSource()'],['../classwxIATwainMSWProvider.html#aa4251e457963f0c532db9367b83ea728',1,'wxIATwainMSWProvider::SelectDefaultSource()']]],
+  ['selectsource',['SelectSource',['../classwxIAProvider.html#a1c594a6ff3f2d204b2085ecf10c71515',1,'wxIAProvider::SelectSource()'],['../classwxIASaneProvider.html#ad4eb096af956c94ffb8928247b545d75',1,'wxIASaneProvider::SelectSource()'],['../classwxIATwainMSWProvider.html#a29f4347ca2a6a58fa06f3ef34b322663',1,'wxIATwainMSWProvider::SelectSource()']]],
+  ['setevthandler',['SetEvtHandler',['../classwxIAProvider.html#ab922b82950006801f895c19410a408eb',1,'wxIAProvider']]],
+  ['setmodel',['SetModel',['../classwxIASourceInfo.html#ae588102e7496de73583129c0ce1f8832',1,'wxIASourceInfo']]],
+  ['setname',['SetName',['../classwxIASourceInfo.html#aa3b7823e7a2e478490c79734646eefc2',1,'wxIASourceInfo']]],
+  ['setprovider',['SetProvider',['../classwxIAEvent.html#a53fb9c415723d86d79dd84a144539b4f',1,'wxIAEvent']]],
+  ['setquantum',['SetQuantum',['../classwxIAEvent.html#ab67a2e531422f4d7a1902c9669b80b61',1,'wxIAEvent']]],
+  ['setselsourceconfig',['SetSelSourceConfig',['../classwxIAProvider.html#adc41b188808e4d03b3b9a2dea9ffba5c',1,'wxIAProvider::SetSelSourceConfig()'],['../classwxIASaneProvider.html#ab557b361c917fcbf8291eb398269c5ed',1,'wxIASaneProvider::SetSelSourceConfig()'],['../classwxIATwainMSWProvider.html#ae22e7d7b11b572394a9d25d2a1cb3a3e',1,'wxIATwainMSWProvider::SetSelSourceConfig()']]],
+  ['setspan',['SetSpan',['../classwxIAEvent.html#a879017cbc5a1db48ef4f8bb055559041',1,'wxIAEvent']]],
+  ['settext',['SetText',['../classwxIAEvent.html#af507c7ea63c1e5298759a9fc2587b98d',1,'wxIAEvent']]],
+  ['settransferbuffer',['SetTransferBuffer',['../classwxIAProvider.html#a245b2a84ad3f3d0de974da1912c03ad4',1,'wxIAProvider']]],
+  ['settransferfilename',['SetTransferFilename',['../classwxIAProvider.html#ab300a6dcce4b9294816a20a806013f22',1,'wxIAProvider']]],
+  ['settransfermode',['SetTransferMode',['../classwxIAProvider.html#aef6886fad65d380a384f1d48b12dcf3e',1,'wxIAProvider']]],
+  ['settype',['SetType',['../classwxIASourceInfo.html#a056ee60601624841e484c84ed5f805a3',1,'wxIASourceInfo']]],
+  ['setvendor',['SetVendor',['../classwxIASourceInfo.html#af813cae460eeffb3180c6de588361e25',1,'wxIASourceInfo']]],
+  ['shouldabort',['ShouldAbort',['../classwxIAEvent.html#a7300fc02112e93f4369ba1ca35219a37',1,'wxIAEvent']]]
+];
