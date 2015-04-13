@@ -181,17 +181,11 @@ wxIAReturnCode wxIASaneProvider::SelectSource(const wxString &name,
             _("Select Source"), sources);
         d.SetSelection(sel);
 
-        if(d.ShowModal() == wxID_OK)
-        {
-            sel = d.GetSelection();
-            selName = wxString(m_deviceList[sel]->name).Strip();
-        }
-        else
-        {
-            sel = -1;
+        if(d.ShowModal() != wxID_OK)
             return wxIA_RC_CANCELLED;
-        }
-    }
+        sel = d.GetSelection();
+        selName = wxString(m_deviceList[sel]->name).Strip();
+   }
     else if(!(sel <= m_numDevices))
         return wxIA_RC_NOSOURCE;
 
