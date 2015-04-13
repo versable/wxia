@@ -95,15 +95,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>Image Acquisition Provider.  
  <a href="classwxIAProvider.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="ia_8h_source.html">ia.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="ia_8h_source.html">wx/ia/ia.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for wxIAProvider:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classwxIAProvider.png" usemap="#wxIAProvider_map" alt=""/>
   <map id="wxIAProvider_map" name="wxIAProvider_map">
-<area href="classwxIASaneProvider.html" alt="wxIASaneProvider" shape="rect" coords="0,112,151,136"/>
-<area href="classwxIATwainMSWProvider.html" alt="wxIATwainMSWProvider" shape="rect" coords="161,112,312,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -345,8 +343,6 @@ wxString&#160;</td><td class="memItemRight" valign="bottom"><b>m_transferFilenam
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="classwxIASaneProvider.html#a124297e00ae290786fd8e0558178fbe9">wxIASaneProvider</a>, and <a class="el" href="classwxIATwainMSWProvider.html#a6be383ca3c67e6406f4cec7118b68afc">wxIATwainMSWProvider</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a5100c64dcd3ca075a8add49fa6558ebb"></a>
@@ -372,8 +368,6 @@ wxString&#160;</td><td class="memItemRight" valign="bottom"><b>m_transferFilenam
 
 <p>Get the last image acquired as a wxBitmap. </p>
 <dl class="section return"><dt>Returns</dt><dd>The last image acquired as a wxBitmap. Image data is destroyed after calling this method. </dd></dl>
-
-<p>Reimplemented in <a class="el" href="classwxIASaneProvider.html#a8096a1da7a03ac9753093b2e783d644a">wxIASaneProvider</a>, and <a class="el" href="classwxIATwainMSWProvider.html#af609d9135fa30a0052706cad950590b1">wxIATwainMSWProvider</a>.</p>
 
 </div>
 </div>
@@ -419,8 +413,6 @@ wxString&#160;</td><td class="memItemRight" valign="bottom"><b>m_transferFilenam
 <p>Get the last image aqcuired as a wxImage. </p>
 <dl class="section return"><dt>Returns</dt><dd>The last image acquired as a wxImage. Image data is destroyed after calling this method. </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classwxIASaneProvider.html#ab974f9b8e32c6e63d449fd41085e7708">wxIASaneProvider</a>, and <a class="el" href="classwxIATwainMSWProvider.html#a1b521c6f2c875f30ca23ad6c99e3b85e">wxIATwainMSWProvider</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="ae498fb0b7c28902ace961aa4b7b0c00c"></a>
@@ -446,8 +438,6 @@ wxString&#160;</td><td class="memItemRight" valign="bottom"><b>m_transferFilenam
 
 <p>Get name. </p>
 <dl class="section return"><dt>Returns</dt><dd>the name of this provider </dd></dl>
-
-<p>Reimplemented in <a class="el" href="classwxIASaneProvider.html#abffe0a158eade9fcc55d6e15f6e087d7">wxIASaneProvider</a>, and <a class="el" href="classwxIATwainMSWProvider.html#ad9c5becd6c121ada63d28f79ec4e1e3b">wxIATwainMSWProvider</a>.</p>
 
 </div>
 </div>
@@ -475,8 +465,6 @@ wxString&#160;</td><td class="memItemRight" valign="bottom"><b>m_transferFilenam
 <p>Get the current configuration of the selected source. </p>
 <dl class="section return"><dt>Returns</dt><dd>The configuration of the currently selected source encoded as a wxString. The format of the configuration string is defined by the source and should not be edited or modified. </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classwxIASaneProvider.html#a65ba5ef9027ae903c04f5448f0dba75c">wxIASaneProvider</a>, and <a class="el" href="classwxIATwainMSWProvider.html#a18ed1ffc8d78eda7c229f55116a61e6e">wxIATwainMSWProvider</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a6a34d9e4db1135091f57f948c9cf87e3"></a>
@@ -501,8 +489,6 @@ wxString&#160;</td><td class="memItemRight" valign="bottom"><b>m_transferFilenam
 </div><div class="memdoc">
 <p>Get source info for the currently selected source. </p>
 <dl class="section return"><dt>Returns</dt><dd>the source info for the currently selected source. If no source is currently selected, wxIAEmptySourceInfo will be returned. </dd></dl>
-
-<p>Reimplemented in <a class="el" href="classwxIASaneProvider.html#a1531cfdb16b1f8aab81bf47a752827a6">wxIASaneProvider</a>, and <a class="el" href="classwxIATwainMSWProvider.html#acea43c3a6e2ad7f2c11d35f092a75f8d">wxIATwainMSWProvider</a>.</p>
 
 </div>
 </div>
@@ -529,8 +515,6 @@ wxString&#160;</td><td class="memItemRight" valign="bottom"><b>m_transferFilenam
 
 <p>Get source count. </p>
 <dl class="section return"><dt>Returns</dt><dd>The number of sources available or -1 if the sources cannot be enumerated. If the sources cannot be enumerated, the only way to select a source is by a call to <a class="el" href="classwxIAProvider.html#a1c594a6ff3f2d204b2085ecf10c71515">SelectSource()</a> with the default args. </dd></dl>
-
-<p>Reimplemented in <a class="el" href="classwxIASaneProvider.html#a3b98c19cadad0ae20919657a4a5ad2f1">wxIASaneProvider</a>, and <a class="el" href="classwxIATwainMSWProvider.html#a70c7dc2133f3f4c17ad3f06cb8d68f01">wxIATwainMSWProvider</a>.</p>
 
 </div>
 </div>
@@ -563,8 +547,6 @@ wxString&#160;</td><td class="memItemRight" valign="bottom"><b>m_transferFilenam
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the source info for the specified source. </dd></dl>
-
-<p>Reimplemented in <a class="el" href="classwxIASaneProvider.html#a410a355c284a0a40267184f580292595">wxIASaneProvider</a>, and <a class="el" href="classwxIATwainMSWProvider.html#aa9db328024a0766f827c216bb09dd30b">wxIATwainMSWProvider</a>.</p>
 
 </div>
 </div>
@@ -643,8 +625,6 @@ wxString&#160;</td><td class="memItemRight" valign="bottom"><b>m_transferFilenam
 <p>Is a source selected? </p>
 <dl class="section return"><dt>Returns</dt><dd>wxIA_RC_SUCCESS on success another return code on failure. </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classwxIASaneProvider.html#af29a06b44765ae810f682ccc8da262fd">wxIASaneProvider</a>, and <a class="el" href="classwxIATwainMSWProvider.html#a2a131e8a574ecff1dc0c894a6c024777">wxIATwainMSWProvider</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a77b64500d30ed06b4245ec9f896b0e57"></a>
@@ -697,8 +677,6 @@ wxString&#160;</td><td class="memItemRight" valign="bottom"><b>m_transferFilenam
 </div><div class="memdoc">
 <p>Used to determine if the provider is initialized and ready for use.</p>
 <dl class="section return"><dt>Returns</dt><dd>True if the provider is ready for use or false if not. </dd></dl>
-
-<p>Reimplemented in <a class="el" href="classwxIASaneProvider.html#abac8c64136a20de2e92ca0adbaf9d7c3">wxIASaneProvider</a>, and <a class="el" href="classwxIATwainMSWProvider.html#a19b7a4ecd8715e73bb061abc137e26ec">wxIATwainMSWProvider</a>.</p>
 
 </div>
 </div>
@@ -753,8 +731,6 @@ wxString&#160;</td><td class="memItemRight" valign="bottom"><b>m_transferFilenam
 <p>Select the default source.</p>
 <dl class="section return"><dt>Returns</dt><dd>wxIA_RC_SUCCESS if a source was selected or another return code on failure. </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classwxIASaneProvider.html#af7a8d2f4729e80e962a4f5a4b884b2ba">wxIASaneProvider</a>, and <a class="el" href="classwxIATwainMSWProvider.html#aa4251e457963f0c532db9367b83ea728">wxIATwainMSWProvider</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a1c594a6ff3f2d204b2085ecf10c71515"></a>
@@ -804,8 +780,6 @@ wxString&#160;</td><td class="memItemRight" valign="bottom"><b>m_transferFilenam
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>wxIA_RC_SUCCESS if a source was selected or another return code on failure. </dd></dl>
-
-<p>Reimplemented in <a class="el" href="classwxIASaneProvider.html#ad4eb096af956c94ffb8928247b545d75">wxIASaneProvider</a>, and <a class="el" href="classwxIATwainMSWProvider.html#a29f4347ca2a6a58fa06f3ef34b322663">wxIATwainMSWProvider</a>.</p>
 
 </div>
 </div>
@@ -873,8 +847,6 @@ wxString&#160;</td><td class="memItemRight" valign="bottom"><b>m_transferFilenam
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True on success or false on failure. </dd></dl>
-
-<p>Reimplemented in <a class="el" href="classwxIASaneProvider.html#ab557b361c917fcbf8291eb398269c5ed">wxIASaneProvider</a>, and <a class="el" href="classwxIATwainMSWProvider.html#ae22e7d7b11b572394a9d25d2a1cb3a3e">wxIATwainMSWProvider</a>.</p>
 
 </div>
 </div>
@@ -1006,7 +978,7 @@ wxString&#160;</td><td class="memItemRight" valign="bottom"><b>m_transferFilenam
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 11 2015 10:28:45 for wxIA by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 13 2015 15:27:01 for wxIA by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

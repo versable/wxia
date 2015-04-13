@@ -42,18 +42,10 @@ var searchData=
   ['wxiamonitor',['wxIAMonitor',['../classwxIAMonitor.html',1,'wxIAMonitor'],['../classwxIAMonitor.html#adf3d84579f00bfe6b45743ce3ea01278',1,'wxIAMonitor::wxIAMonitor()']]],
   ['wxiaprovider',['wxIAProvider',['../classwxIAProvider.html',1,'wxIAProvider'],['../classwxIAProvider.html#adcdd3826451e57eba6261b80f0f3865b',1,'wxIAProvider::wxIAProvider()']]],
   ['wxiareturncode',['wxIAReturnCode',['../ia_8h.html#ae664ebd765976bb39c9af3e22b5e3fec',1,'ia.h']]],
-  ['wxiasaneacquiredialog',['wxIASaneAcquireDialog',['../classwxIASaneAcquireDialog.html',1,'']]],
-  ['wxiasaneprovider',['wxIASaneProvider',['../classwxIASaneProvider.html',1,'']]],
   ['wxiasourceinfo',['wxIASourceInfo',['../classwxIASourceInfo.html',1,'wxIASourceInfo'],['../classwxIASourceInfo.html#aee9b383f9b601c950787ab57a29ff1b6',1,'wxIASourceInfo::wxIASourceInfo()'],['../classwxIASourceInfo.html#a19958f9c6caa25fe1f40b42ebbbce519',1,'wxIASourceInfo::wxIASourceInfo(const wxString &amp;name, const wxString &amp;model, const wxString &amp;vendor, wxIASourceType type)']]],
   ['wxiasourcetype',['wxIASourceType',['../ia_8h.html#a3bce14dab6b729419028f90b49a7fe38',1,'ia.h']]],
   ['wxiatransferfiletype',['wxIATransferFileType',['../ia_8h.html#a8c5cfb74376be723cd044baa54e8036f',1,'ia.h']]],
   ['wxiatransfermode',['wxIATransferMode',['../ia_8h.html#a0d99ef3688cc12d61aa52a72c6d2c960',1,'ia.h']]],
-  ['wxiatwainmswprovider',['wxIATwainMSWProvider',['../classwxIATwainMSWProvider.html',1,'']]],
   ['wxiauimode',['wxIAUIMode',['../ia_8h.html#a1d5293881ce4ad77380dfcd76ff79431',1,'ia.h']]],
-  ['wxnulliasourceinfo',['wxNullIASourceInfo',['../ia_8h.html#a068107bb5025a014003e3cbf4b906c13',1,'ia.h']]],
-  ['wxsane',['wxSane',['../classwxSane.html',1,'']]],
-  ['wxtwainbase',['wxTwainBase',['../classwxTwainBase.html',1,'']]],
-  ['wxtwainclient',['wxTwainClient',['../classwxTwainClient.html',1,'']]],
-  ['wxtwainmsw',['wxTwainMSW',['../classwxTwainMSW.html',1,'']]],
-  ['wxtwainmswclient',['wxTwainMSWClient',['../classwxTwainMSWClient.html',1,'']]]
+  ['wxnulliasourceinfo',['wxNullIASourceInfo',['../ia_8h.html#a068107bb5025a014003e3cbf4b906c13',1,'ia.h']]]
 ];
