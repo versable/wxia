@@ -37,7 +37,7 @@ var searchData=
   ['wxia_5ftransfermode_5fnative',['wxIA_TRANSFERMODE_NATIVE',['../ia_8h.html#a0d99ef3688cc12d61aa52a72c6d2c960ac5b7ece6a173e0b63f7caf33aaee86ab',1,'ia.h']]],
   ['wxia_5fuimode_5fnone',['wxIA_UIMODE_NONE',['../ia_8h.html#a1d5293881ce4ad77380dfcd76ff79431a33575a2cccc4c47725ca221bef9ec3b2',1,'ia.h']]],
   ['wxia_5fuimode_5fnormal',['wxIA_UIMODE_NORMAL',['../ia_8h.html#a1d5293881ce4ad77380dfcd76ff79431ac80275453aa51f4c3598c3f1b866dd3c',1,'ia.h']]],
-  ['wxiaevent',['wxIAEvent',['../classwxIAEvent.html',1,'wxIAEvent'],['../classwxIAEvent.html#a4ab7d5fbe9b24971c162abac8af2fb9d',1,'wxIAEvent::wxIAEvent(wxEventType type, wxIAProvider *provider)'],['../classwxIAEvent.html#a757200fd57fed345b16d027d6a764108',1,'wxIAEvent::wxIAEvent(wxEventType type, wxIAProvider *provider, const wxString &amp;text, size_t quantum, size_t span)']]],
+  ['wxiaevent',['wxIAEvent',['../classwxIAEvent.html',1,'wxIAEvent'],['../classwxIAEvent.html#a4ab7d5fbe9b24971c162abac8af2fb9d',1,'wxIAEvent::wxIAEvent(wxEventType type, wxIAProvider *provider)'],['../classwxIAEvent.html#a757200fd57fed345b16d027d6a764108',1,'wxIAEvent::wxIAEvent(wxEventType type, wxIAProvider *provider, const wxString &amp;text, size_t quantum, size_t span)'],['../classwxIAEvent.html#a4221725470af273bf9764283b5267dd6',1,'wxIAEvent::wxIAEvent(const wxIAEvent &amp;event)']]],
   ['wxiamanager',['wxIAManager',['../classwxIAManager.html',1,'']]],
   ['wxiamonitor',['wxIAMonitor',['../classwxIAMonitor.html',1,'wxIAMonitor'],['../classwxIAMonitor.html#adf3d84579f00bfe6b45743ce3ea01278',1,'wxIAMonitor::wxIAMonitor()']]],
   ['wxiaprovider',['wxIAProvider',['../classwxIAProvider.html',1,'wxIAProvider'],['../classwxIAProvider.html#adcdd3826451e57eba6261b80f0f3865b',1,'wxIAProvider::wxIAProvider()']]],

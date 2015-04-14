@@ -333,11 +333,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;</div>
 <div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;    <a class="code" href="classwxIAProvider.html">wxIAProvider</a> *<a class="code" href="classwxIAManager.html#a91a99a3a94c0a4330326340843ae9779">GetDefaultProvider</a>();</div>
 <div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;</div>
-<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;    <span class="comment">//</span></div>
-<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;    <span class="comment">//  GetReturnCodeDesc() - Returns a description of the specified</span></div>
-<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;    <span class="comment">//    wxIAReturnCode for usable for displaying to the user.</span></div>
-<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;    <span class="comment">//</span></div>
-<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;    wxString GetReturnCodeDesc(<a class="code" href="ia_8h.html#ae664ebd765976bb39c9af3e22b5e3fec">wxIAReturnCode</a> rc);</div>
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;</div>
+<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;    wxString <a class="code" href="classwxIAManager.html#ade5776629d7760d11f4eff36e164a15c">GetReturnCodeDesc</a>(<a class="code" href="ia_8h.html#ae664ebd765976bb39c9af3e22b5e3fec">wxIAReturnCode</a> rc);</div>
 <div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;</div>
 <div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;<span class="keyword">private</span>:</div>
 <div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;    <a class="code" href="classwxIAManager.html">wxIAManager</a>();</div>
@@ -362,7 +359,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;    <a class="code" href="classwxIAEvent.html">wxIAEvent</a>(wxEventType type, <a class="code" href="classwxIAProvider.html">wxIAProvider</a> *provider);</div>
 <div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;    <a class="code" href="classwxIAEvent.html">wxIAEvent</a>(wxEventType type, <a class="code" href="classwxIAProvider.html">wxIAProvider</a> *provider, <span class="keyword">const</span> wxString &amp;text,</div>
 <div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;        <span class="keywordtype">size_t</span> quantum, <span class="keywordtype">size_t</span> span);</div>
-<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;    <span class="comment">// Copy constructor</span></div>
 <div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;    <a class="code" href="classwxIAEvent.html">wxIAEvent</a>(<span class="keyword">const</span> <a class="code" href="classwxIAEvent.html">wxIAEvent</a>&amp; event);</div>
 <div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;</div>
 <div class="line"><a name="l00580"></a><span class="lineno"><a class="line" href="classwxIAEvent.html#aa24f9aa830cf5f690179d8f70d4da482">  580</a></span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classwxIAProvider.html">wxIAProvider</a> *<a class="code" href="classwxIAEvent.html#aa24f9aa830cf5f690179d8f70d4da482">GetProvider</a>() { <span class="keywordflow">return</span> m_provider; }</div>
@@ -410,6 +406,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="ia_8h_html_ae664ebd765976bb39c9af3e22b5e3feca6a770df84eca63a6ddf7d7ff5fc9f5fe"><div class="ttname"><a href="ia_8h.html#ae664ebd765976bb39c9af3e22b5e3feca6a770df84eca63a6ddf7d7ff5fc9f5fe">wxIA_RC_CANCELLED</a></div><div class="ttdoc">Operation was cancelled by user. </div><div class="ttdef"><b>Definition:</b> ia.h:36</div></div>
 <div class="ttc" id="classwxIAEvent_html_a15396de3da2f2b5d4738ac72ef0189e1"><div class="ttname"><a href="classwxIAEvent.html#a15396de3da2f2b5d4738ac72ef0189e1">wxIAEvent::GetQuantum</a></div><div class="ttdeci">virtual size_t GetQuantum()</div><div class="ttdef"><b>Definition:</b> ia.h:593</div></div>
 <div class="ttc" id="ia_8h_html_ae664ebd765976bb39c9af3e22b5e3feca5fa1fb57c517f5b50ba15b7dc39067df"><div class="ttname"><a href="ia_8h.html#ae664ebd765976bb39c9af3e22b5e3feca5fa1fb57c517f5b50ba15b7dc39067df">wxIA_RC_NOSOURCE</a></div><div class="ttdoc">No source selected. </div><div class="ttdef"><b>Definition:</b> ia.h:56</div></div>
+<div class="ttc" id="classwxIAManager_html_ade5776629d7760d11f4eff36e164a15c"><div class="ttname"><a href="classwxIAManager.html#ade5776629d7760d11f4eff36e164a15c">wxIAManager::GetReturnCodeDesc</a></div><div class="ttdeci">wxString GetReturnCodeDesc(wxIAReturnCode rc)</div><div class="ttdoc">Returns a string description. </div></div>
 <div class="ttc" id="classwxIASourceInfo_html_af813cae460eeffb3180c6de588361e25"><div class="ttname"><a href="classwxIASourceInfo.html#af813cae460eeffb3180c6de588361e25">wxIASourceInfo::SetVendor</a></div><div class="ttdeci">void SetVendor(const wxString &amp;vendor)</div><div class="ttdoc">Set vendor. </div></div>
 <div class="ttc" id="ia_8h_html_ae664ebd765976bb39c9af3e22b5e3fecaedd4edc31ca32bb1e60a78eda33764c9"><div class="ttname"><a href="ia_8h.html#ae664ebd765976bb39c9af3e22b5e3fecaedd4edc31ca32bb1e60a78eda33764c9">wxIA_RC_NOTREADY</a></div><div class="ttdoc">Device is not ready. </div><div class="ttdef"><b>Definition:</b> ia.h:38</div></div>
 <div class="ttc" id="classwxIAProvider_html_a245b2a84ad3f3d0de974da1912c03ad4"><div class="ttname"><a href="classwxIAProvider.html#a245b2a84ad3f3d0de974da1912c03ad4">wxIAProvider::SetTransferBuffer</a></div><div class="ttdeci">virtual wxIAReturnCode SetTransferBuffer(void *buffer, size_t size)</div><div class="ttdoc">Set the transfer buffer. </div></div>
@@ -507,7 +504,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 13 2015 15:27:01 for wxIA by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Apr 14 2015 11:02:00 for wxIA by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

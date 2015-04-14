@@ -10,6 +10,7 @@ var searchData=
   ['getprovider',['GetProvider',['../classwxIAEvent.html#aa24f9aa830cf5f690179d8f70d4da482',1,'wxIAEvent']]],
   ['getproviders',['GetProviders',['../classwxIAManager.html#abfa3551760d22fda680e6247260ecf1a',1,'wxIAManager']]],
   ['getquantum',['GetQuantum',['../classwxIAEvent.html#a15396de3da2f2b5d4738ac72ef0189e1',1,'wxIAEvent']]],
+  ['getreturncodedesc',['GetReturnCodeDesc',['../classwxIAManager.html#ade5776629d7760d11f4eff36e164a15c',1,'wxIAManager']]],
   ['getselsourceconfig',['GetSelSourceConfig',['../classwxIAProvider.html#aa421369f81e330ff2aedd1263e608843',1,'wxIAProvider']]],
   ['getselsourceinfo',['GetSelSourceInfo',['../classwxIAProvider.html#a6a34d9e4db1135091f57f948c9cf87e3',1,'wxIAProvider']]],
   ['getsourcecount',['GetSourceCount',['../classwxIAProvider.html#aac8cc770d99f43446c54fc12f56f112d',1,'wxIAProvider']]],
