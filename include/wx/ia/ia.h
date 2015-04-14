@@ -537,10 +537,10 @@ public:
     */
     wxIAProvider *GetDefaultProvider();
 
-    //
-    //  GetReturnCodeDesc() - Returns a description of the specified
-    //    wxIAReturnCode for usable for displaying to the user.
-    //
+    //! Returns a string description
+    /*! \return A string describing the specified
+        wxIAReturnCode for usable for displaying to the user.
+    */
     wxString GetReturnCodeDesc(wxIAReturnCode rc);
 
 private:
@@ -572,7 +572,7 @@ public:
     //! Constructor
     wxIAEvent(wxEventType type, wxIAProvider *provider, const wxString &text,
         size_t quantum, size_t span);
-    // Copy constructor
+    //! Copy constructor
     wxIAEvent(const wxIAEvent& event);
 
     /*! \return a pointer to the provider that posted the event
