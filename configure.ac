@@ -23,6 +23,8 @@ case "$host_os" in
 esac
 AM_CONDITIONAL([MINGW], [test "$mingw" = 1])
 
+PKG_CHECK_MODULES([sb], [sane-backends])
+
 dnl figure out wx library name
 AC_ARG_WITH([wx-config],
 	[AS_HELP_STRING([--with-wx-config=PATH], [Specify path to alternate wx-config])],

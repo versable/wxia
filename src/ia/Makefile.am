@@ -1,4 +1,4 @@
-AM_CPPFLAGS = -I${top_srcdir}/include
+AM_CPPFLAGS = -I${top_srcdir}/include ${sb_CFLAGS}
 AM_CXXFLAGS = ${libwx_CXXFLAGS}
 
 lib_LTLIBRARIES = libwxia.la
