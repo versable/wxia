@@ -37,7 +37,6 @@ wxSane::wxSane()
 wxSane::~wxSane()
 {
     wxASSERT_MSG(!m_handle, _("wxSane not shutdown properly!"));
-    wxASSERT_MSG(!m_saneLib, _("wxSane not shutdown properly!"));
 }
 
 bool wxSane::IsOpen()
