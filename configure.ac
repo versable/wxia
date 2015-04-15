@@ -53,6 +53,7 @@ AC_SUBST([libwx_LIBS])
 
 dnl output
 AC_CONFIG_FILES([
+	wxia.pc
 	Makefile
 	src/Makefile
 	src/ia/Makefile
