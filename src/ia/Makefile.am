@@ -7,10 +7,11 @@ libwxia_la_LDFLAGS = -release @VERSION@ -no-undefined
 libwxia_la_LIBADD  = ${libwx_LIBS}
 
 libwxia_la_SOURCES = ia.cpp
-if MINGW
+if TWAIN
 libwxia_la_SOURCES += iatwainmsw.cpp twainbase.cpp twainmsw.cpp
 libwxia_la_LIBADD  += -lgdi32
-else
+endif
+if SANE
 libwxia_la_SOURCES += sane.cpp iasane.cpp iasanedlg.cpp
 libwxia_la_LIBADD  += ${sb_LIBS}
 endif

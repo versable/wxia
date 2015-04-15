@@ -13,18 +13,20 @@ dnl Checks for programs.
 m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
 LT_INIT([disable-static])
 PKG_PROG_PKG_CONFIG
+sane=0
+twain=0
 
 case "$host_os" in
 	mingw*)
-		mingw=1
+		twain=1
 		;;
 	*)
-		mingw=0
+		sane=1
 		PKG_CHECK_MODULES([sb], [sane-backends])
 		;;
 esac
-AM_CONDITIONAL([MINGW], [test "$mingw" = 1])
-
+AM_CONDITIONAL([SANE], [test "$sane" = 1])
+AM_CONDITIONAL([TWAIN], [test "$twain" = 1])
 
 dnl figure out wx library name
 AC_ARG_WITH([wx-config],
