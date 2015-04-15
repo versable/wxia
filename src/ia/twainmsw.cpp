@@ -206,7 +206,7 @@ bool wxTwainMSW::GetImage(TW_IMAGEINFO &info)
         case TWRC_XFERDONE:
             if (m_client)
             {
-                wxLogDebug("m_hBitmap = %08lx", m_hBitmap);
+                wxLogDebug("m_hBitmap = %p", m_hBitmap);
                 if (!m_client->HandleImage(info) ||
                     !m_client->UpdateStatus(_("Acquiring image(s)"),
                     m_imagesAcquired, m_imageCount))

@@ -123,7 +123,7 @@ bool wxTwainBase::OpenSourceManager()
     wxLogDebug("wxTwainBase::OpenSourceManager()");
     if (Ok() && !IsSourceManagerOpen())
     {
-        wxLogDebug("calling DSMEntryProc to open source manager, m_hParent = %08lx", m_hParentPtr);
+        wxLogDebug("calling DSMEntryProc to open source manager, m_hParent = %p", m_hParentPtr);
         m_sourceManagerIsOpen = CallDSMEntryProc(&m_appId, NULL, DG_CONTROL,
             DAT_PARENT, MSG_OPENDSM, (TW_MEMREF)m_hParentPtr);
 
@@ -314,7 +314,7 @@ bool wxTwainBase::CallDSMEntryProc(pTW_IDENTITY origin, pTW_IDENTITY dest,
 
     if (Ok())
     {
-        wxLogDebug("calling DSMEntryProc = %08lx", m_DSMEntryProc);
+        wxLogDebug("calling DSMEntryProc = %p", m_DSMEntryProc);
         m_returnCode = (*m_DSMEntryProc)(origin, dest, dg, dat, msg, data);
         if(m_returnCode != TWRC_SUCCESS)
             (*m_DSMEntryProc)(origin, dest, DG_CONTROL, DAT_STATUS, MSG_GET,
