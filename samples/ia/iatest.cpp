@@ -272,17 +272,18 @@ void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
 
 void MyFrame::OnSelectSource(wxCommandEvent& WXUNUSED(event))
 {
-    if (!wxIAManager::Get().GetDefaultProvider())
+    wxIAProvider *provider = wxIAManager::Get().GetDefaultProvider();
+    if (!provider)
         return;
 
-    wxIAReturnCode rc = wxIAManager::Get().GetDefaultProvider()->SelectSource();
+    wxIAReturnCode rc = provider->SelectSource();
     if (rc != wxIA_RC_SUCCESS)
     {
         wxLogError(wxIAManager::Get().GetReturnCodeDesc(rc));
         return;
     }
 
-    wxIASourceInfo source = wxIAManager::Get().GetDefaultProvider()->GetSelSourceInfo();
+    wxIASourceInfo source = provider->GetSelSourceInfo();
 
     wxString msg = wxString::Format(_("Name: %s\nModel: %s\nVendor: %s\nType: %d"),
         source.GetName(), source.GetModel(),
