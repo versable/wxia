@@ -48,7 +48,7 @@ wxIASaneProvider::wxIASaneProvider()
     m_saneVersionCode = 0;
     m_sane = new wxSane();
 
-    if (m_sane && m_sane->Startup())
+    if (m_sane)
         m_saneInit = m_sane->SaneInit(&m_saneVersionCode, NULL) == SANE_STATUS_GOOD;
 }
 
@@ -62,7 +62,6 @@ wxIASaneProvider::~wxIASaneProvider()
                 m_sane->SaneClose();
             m_sane->SaneExit();
         }
-        m_sane->Shutdown();
     }
 
     delete m_sane;

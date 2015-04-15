@@ -25,13 +25,6 @@ public:
     wxSane();
     ~wxSane();
 
-    bool Startup();
-    bool Shutdown();
-
-    void SetSaneLibName(const wxString &libName);
-    wxString GetSaneLibName();
-
-    bool Ok();
     bool IsOpen();
 
     SANE_Status GetLastStatus();
@@ -55,8 +48,6 @@ public:
     wxString SaneStrStatus(SANE_Status status);
 
 protected:
-    void *m_saneLib;
-    wxString m_saneLibName;
     SANE_Handle m_handle;
     SANE_Status m_lastStatus;
 
