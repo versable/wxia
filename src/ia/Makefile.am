@@ -12,4 +12,5 @@ libwxia_la_SOURCES += iatwainmsw.cpp twainbase.cpp twainmsw.cpp
 libwxia_la_LIBADD  += -lgdi32
 else
 libwxia_la_SOURCES += sane.cpp iasane.cpp iasanedlg.cpp
+libwxia_la_LIBADD  += ${sb_LIBS}
 endif

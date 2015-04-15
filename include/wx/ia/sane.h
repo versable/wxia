@@ -58,51 +58,6 @@ protected:
     void *m_saneLib;
     wxString m_saneLibName;
     SANE_Handle m_handle;
-
-    //
-    //  Sane function types
-    //
-    typedef SANE_Status (*sane_init)(SANE_Int *version_code,
-        SANE_Auth_Callback authorize);
-    typedef void (*sane_exit)(void);
-    typedef SANE_Status (*sane_get_devices)(const SANE_Device ***device_list,
-        SANE_Bool local_only);
-    typedef SANE_Status (*sane_open)(SANE_String_Const devicename,
-        SANE_Handle *handle);
-    typedef void (*sane_close)(SANE_Handle handle);
-    typedef const SANE_Option_Descriptor *(*sane_get_option_descriptor)
-        (SANE_Handle handle, SANE_Int option);
-    typedef SANE_Status (*sane_control_option)(SANE_Handle handle,
-        SANE_Int option, SANE_Action action, void *value, SANE_Int *info);
-    typedef SANE_Status (*sane_get_parameters)(SANE_Handle handle,
-        SANE_Parameters *params);
-    typedef SANE_Status (*sane_start)(SANE_Handle handle);
-    typedef SANE_Status (*sane_read)(SANE_Handle handle, SANE_Byte *data,
-        SANE_Int max_length, SANE_Int *length);
-    typedef void (*sane_cancel)(SANE_Handle handle);
-    typedef SANE_Status (*sane_set_io_mode)(SANE_Handle handle,
-        SANE_Bool non_blocking);
-    typedef SANE_Status (*sane_get_select_fd)(SANE_Handle handle, SANE_Int *fd);
-    typedef SANE_String_Const (*sane_strstatus)(SANE_Status status);
-
-    //
-    //  Sane functions in shared library
-    //
-    sane_init m_sane_init;
-    sane_exit m_sane_exit;
-    sane_get_devices m_sane_get_devices;
-    sane_open m_sane_open;
-    sane_close m_sane_close;
-    sane_get_option_descriptor m_sane_get_option_descriptor;
-    sane_control_option m_sane_control_option;
-    sane_get_parameters m_sane_get_parameters;
-    sane_start m_sane_start;
-    sane_read m_sane_read;
-    sane_cancel m_sane_cancel;
-    sane_set_io_mode m_sane_set_io_mode;
-    sane_get_select_fd m_sane_get_select_fd;
-    sane_strstatus m_sane_strstatus;
-
     SANE_Status m_lastStatus;
 
 private:
