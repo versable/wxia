@@ -17,6 +17,9 @@ sane=0
 twain=0
 
 case "$host_os" in
+	darwin*)
+		twain=1
+		;;
 	mingw*)
 		twain=1
 		;;
