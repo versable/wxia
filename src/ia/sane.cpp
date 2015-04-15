@@ -75,7 +75,7 @@ SANE_Status wxSane::SaneOpen(const wxString &name)
 {
     if (m_handle)
         SaneClose();
-    m_lastStatus = sane_open(name.c_str(), &m_handle);
+    m_lastStatus = sane_open(name.ToUTF8(), &m_handle);
     if (m_lastStatus != SANE_STATUS_GOOD)
         m_handle = 0;
     return m_lastStatus;
