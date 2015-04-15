@@ -381,7 +381,7 @@ void MyFrame::OnGetImage(wxIAEvent& event)
 
 void MyFrame::OnUpdateStatus(wxIAEvent& event)
 {
-    SetStatusText(wxString::Format(_("%s %d of %d"), event.GetText().c_str(),
+    SetStatusText(wxString::Format(_("%s %d of %d"), event.GetText(),
         event.GetQuantum(), event.GetSpan()));
 }
 #endif
