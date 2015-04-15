@@ -85,7 +85,7 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
     wxPanel *panel = new wxPanel(parent);
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 
-    wxGridBagSizer *gsizer;
+    wxGridBagSizer *gsizer = NULL;
 
     for (unsigned int i = 1; i < m_descriptors.GetCount(); i++)
     {
@@ -101,6 +101,8 @@ wxPanel *wxIASaneAcquireDialog::MakeSettingsPanel(wxWindow *parent)
             sizer->Add(sbsizer, 0, wxEXPAND | wxALL, 5);
             continue;
         }
+	if (gsizer == NULL)
+		continue;
         unsigned int row = gsizer->GetEffectiveRowsCount();
         //
         // If an option is unsettable, skip it
