@@ -1,8 +1,5 @@
 libwxiaincdir = $(includedir)/wx/ia
 libwxiainc_HEADERS = \
-	ia.h sane.h iasane.h
+	ia.h
 noinst_HEADERS = \
-	twain.h \
-	twainbase.h \
-	twainmsw.h \
-	iatwainmsw.h
+	iasane.h iasanedlg.h iatwainmsw.h sane.h twain.h twainbase.h twainmsw.h
