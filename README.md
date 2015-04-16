@@ -8,7 +8,7 @@ Resources
 * [Download](https://github.com/versable/wxia/releases)
 * [Documentation](http://versable.github.io/wxia)
 * [GitHub](https://github.com/versable/wxia)
-* [Changelog](https://github.com/versable/wxia/blob/master/CHANGELOG.md)
+* [Changelog](https://github.com/versable/wxia/blob/master/CHANGELOG.md#)
 
 Features
 --------
