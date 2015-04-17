@@ -6,6 +6,8 @@ Makefile.in
 *.la
 *.lo
 *.o
+*.pc
+*.tmp
 samples/ia/iatest
 
 /aclocal.m4
@@ -15,4 +17,3 @@ samples/ia/iatest
 /configure
 /libtool
 /stamp-h1
-*.pc
