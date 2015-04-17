@@ -23,7 +23,7 @@ Requirements
 ------------
 * [wxWidgets][1]: 3.0.0  or newer
 * [SANE][2]: For Unix/Linux
-* [TWAIN][3]: For Windows/OSX
+* [TWAIN compatible device][3]: For Windows/OSX
 
 [1]: http://www.wxwidgets.org
 [2]: http://sane-project.org/
