@@ -2,9 +2,8 @@
 // Name:        twainbase.cpp
 // Purpose:     wxTwainBase
 // Author:      Derry Bryson
-// Modified by:
+// Modified by: Jan Engelhardt, Michael Langfermann
 // Created:     01/08/2003
-// RCS-ID:      $Id: twainbase.cpp,v 1.1.1.1 2003/04/01 20:32:35 dbryson Exp $
 // Copyright:   (c) Derry Bryson
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////

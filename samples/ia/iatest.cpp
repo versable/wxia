@@ -2,9 +2,8 @@
 // Name:        iatest.cpp
 // Purpose:     wxIA test
 // Author:      Derry Bryson
-// Modified by:
+// Modified by: Michael Langfermann
 // Created:     02/13/03
-// RCS-ID:      $Id: iatest.cpp,v 1.1.1.1 2003/04/01 20:32:35 dbryson Exp $
 // Copyright:   (c) 2003 Derry Bryson
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

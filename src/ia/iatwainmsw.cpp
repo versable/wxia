@@ -2,9 +2,8 @@
 // Name:        iatwainmsw.cpp
 // Purpose:     wxIATwainMSWProvider
 // Author:      Derry Bryson, Technology Associates, Inc.
-// Modified by:
+// Modified by: Michael Langfermann
 // Created:     01/24/2003
-// RCS-ID:      $Id: iatwainmsw.cpp,v 1.1.1.1 2003/04/01 20:32:35 dbryson Exp $
 // Copyright:   (c) 2003 Derry Bryson
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////

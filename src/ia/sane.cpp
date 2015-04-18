@@ -2,9 +2,8 @@
 // Name:        sane.cpp
 // Purpose:     wxSane
 // Author:      Derry Bryson
-// Modified by:
+// Modified by: Jan Engelhardt, Michael Langfermann
 // Created:     01/08/2003
-// RCS-ID:      $Id: sane.cpp,v 1.1.1.1 2003/04/01 20:32:35 dbryson Exp $
 // Copyright:   (c) 2003 Derry Bryson
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////

@@ -2,9 +2,8 @@
 // Name:        iasane.cpp
 // Purpose:     wxIASaneProvider
 // Author:      Derry Bryson, Technology Associates, Inc.
-// Modified by:
+// Modified by: Jan Engelhardt, Michael Langfermann
 // Created:     01/23/2003
-// RCS-ID:      $Id: iasane.cpp,v 1.1.1.1 2003/04/01 20:32:35 dbryson Exp $
 // Copyright:   (c) 2003 Derry Bryson
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////

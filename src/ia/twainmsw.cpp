@@ -2,9 +2,8 @@
 // Name:        twainmsw.cpp
 // Purpose:     wxTwainMSW - MSW version wxTwain
 // Author:      Derry Bryson
-// Modified by:
+// Modified by: Jan Engelhardt, Michael Langfermann
 // Created:     01/08/2003
-// RCS-ID:      $Id: twainmsw.cpp,v 1.2 2003/04/12 02:57:24 dbryson Exp $
 // Copyright:   (c) Derry Bryson
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
