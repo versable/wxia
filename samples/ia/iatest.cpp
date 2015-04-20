@@ -86,9 +86,6 @@ private:
 
     wxBitmap m_bitmap, m_dbBitmap;
     double m_zoomFactor;
-
-    // any class wishing to process wxWindows events must use this macro
-    DECLARE_EVENT_TABLE()
 };
 
 // Define a new frame type: this is going to be our main frame
@@ -116,9 +113,6 @@ private:
 
     ImageWindow *m_imageWin;
     int m_imageCount;
-
-    // any class wishing to process wxWindows events must use this macro
-    DECLARE_EVENT_TABLE()
 };
 
 // ----------------------------------------------------------------------------
@@ -138,32 +132,6 @@ enum
     ID_ZOOMOUT,
     ID_PROMPTONGETIMAGE
 };
-
-// ----------------------------------------------------------------------------
-// event tables and other macros for wxWindows
-// ----------------------------------------------------------------------------
-
-// the event tables connect the wxWindows events with the functions (event
-// handlers) which process them. It can be also done at run-time, but for the
-// simple menu events like this the static method is much simpler.
-BEGIN_EVENT_TABLE(MyFrame, wxFrame)
-    EVT_MENU(wxID_EXIT,  MyFrame::OnQuit)
-    EVT_MENU(wxID_ABOUT, MyFrame::OnAbout)
-    EVT_MENU(ID_ACQUIREIMAGE, MyFrame::OnAcquireImage)
-    EVT_MENU(ID_ACQUIREIMAGENOUI, MyFrame::OnAcquireImage)
-#ifdef USE_IA_EVENTS
-    EVT_MENU(ID_ACQUIREIMAGES, MyFrame::OnAcquireImages)
-    EVT_MENU(ID_ACQUIREIMAGESNOUI, MyFrame::OnAcquireImages)
-#endif
-    EVT_MENU(ID_SELECTSOURCE, MyFrame::OnSelectSource)
-    EVT_MENU(ID_ZOOMIN, MyFrame::OnZoomIn)
-    EVT_MENU(ID_ZOOMOUT, MyFrame::OnZoomOut)
-    EVT_UPDATE_UI(wxID_ANY, MyFrame::OnUpdateUI)
-#ifdef USE_IA_EVENTS
-    EVT_IA_GETIMAGE(MyFrame::OnGetImage)
-    EVT_IA_UPDATE(MyFrame::OnUpdateStatus)
-#endif
-END_EVENT_TABLE()
 
 // Create a new application object: this macro will allow wxWindows to create
 // the application object during program execution (it's better than using a
@@ -231,13 +199,13 @@ MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size,
     wxMenu *helpMenu = new wxMenu;
     helpMenu->Append(wxID_ABOUT, _("&About...\tF1"), _("Show about dialog"));
 
-    // now append the freshly created menu to the menu bar...
+    // now append the freshly created menu to the menu bar…
     wxMenuBar *menuBar = new wxMenuBar();
     menuBar->Append(menuFile, _("&File"));
     menuBar->Append(menuView, _("&View"));
     menuBar->Append(helpMenu, _("&Help"));
 
-    // ... and attach this menu bar to the frame
+    // … and attach this menu bar to the frame
     SetMenuBar(menuBar);
 
     // create a status bar just for fun (by default with 1 pane only)
@@ -246,6 +214,24 @@ MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size,
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
     sizer->Add(m_imageWin = new ImageWindow(this, wxID_ANY), 1, wxEXPAND);
     SetSizer(sizer);
+
+    // dynamically connect all event handles
+    Connect(wxID_EXIT, wxEVT_MENU, wxCommandEventHandler(MyFrame::OnQuit));
+    Connect(wxID_ABOUT, wxEVT_MENU, wxCommandEventHandler(MyFrame::OnAbout));
+    Connect(ID_ACQUIREIMAGE, wxEVT_MENU, wxCommandEventHandler(MyFrame::OnAcquireImage));
+    Connect(ID_ACQUIREIMAGENOUI, wxEVT_MENU, wxCommandEventHandler(MyFrame::OnAcquireImage));
+#ifdef USE_IA_EVENTS
+    Connect(ID_ACQUIREIMAGES, wxEVT_MENU, wxCommandEventHandler(MyFrame::OnAcquireImages));
+    Connect(ID_ACQUIREIMAGESNOUI, wxEVT_MENU, wxCommandEventHandler(MyFrame::OnAcquireImages));
+#endif
+    Connect(ID_SELECTSOURCE, wxEVT_MENU, wxCommandEventHandler(MyFrame::OnSelectSource));
+    Connect(ID_ZOOMIN, wxEVT_MENU, wxCommandEventHandler(MyFrame::OnZoomIn));
+    Connect(ID_ZOOMOUT, wxEVT_MENU, wxCommandEventHandler(MyFrame::OnZoomOut));
+    Connect(wxID_ANY, wxEVT_UPDATE_UI, wxUpdateUIEventHandler(MyFrame::OnUpdateUI));
+#ifdef USE_IA_EVENTS
+    Connect(wxEVT_IA_GETIMAGE, wxIAEventHandler(MyFrame::OnGetImage));
+    Connect(wxEVT_IA_UPDATE, wxIAEventHandler(MyFrame::OnUpdateStatus));
+#endif
 
 #ifdef USE_IA_EVENTS
     if (wxIAManager::Get().GetDefaultProvider())
@@ -401,13 +387,6 @@ void MyFrame::OnZoomOut(wxCommandEvent& WXUNUSED(event))
 // ----------------------------------------------------------------------------
 // image viewer window
 // ----------------------------------------------------------------------------
-
-BEGIN_EVENT_TABLE(ImageWindow, wxScrolledWindow)
-    EVT_PAINT(ImageWindow::OnPaint)
-    EVT_SIZE(ImageWindow::OnSize)
-    EVT_ERASE_BACKGROUND(ImageWindow::OnEraseBackground)
-END_EVENT_TABLE()
-
 ImageWindow::ImageWindow(wxWindow *parent, wxWindowID id, const wxImage &image,
     const wxPoint &pos, const wxSize &size, long style) :
     wxScrolledWindow(parent, id, pos, size, style)
@@ -419,6 +398,10 @@ ImageWindow::ImageWindow(wxWindow *parent, wxWindowID id, const wxImage &image,
         DoSetScrollbars(FALSE);
     }
     SetForegroundColour(*wxWHITE);
+
+    Connect(wxEVT_PAINT, wxPaintEventHandler(ImageWindow::OnPaint));
+    Connect(wxEVT_SIZE, wxSizeEventHandler(ImageWindow::OnSize));
+    Connect(wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(ImageWindow::OnEraseBackground));
 }
 
 void ImageWindow::DoSetScrollbars(bool refresh)

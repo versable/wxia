@@ -620,7 +620,9 @@ private:
     bool m_abort;
 };
 
-typedef void (wxEvtHandler::*wxIAEventFunction)(wxIAEvent&);
+typedef void (wxEvtHandler::*wxIAEventFunction)(wxIAEvent &);
+
+#define wxIAEventHandler(func) wxEVENT_HANDLER_CAST(wxIAEventFunction, func)
 
 #define EVT_IA_GETIMAGE(func) \
     DECLARE_EVENT_TABLE_ENTRY(wxEVT_IA_GETIMAGE, -1, -1, \
