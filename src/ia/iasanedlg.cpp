@@ -40,11 +40,6 @@ enum
     ID_BUT_PREVIEW,
 };
 
-BEGIN_EVENT_TABLE(wxIASaneAcquireDialog, wxDialog)
-    EVT_BUTTON(wxID_OK, wxIASaneAcquireDialog::OnOk)
-    EVT_UPDATE_UI(wxID_ANY, wxIASaneAcquireDialog::OnUpdateUI)
-END_EVENT_TABLE()
-
 wxIASaneAcquireDialog::wxIASaneAcquireDialog(wxWindow *parent, wxWindowID id,
     const wxString &title, wxSane *sane, const wxPoint &pos,
     const wxSize &size, const long style) :
@@ -72,6 +67,9 @@ wxIASaneAcquireDialog::wxIASaneAcquireDialog(wxWindow *parent, wxWindowID id,
 
     SetSizer(sizer);
     sizer->SetSizeHints(this);
+
+    Connect(wxID_OK, wxEVT_BUTTON, wxCommandEventHandler(wxIASaneAcquireDialog::OnOk));
+    Connect(wxID_ANY, wxEVT_UPDATE_UI, wxUpdateUIEventHandler(wxIASaneAcquireDialog::OnUpdateUI));
 }
 
 wxIASaneAcquireDialog::~wxIASaneAcquireDialog()

@@ -63,7 +63,6 @@ protected:
     wxWindow *m_optionControls;
 
 private:
-    DECLARE_EVENT_TABLE()
 };
 
 #endif // _WX_IASANEDLG_H_
